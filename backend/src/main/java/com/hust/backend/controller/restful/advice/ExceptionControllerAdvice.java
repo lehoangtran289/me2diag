@@ -1,147 +1,123 @@
 package com.hust.backend.controller.restful.advice;
 
-import com.hust.backend.config.AppConfig;
-import com.hust.backend.constant.ResponseStatusEnum;
-import com.hust.backend.exception.Common.BaseException;
-import com.hust.backend.exception.Common.BusinessException;
-import com.hust.backend.exception.DuplicatedException;
-import com.hust.backend.exception.NotFoundException;
-import com.hust.backend.exception.NotValidException;
-import com.hust.backend.factory.GeneralResponse;
-import com.hust.backend.factory.ResponseFactory;
-import com.hust.backend.utils.Common;
+import com.hust.backend.exception.common.BusinessException;
+import com.hust.backend.exception.common.ServiceError;
+import com.hust.backend.exception.common.SysException;
+import com.hust.backend.locale.I18nMessageHelper;
+import com.hust.backend.response.ErrorResponse;
+import com.hust.backend.response.Response;
+import com.hust.backend.response.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.util.stream.Collectors;
+import java.nio.file.AccessDeniedException;
+import java.util.Set;
 
-@ControllerAdvice
-@RestController
 @Slf4j
+@ControllerAdvice
 @RequiredArgsConstructor
 public class ExceptionControllerAdvice {
 
-    private final ResponseFactory responseFactory;
-    private final AppConfig appConfig;
+    private final I18nMessageHelper messageHelper;
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<GeneralResponse<String>> handleExceptions(Exception ex) {
-        log.info("handleExceptions", ex);
-        return internalServerErrorResponse(ex.getMessage());
-    }
-
-    @ExceptionHandler(PersistenceException.class)
-    public ResponseEntity<GeneralResponse<String>> handlePersistenceExceptions(PersistenceException ex) {
-        log.info("handlePersistenceExceptions", ex);
-        return badRequestResponse(ex.getMessage());
-    }
-
-    @ExceptionHandler(NotValidException.class)
-    public ResponseEntity<GeneralResponse<String>> handleDataNotValidExceptions(NotValidException ex) {
-        log.info("handleDataNotValidExceptions", ex);
-        return responseFactory.fail(ResponseStatusEnum.DATA_NOT_VALID,
-                ex.getData(),
-                appConfig.getAppName(),
-                appConfig.getEnv());
-    }
-
-    @ExceptionHandler(DuplicatedException.class)
-    public ResponseEntity<GeneralResponse<String>> handleEntityDuplicatedExceptions(DuplicatedException ex) {
-        log.info("handleEntityDuplicatedExceptions", ex);
-        if (ex.getTarget() != null) {
-            return responseFactory.fail(ResponseStatusEnum.ENTITY_DUPLICATED,
-                    ex.getTarget().getName(),
-                    ex.getIdentifier(),
-                    appConfig.getAppName(),
-                    appConfig.getEnv());
-        } else {
-            return responseFactory.fail(ResponseStatusEnum.ENTITY_DUPLICATED,
-                    ex.getMessage(),
-                    StringUtils.EMPTY,
-                    appConfig.getAppName(),
-                    appConfig.getEnv());
+    @ExceptionHandler({ ConstraintViolationException.class })
+    public ResponseEntity<Response> validateErrorHandler(ConstraintViolationException e) {
+        String errMsg = messageHelper.getErrorMessage(ServiceError.INVALID_PARAM.getMessageKey());
+        Set<ConstraintViolation<?>> set = e.getConstraintViolations();
+        StringBuilder propertyErrMsg = new StringBuilder();
+        for (ConstraintViolation<?> next : set) {
+            propertyErrMsg.append(next.getMessage()).append(", ");
+//         System.out.println(((PathImpl)next.getPropertyPath())
+//                  .getLeafNode().getName() + "  " +next.getMessage());
         }
+        return ResponseUtils.badRequest(
+                ErrorResponse.of(ServiceError.INVALID_PARAM.getMessageKey(),
+                        errMsg + ": " + propertyErrMsg));
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<GeneralResponse<String>> handleEntityNotFoundExceptions(NotFoundException ex) {
-        log.info("handleEntityNotFoundExceptions", ex);
-        if (ex.getTarget() != null) {
-            return responseFactory.fail(ResponseStatusEnum.ENTITY_NOT_FOUND,
-                    ex.getTarget().getName(),
-                    ex.getIdentifier(),
-                    appConfig.getAppName(),
-                    appConfig.getEnv());
-        } else {
-            return responseFactory.fail(ResponseStatusEnum.ENTITY_NOT_FOUND,
-                    ex.getMessage(),
-                    StringUtils.EMPTY,
-                    appConfig.getAppName(),
-                    appConfig.getEnv());
-        }
+    @ExceptionHandler({ MethodArgumentNotValidException.class })
+    public ResponseEntity<Response> notValidArgumentErrorHandler(MethodArgumentNotValidException e) {
+        String errMsg = messageHelper.getErrorMessage(ServiceError.INVALID_PARAM.getMessageKey());
+//        BindingResult validateResult = e.getBindingResult();
+//        final StringBuilder sb = new StringBuilder();
+//        validateResult.getAllErrors().forEach((ObjectError err) ->
+//            sb.append(err.getDefaultMessage() + ", ")
+//        );
+        String sb = e.getLocalizedMessage();
+        return ResponseUtils.badRequest(
+                ErrorResponse.of(ServiceError.INVALID_PARAM.getMessageKey(),
+                        errMsg + ": " + sb));
+    }
+    
+    
+    @ExceptionHandler({ BindException.class })
+    public ResponseEntity<Response> invalidRequestParamErrorHandler(BindException e) {
+        String errMsg = messageHelper.getErrorMessage(ServiceError.INVALID_PARAM.getMessageKey());
+//      BindingResult validateResult = e.getBindingResult();
+//      final StringBuilder sb = new StringBuilder();
+//      validateResult.getAllErrors().forEach((ObjectError err) ->
+//          sb.append(err.getArguments() + " " + err.getDefaultMessage() + ", ")
+//      );
+        String sb = e.getLocalizedMessage();
+        return ResponseUtils.badRequest(
+                ErrorResponse.of(ServiceError.INVALID_PARAM.getMessageKey(), errMsg + ": " + sb));
+    }
+    
+    @ExceptionHandler({ AccessDeniedException.class })
+    public ResponseEntity<Response> accessDeniedErrorHandler(AccessDeniedException e) {
+        log.error("access denied", e);
+        String errMsg = messageHelper.getErrorMessage(ServiceError.ACCESS_DENIED.getMessageKey());
+        return ResponseUtils.unauthorized(ErrorResponse.of(ServiceError.ACCESS_DENIED.getMessageKey(), errMsg));
+    }
+    
+    
+    @ExceptionHandler({ HttpRequestMethodNotSupportedException.class })
+    public ResponseEntity<Response> methodNotSupportErrorHandler(HttpRequestMethodNotSupportedException e) {
+        log.error("Http method not support exception: {}", e.getMessage());
+        String errMsg = messageHelper.getErrorMessage(ServiceError.HTTP_METHOD_NOT_SUPPORT.getMessageKey(), e.getMethod(), ArrayUtils.toString(e.getSupportedMethods()));
+        return ResponseUtils.methodNotSupported(ErrorResponse.of(ServiceError.HTTP_METHOD_NOT_SUPPORT.getMessageKey(), errMsg));
+    }
+    
+    @ExceptionHandler({ HttpMediaTypeNotSupportedException.class })
+    public ResponseEntity<Response> mediaTypeNotSupportedErrorHandler(HttpMediaTypeNotSupportedException e) {
+        log.error("Http media type not support exception: {}", e.getMessage());
+        String errMsg = messageHelper.getErrorMessage(ServiceError.MEDIA_TYPE_NOT_SUPPORT.getMessageKey(), e.getContentType());
+        return ResponseUtils.mediaTypeNotSupported(ErrorResponse.of(ServiceError.MEDIA_TYPE_NOT_SUPPORT.getMessageKey(), errMsg));
+    }
+    
+    @ExceptionHandler({ HttpMessageNotReadableException.class })
+    public ResponseEntity<Response> httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException e) {
+        log.error("Http message not readable exception: {}", e.getMessage());
+        String errMsg = messageHelper.getErrorMessage(ServiceError.MESSAGE_NOT_READABLE.getMessageKey(), e.getMostSpecificCause().getLocalizedMessage());
+        return ResponseUtils.badRequest(ErrorResponse.of(ServiceError.MESSAGE_NOT_READABLE.getMessageKey(), errMsg));
+    }
+    
+    @ExceptionHandler({ BusinessException.class })
+    public ResponseEntity<Response> applicationErrorHandler(BusinessException e) {
+        log.warn("Business Exception", e);
+        String errMsg = messageHelper.getErrorMessage(e.getErr().getMessageKey(), e.getParams().values().toArray());
+        return ResponseUtils.notSuccess(
+                HttpStatus.valueOf(e.getErr().getErrCode()),
+                ErrorResponse.of(e.getErr().getMessageKey(), errMsg, e.getParams()));
     }
 
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<GeneralResponse<String>> handleBusinessExceptions(BusinessException ex) {
-        return responseFactory.fail(ex.getResponseStatusEnum(), ex.getArgs());
-    }
-
-    @ExceptionHandler(BaseException.class)
-    public ResponseEntity<GeneralResponse<String>> handleBusinessExceptions(BaseException ex) {
-        log.info(ex.getMessage(), ex);
-        return internalServerErrorResponse(ex.getMessage());
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<GeneralResponse<String>> handleMethodArgumentNotValidExceptions(
-            MethodArgumentNotValidException ex
-    ) {
-        log.info("handleMethodArgumentNotValidExceptions", ex);
-        return badRequestResponse(ex.getBindingResult().getAllErrors().stream()
-                                    .map(ObjectError::getDefaultMessage)
-                                    .collect(Collectors.toSet()));
-    }
-
-    @ExceptionHandler(ServletRequestBindingException.class)
-    public ResponseEntity<GeneralResponse<String>> handleServletRequestBindingExceptions(
-            ServletRequestBindingException ex
-    ) {
-        log.info("handleServletRequestBindingExceptions", ex);
-        return badRequestResponse(ex.getMessage());
-    }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<GeneralResponse<String>> handleConstraintViolationExceptions(
-            ConstraintViolationException ex
-    ) {
-        log.info("handleConstraintViolationExceptions", ex);
-        return badRequestResponse(ex.getConstraintViolations().stream()
-                                    .map(ConstraintViolation::getMessage)
-                                    .collect(Collectors.toSet()));
-    }
-
-    private <T> ResponseEntity<GeneralResponse<String>> badRequestResponse(T content) {
-        return responseFactory.fail(ResponseStatusEnum.BAD_REQUEST,
-                Common.toJson(content),
-                appConfig.getAppName(),
-                appConfig.getEnv());
-    }
-
-    private <T> ResponseEntity<GeneralResponse<String>> internalServerErrorResponse(T content) {
-        return responseFactory.fail(ResponseStatusEnum.INTERNAL_SERVER_ERROR,
-                content instanceof String ? content.toString() : Common.toJson(content),
-                appConfig.getAppName(),
-                appConfig.getEnv());
+    @ExceptionHandler({ Exception.class, SysException.class })
+    public ResponseEntity<Response> unknownErrorHandler(Exception e) {
+        log.error("Unexpected Exception", e);
+        String errMsg = messageHelper.getErrorMessage(ServiceError.UNEXPECTED_EXCEPTION.getMessageKey());
+        return ResponseUtils.internalErr(
+                ErrorResponse.of(ServiceError.UNEXPECTED_EXCEPTION.getMessageKey(), errMsg));
     }
 }

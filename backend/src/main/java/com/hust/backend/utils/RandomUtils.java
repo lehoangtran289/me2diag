@@ -1,6 +1,8 @@
 package com.hust.backend.utils;
 
 import com.hust.backend.exception.InternalException;
+import com.hust.backend.exception.common.BusinessException;
+import com.hust.backend.exception.common.ServiceError;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;

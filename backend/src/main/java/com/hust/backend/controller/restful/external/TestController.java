@@ -1,9 +1,10 @@
 package com.hust.backend.controller.restful.external;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hust.backend.exception.NotFoundException;
-import com.hust.backend.factory.GeneralResponse;
-import com.hust.backend.factory.ResponseFactory;
+import com.hust.backend.exception.InternalException;
+import com.hust.backend.response.CommonResponse;
+import com.hust.backend.response.Response;
+import com.hust.backend.response.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     private final ObjectMapper jacksonObjectMapper;
-    private final ResponseFactory responseFactory;
 
     @GetMapping()
-    public ResponseEntity<GeneralResponse<Object>> test() {
-        throw new NotFoundException(String.class, "1");
-//        return responseFactory.success(new TestDTO());
+    public ResponseEntity<CommonResponse<Object>> test() {
+//        return ResponseUtils.ok(new TestDTO());
+        throw new InternalException("Invalid input, object list size != distribution list size");
     }
 }
