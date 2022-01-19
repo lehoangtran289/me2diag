@@ -1,24 +1,32 @@
 version: '3.3'
 
 services:
-    backend:
-        build: 
-            context: ./backend
-            dockerfile: dockerfile
-        volumes:
-            - ./backend:/backend
-        ports: 
-            - 8080:8080
-        depends_on:
-            - database
-            - redis
-    database:
-        image: 
-        environment:
-        volumes:
-        ports:
-    redis:
-        image: redis
-        volumes:
-            - redis_data:/data
+  database:
+    image: bitnami/mariadb:latest
+    container_name: "mariadb1"
+    restart: "always"
+    environment:
+      - "MARIADB_ROOT_PASSWORD=1"
+    ports:
+      - "3306:3306"
+    volumes:
+      - "mariadb-data:/var/lib/mysql"
+      - "mariadb-etc:/etc/mysql/conf.d"
+
+  storage:
+    image: bitnami/minio:latest
+    container_name: backend_minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - 'media:/data'
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+
 volumes:
+    mariadb-data:
+    mariadb-etc:
+    media:
+      driver: local
