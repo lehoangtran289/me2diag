@@ -13,9 +13,12 @@ import com.hust.backend.factory.ResponseFactory;
 import com.hust.backend.utils.Common;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -136,6 +140,18 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<GeneralResponse<String>> handleAuthExceptions(UnauthorizedException ex) {
         log.info("handle unauthorized exception", ex);
         return responseFactory.fail(ResponseStatusEnum.UNAUTHORIZED, ex.getArgs()); // pass msg arguments
+    }
+
+    @ExceptionHandler({ HttpRequestMethodNotSupportedException.class })
+    public ResponseEntity<GeneralResponse<String>> methodNotSupportErrorHandler(HttpRequestMethodNotSupportedException e) {
+        log.error("Http method not support exception: {}", e.getMessage());
+        return responseFactory.fail(ResponseStatusEnum.METHOD_NOT_SUPPORT, e.getMethod());
+    }
+
+    @ExceptionHandler({ HttpMediaTypeNotSupportedException.class })
+    public ResponseEntity<GeneralResponse<String>> mediaTypeNotSupportedErrorHandler(HttpMediaTypeNotSupportedException e) {
+        log.error("Http media type not support exception: {}", e.getMessage());
+        return responseFactory.fail(ResponseStatusEnum.UNSUPPORTED_MEDIA_TYPE, Objects.requireNonNull(e.getContentType()).toString());
     }
 
     private <T> ResponseEntity<GeneralResponse<String>> badRequestResponse(T content) {

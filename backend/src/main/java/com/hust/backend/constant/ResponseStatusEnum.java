@@ -14,7 +14,9 @@ public enum ResponseStatusEnum {
     ENTITY_DUPLICATED("ER96", HttpStatus.CONFLICT.value()),
     ENTITY_NOT_FOUND("ER95", HttpStatus.NOT_FOUND.value()),
     FORBIDDEN("ER93", HttpStatus.FORBIDDEN.value()),
-    UNAUTHORIZED("ER92", HttpStatus.UNAUTHORIZED.value())
+    UNAUTHORIZED("ER92", HttpStatus.UNAUTHORIZED.value()),
+    METHOD_NOT_SUPPORT("ER91", HttpStatus.HTTP_VERSION_NOT_SUPPORTED.value()),
+    UNSUPPORTED_MEDIA_TYPE("ER90", HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
     ;
 
     private final String code;
