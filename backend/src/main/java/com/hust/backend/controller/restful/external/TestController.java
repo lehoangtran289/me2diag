@@ -1,7 +1,7 @@
 package com.hust.backend.controller.restful.external;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hust.backend.exception.NotFoundException;
+import com.hust.backend.exception.UnauthorizedException;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.ResponseFactory;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,8 @@ public class TestController {
 
     @GetMapping()
     public ResponseEntity<GeneralResponse<Object>> test() {
-        throw new NotFoundException(String.class, "1");
+//        throw new NotFoundException(String.class, "1");
+        throw new UnauthorizedException("Not Authorized: " + 1, "1");
 //        return responseFactory.success(new TestDTO());
     }
 }

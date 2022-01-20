@@ -2,14 +2,23 @@ package com.hust.backend.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.hust.backend.constant.ResponseStatusEnum;
+import com.hust.backend.exception.Common.BusinessException;
+import com.hust.backend.factory.GeneralResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 
+import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -43,6 +52,14 @@ public class Common {
         }
     }
 
+    public static <T> T toObject(String text, TypeReference<T> valueTypeRef) {
+        try {
+            return objectMapper.readValue(text, valueTypeRef);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+    }
+
     public static String toJsonThrowable(Object object) throws JsonProcessingException {
         return objectMapper.writeValueAsString(object);
     }
@@ -57,16 +74,46 @@ public class Common {
                 .toLocalDate();
     }
 
-    public static Map<String, String> toFlattenedMap(Map<String, Object> map) {
-        return map.entrySet().stream()
-                .flatMap(Common::recursiveFlatten)
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().toString()));
+    public static BigInteger convertToBigInteger(String string){
+        return BigInteger.valueOf(Long.parseLong(string));
     }
 
-    private static Stream<Map.Entry<String, ?>> recursiveFlatten(Map.Entry<String, ?> entry) {
-        if (entry.getValue() instanceof Map) {
-            return ((Map<String,?>) entry.getValue()).entrySet().stream().flatMap(Common::recursiveFlatten);
+    private static boolean isValidGeneralResponse(GeneralResponse<?> response) {
+        return response != null && response.getStatus() != null;
+    }
+
+    public static boolean isValidGeneralResponse(GeneralResponse<?> response, String statusCode) {
+        return isValidGeneralResponse(response) &&
+                StringUtils.equalsIgnoreCase(response.getStatus().getCode(), statusCode);
+    }
+
+    public static String toBearerToken(String accessToken) {
+        return "Bearer " + accessToken;
+    }
+
+    public static <T, R> T convertObject(R source, Class<T> clazz) {
+        try {
+            T target = clazz.getDeclaredConstructor().newInstance();
+            BeanUtils.copyProperties(source, target);
+            return target;
+        } catch (Exception e) {
+            log.error("Convert object failed!");
         }
-        return Stream.of(entry);
+        return null;
+    }
+
+    public static Date convertLocalDateToDate(LocalDate dateToConvert) {
+        return Date.from(dateToConvert.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+    }
+
+    public static String formatDate(Date date, String format){
+        DateFormat dateFormat = new SimpleDateFormat(format);
+        return dateFormat.format(date);
+    }
+
+    public static String formatDate(Date date){
+        return formatDate(date, "dd/MM/yyyy HH:mm");
     }
 }

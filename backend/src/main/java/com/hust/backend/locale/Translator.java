@@ -16,10 +16,9 @@ public class Translator {
         this.messageSource = messageSource;
     }
 
-    public String getLocaleMessage(int code) {
-        String res = getMessage(code + StringUtils.EMPTY, messageSource);
+    public String getLocaleMessage(String code) {
+        String res = getMessage(code, messageSource);
         return StringUtils.isBlank(res) ? getMessage(SYSTEM_ERROR_CODE, messageSource) : res;
-
     }
 
     private String getMessage(String code, ResourceBundleMessageSource messageSource) {

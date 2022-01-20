@@ -23,7 +23,7 @@ public class ResponseFactory {
 
     public <T> ResponseEntity<GeneralResponse<T>> success() {
         return ResponseEntity.status(ResponseStatusEnum.SUCCESS.getHttpCode())
-                             .body(buildGeneralResponse(null, ResponseStatusEnum.SUCCESS));
+                .body(buildGeneralResponse(null, ResponseStatusEnum.SUCCESS));
     }
 
     /**
@@ -32,7 +32,7 @@ public class ResponseFactory {
     public <T> ResponseEntity<GeneralResponse<T>> success(T data, ResponseStatusEnum status, String... values) {
         ResponseEntity<GeneralResponse<T>> response = this.fail(data, status, values);
         Objects.requireNonNull(response.getBody()).getStatus()
-               .setCode(appConfig.getAppName(), ResponseStatusEnum.SUCCESS.getCode());
+                .setCode(ResponseStatusEnum.SUCCESS.getCode());
         return response;
     }
 
@@ -45,7 +45,7 @@ public class ResponseFactory {
 
     public <T> ResponseEntity<GeneralResponse<T>> success(T data, String... values) {
         return ResponseEntity.status(ResponseStatusEnum.SUCCESS.getHttpCode())
-                             .body(buildGeneralResponse(data, ResponseStatusEnum.SUCCESS, values));
+                .body(buildGeneralResponse(data, ResponseStatusEnum.SUCCESS, values));
     }
 
     public ResponseEntity<GeneralResponse<Object>> fail(
@@ -63,15 +63,13 @@ public class ResponseFactory {
         return ResponseEntity.status(httpStatus).body(buildGeneralResponse(data, customResponseStatus));
     }
 
-    public <T> ResponseEntity<GeneralResponse<T>> fail(
-            ResponseStatusEnum responseStatusEnum, String... values
-    ) {
+    public <T> ResponseEntity<GeneralResponse<T>> fail(ResponseStatusEnum responseStatusEnum, String... values) {
         return fail(null, responseStatusEnum, values);
     }
 
     public <T> ResponseEntity<GeneralResponse<T>> fail(T data, ResponseStatusEnum responseStatusEnum, String... values) {
         return ResponseEntity.status(responseStatusEnum.getHttpCode())
-                             .body(buildGeneralResponse(data, responseStatusEnum, values));
+                .body(buildGeneralResponse(data, responseStatusEnum, values));
     }
 
     private <T> GeneralResponse<T> buildGeneralResponse(T data, ResponseStatusEnum status, String... values) {
@@ -85,20 +83,17 @@ public class ResponseFactory {
         return generalResponse;
     }
 
-    private ResponseStatus parseResponseStatus(
-            int code,
-            String... values
-    ) {
+    private ResponseStatus parseResponseStatus(String code, String... values) {
         ResponseStatus responseStatus = new ResponseStatus();
-        responseStatus.setCode(appConfig.getAppName(), code);
-        String message = StringUtils.firstNonBlank(format(translator.getLocaleMessage(code), values), responseStatus.getCode());
-//        String displayMessage = StringUtils
-//                .firstNonBlank(format(displayErrorService.getErrorDetail(code), values),
-//                               message);
+        responseStatus.setCode(code);
+        String message = StringUtils.firstNonBlank(format(translator.getLocaleMessage(code), values), code);
         responseStatus.setMessage(message);
         return responseStatus;
     }
 
+    /**
+     * MessageFormat will replace args {#} in message.
+     */
     private String format(String template, String... args) {
         return StringEscapeUtils.unescapeJava(MessageFormat.format(template, (Object[]) args));
     }

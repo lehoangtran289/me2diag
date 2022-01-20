@@ -7,6 +7,7 @@ import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.DuplicatedException;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.exception.NotValidException;
+import com.hust.backend.exception.UnauthorizedException;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.ResponseFactory;
 import com.hust.backend.utils.Common;
@@ -131,6 +132,12 @@ public class ExceptionControllerAdvice {
                                     .collect(Collectors.toSet()));
     }
 
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<GeneralResponse<String>> handleAuthExceptions(UnauthorizedException ex) {
+        log.info("handle unauthorized exception", ex);
+        return responseFactory.fail(ResponseStatusEnum.UNAUTHORIZED, ex.getArgs()); // pass msg arguments
+    }
+
     private <T> ResponseEntity<GeneralResponse<String>> badRequestResponse(T content) {
         return responseFactory.fail(ResponseStatusEnum.BAD_REQUEST,
                 Common.toJson(content),
@@ -144,4 +151,5 @@ public class ExceptionControllerAdvice {
                 appConfig.getAppName(),
                 appConfig.getEnv());
     }
+
 }
