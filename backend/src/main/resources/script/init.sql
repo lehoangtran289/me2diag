@@ -1,50 +1,42 @@
-CREATE TABLE permission
+DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `role`;
+DROP TABLE IF EXISTS `user_role`;
+
+CREATE TABLE `user`
 (
-    id            VARCHAR(50)           NOT NULL,
-    name          VARCHAR(255)          NULL,
-    `description` VARCHAR(255)          NULL,
-    app_id        VARCHAR(50)           NULL,
-    created_at    datetime DEFAULT NULL NULL,
-    updated_at    datetime DEFAULT NULL NULL,
-    CONSTRAINT PK_PERMISSION PRIMARY KEY (id)
+    `id`             VARCHAR(50) PRIMARY KEY NOT NULL,
+    `username`       VARCHAR(100) UNIQUE     NOT NULL,
+    `email`          VARCHAR(100) UNIQUE     NOT NULL,
+    `password`       VARCHAR(100)            NOT NULL,
+    `password_token` VARCHAR(255),
+    `is_enable`      TINYINT(1)              NOT NULL,
+
+    `first_name`     VARCHAR(80),
+    `last_name`      VARCHAR(80),
+    `avatar`         VARCHAR(100),
+    `birth_date`     DATE DEFAULT NULL       NULL,
+    `gender`         VARCHAR(50),
+    `description`    TEXT,
+
+    `created_at`     DATETIME                NOT NULL,
+    `updated_at`     DATETIME                NOT NULL
 );
+
 
 CREATE TABLE `role`
 (
-    id            VARCHAR(50)           NOT NULL,
-    name          VARCHAR(255)          NULL,
-    `description` VARCHAR(255)          NULL,
-    app_id        VARCHAR(50)           NULL,
-    created_at    datetime DEFAULT NULL NULL,
-    updated_at    datetime DEFAULT NULL NULL,
-    CONSTRAINT PK_ROLE PRIMARY KEY (id)
+    `id`          VARCHAR(50) PRIMARY KEY NOT NULL,
+    `name`        VARCHAR(255)            NULL,
+    `description` VARCHAR(255)            NULL,
+    `created_at`  datetime                NOT NULL,
+    `updated_at`  datetime                NOT NULL
 );
 
-CREATE TABLE user
+CREATE TABLE `user_role`
 (
-    id         VARCHAR(50)           NOT NULL,
-    user_name  VARCHAR(100)          NULL,
-    mail       VARCHAR(100)          NULL,
-    created_at datetime DEFAULT NULL NULL,
-    updated_at datetime DEFAULT NULL NULL,
-    CONSTRAINT PK_USER PRIMARY KEY (id)
-);
-
-CREATE TABLE role_permission
-(
-    role_id       VARCHAR(50)           NOT NULL,
-    permission_id VARCHAR(50)           NOT NULL,
-    created_at    datetime DEFAULT NULL NULL,
-    updated_at    datetime DEFAULT NULL NULL,
-    CONSTRAINT PK_ROLE_PERMISSION PRIMARY KEY (role_id, permission_id)
-);
-
-
-CREATE TABLE user_role
-(
-    user_id    VARCHAR(50)           NOT NULL,
-    role_id    VARCHAR(50)           NOT NULL,
-    created_at datetime DEFAULT NULL NULL,
-    updated_at datetime DEFAULT NULL NULL,
-    CONSTRAINT PK_USER_ROLE PRIMARY KEY (user_id, role_id)
+    `user_id`    VARCHAR(50) NOT NULL,
+    `role_id`    VARCHAR(50) NOT NULL,
+    `created_at` datetime    NOT NULL,
+    `updated_at` datetime    NOT NULL,
+    CONSTRAINT PK_USER_ROLE PRIMARY KEY (`user_id`, `role_id`)
 );

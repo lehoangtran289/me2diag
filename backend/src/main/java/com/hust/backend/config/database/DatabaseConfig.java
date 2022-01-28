@@ -21,9 +21,11 @@ import javax.sql.DataSource;
 @Slf4j
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "expCmsBeEntityManagerFactory",
-                       transactionManagerRef = "expCmsBeTransactionManager", basePackages = {
-        "com.hust.backend.repository"})
+@EnableJpaRepositories(
+        entityManagerFactoryRef = "backendEntityManagerFactory",
+        transactionManagerRef = "backendTransactionManager",
+        basePackages = {"com.hust.backend.repository"}
+)
 public class DatabaseConfig {
 
     @Bean
@@ -37,18 +39,21 @@ public class DatabaseConfig {
     @Bean(name = "backendDataSource")
     @ConfigurationProperties(prefix = "app.datasource.backend.configuration")
     public DataSource dataSource() {
-        return defaultDataSourceProperties().initializeDataSourceBuilder().type(HikariDataSource.class)
-                                            .build();
+        return defaultDataSourceProperties()
+                .initializeDataSourceBuilder()
+                .type(HikariDataSource.class)
+                .build();
     }
 
     @Primary
     @Bean(name = "backendEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean expCmsBeEntityManagerFactory(
-            EntityManagerFactoryBuilder builder, @Qualifier("backendDataSource") DataSource dataSource
+            EntityManagerFactoryBuilder builder,
+            @Qualifier("backendDataSource") DataSource dataSource
     ) {
         return builder.dataSource(dataSource).packages("com.hust.backend.entity")
-                      .persistenceUnit("backend")
-                      .build();
+                .persistenceUnit("backend")
+                .build();
     }
 
     @Primary
