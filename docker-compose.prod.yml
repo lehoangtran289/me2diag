@@ -27,24 +27,24 @@ services:
       - MINIO_ROOT_USER=$MINIO_ROOT_USER
       - MINIO_ROOT_PASSWORD=$MINIO_ROOT_USER
   
-  # app:
-  #   container_name: "backend"
-  #   depends_on:
-  #     - database
-  #     - storage
-  #   restart: on-failure
-  #   ports:
-  #     - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
-  #   environment:
-  #     SPRING_APPLICATION_JSON: '{
-  #       "app.datasource.backend.url" : "jdbc:mariadb://database:3306/backend",
-  #       "spring.profiles.active" : "dev"
-  #     }'
-  #   volumes:
-  #     - .m2:/root/.m2
-  #   build: ./backend
-  #   stdin_open: true
-  #   tty: true
+  app:
+    container_name: "backend"
+    depends_on:
+      - database
+      - storage
+    restart: on-failure
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "app.datasource.backend.url" : "jdbc:mariadb://database:3306/backend",
+        "spring.profiles.active" : "prod"
+      }'
+    volumes:
+      - .m2:/root/.m2
+    build: ./backend
+    stdin_open: true
+    tty: true
 
 volumes:
     mariadb-data:

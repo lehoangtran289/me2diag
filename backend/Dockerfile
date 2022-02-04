@@ -1,5 +1,12 @@
-FROM openjdk:11
+FROM maven:3.8.4-jdk-11
+
 WORKDIR /app
-ARG JAR_FILE=target/gr-backend.jar
-COPY ${JAR_FILE} ./app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+COPY src/ src/
+RUN mvn -v
+RUN mvn clean install -DskipTests
+
+CMD mvn spring-boot:run
