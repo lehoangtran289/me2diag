@@ -1,6 +1,7 @@
 package com.hust.backend.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.hust.backend.dto.response.RenewTokenResponseDTO;
 import com.hust.backend.entity.UserEntity;
 import com.hust.backend.model.token.TokenInfo;
 import io.jsonwebtoken.Claims;
@@ -8,14 +9,14 @@ import io.jsonwebtoken.Claims;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-public interface AuthService {
+public interface JwtService {
     TokenInfo generateAccessToken(UserEntity userEntity);
 
-    String generateRefreshToken(String accessTokenID);
+    TokenInfo generateRefreshToken(UserEntity userEntity, String accessTokenID);
 
-    Long getUserIdFromToken(String token) throws InvalidKeySpecException;
+    RenewTokenResponseDTO renewAccessToken(String accessToken, String refreshToken);
 
-    boolean validateToken(String token);
+    boolean isTokenValid(String token);
 
     Claims getClaims(String token) throws InvalidKeySpecException, NoSuchAlgorithmException;
 

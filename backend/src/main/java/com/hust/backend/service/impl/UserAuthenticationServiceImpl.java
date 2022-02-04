@@ -1,14 +1,15 @@
 package com.hust.backend.service.impl;
 
+import com.hust.backend.dto.request.TokenRefreshRequestDTO;
 import com.hust.backend.dto.request.UserLoginRequestDTO;
 import com.hust.backend.dto.response.PayLoadResponseDTO;
+import com.hust.backend.dto.response.RenewTokenResponseDTO;
 import com.hust.backend.dto.response.UserLoginResponseDTO;
 import com.hust.backend.entity.UserEntity;
-import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.exception.UnauthorizedException;
 import com.hust.backend.model.token.TokenInfo;
 import com.hust.backend.repository.UserRepository;
-import com.hust.backend.service.AuthService;
+import com.hust.backend.service.JwtService;
 import com.hust.backend.service.UserAuthenticationService;
 import com.hust.backend.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +23,12 @@ import java.util.Optional;
 @Slf4j
 public class UserAuthenticationServiceImpl implements UserAuthenticationService {
 
-    private final AuthService authService;
+    private final JwtService authService;
     private final UserService userService;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserAuthenticationServiceImpl(AuthService authService, UserService userService,
+    public UserAuthenticationServiceImpl(JwtService authService, UserService userService,
                                          UserRepository userRepository,
                                          BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.authService = authService;
@@ -42,7 +43,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
         Optional<UserEntity> optionalUser = EmailValidator.getInstance().isValid(request.getUsername()) ?
                 userRepository.findByEmail(request.getUsername()) :
                 userRepository.findByUsername(request.getUsername());
-        UserEntity user = optionalUser.orElseThrow(() -> new NotFoundException(UserEntity.class, request.getUsername()));
+        UserEntity user = optionalUser.orElseThrow(() -> new UnauthorizedException("UserEntity.class", request.getUsername()));
 
         if (!bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new UnauthorizedException("Incorrect password: " + user.getPassword(), request.getUsername());
@@ -50,13 +51,18 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
 
         // build jwt token
         TokenInfo accessToken = authService.generateAccessToken(user);
-        String refreshToken = authService.generateRefreshToken(accessToken.getClaims().getId());
+        TokenInfo refreshToken = authService.generateRefreshToken(user, accessToken.getClaims().getId());
 
         return UserLoginResponseDTO.builder()
                 .accessToken(accessToken.getToken())
-                .refreshToken(refreshToken)
+                .refreshToken(refreshToken.getToken())
                 .payload(PayLoadResponseDTO.toDTO(accessToken.getClaims()))
                 .build();
+    }
+
+    @Override
+    public RenewTokenResponseDTO renewAccessToken(TokenRefreshRequestDTO request) {
+        return authService.renewAccessToken(request.getAccessToken(), request.getRefreshToken());
     }
 
 }

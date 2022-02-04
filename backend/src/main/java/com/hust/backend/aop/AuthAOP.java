@@ -3,10 +3,11 @@ package com.hust.backend.aop;
 import com.hust.backend.config.AppConfig;
 import com.hust.backend.config.AuthConfig;
 import com.hust.backend.constant.ResponseStatusEnum;
+import com.hust.backend.constant.TokenType;
 import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.InternalException;
 import com.hust.backend.model.token.AccessTokenPayload;
-import com.hust.backend.service.AuthService;
+import com.hust.backend.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -19,14 +20,13 @@ import com.hust.backend.constant.UserRoleEnum;
 
 import java.util.*;
 
-@SuppressWarnings("squid:S3776")
 @Slf4j
 @Aspect
 @Component
 @RequiredArgsConstructor
 public class AuthAOP {
 
-    private final AuthService authService;
+    private final JwtService authService;
     private final AppConfig appConfig;
     private final AuthConfig authConfig;
 
@@ -38,35 +38,41 @@ public class AuthAOP {
     @Around(value = "pointcutAnnotationAuthentication(authRequired)", argNames = "joinPoint,authRequired")
     public Object aroundProcessAnnotation(ProceedingJoinPoint joinPoint, AuthRequired authRequired) throws Throwable {
         Object[] args = joinPoint.getArgs();
-
         if (!authConfig.isEnable()) {
             return setPayload(joinPoint, args, new AccessTokenPayload(appConfig.getAppName(),
                     appConfig.getAppName(),
                     appConfig.getAppName(),
                     new ArrayList<>()));
         }
+        if (args.length <= 0 || !(args[0] instanceof String)) {
+            log.info("AuthAOP verify: First argument must be access token");
+            throw new InternalException("First arg must be token");
+        }
 
-        if (args.length > 0 && args[0] instanceof String) {
-            AccessTokenPayload payload;
-            try {
-                String token = (String) args[0];
-                payload = authService.parse(token, AccessTokenPayload.class);
-            } catch (Exception e) {
-                throw new BusinessException(ResponseStatusEnum.FORBIDDEN);
-            }
-            List<UserRoleEnum> requiredPermissions = Arrays.asList(authRequired.roles());
-            Set<UserRoleEnum> userPermissions = new HashSet<>();
-            for (UserRoleEnum role : payload.getRoles()) {
-                userPermissions.addAll(Collections.singleton(role));
-            }
-            if (userPermissions.containsAll(requiredPermissions)) {
-                return setPayload(joinPoint, args, payload);
-            }
-            log.info("Check AuthAOP: Ko có permission yêu cầu");
+        AccessTokenPayload payload;
+        String token = (String) args[0];
+
+        // verify token
+        try {
+            payload = authService.parse(token, AccessTokenPayload.class);
+        } catch (Exception e) {
+            log.error("Token verification failed\n" + e.getMessage(), e);
+            throw new BusinessException(ResponseStatusEnum.FORBIDDEN, "Token verification failed");
+        }
+        if (TokenType.ACCESS != TokenType.valueOf(payload.getType())) {
+            log.error("Wrong token type");
+            throw new BusinessException(ResponseStatusEnum.FORBIDDEN, "Wrong token type");
+        }
+
+        // verify roles
+        List<UserRoleEnum> requiredPermissions = Arrays.asList(authRequired.roles());
+        Set<UserRoleEnum> userPermissions = new HashSet<>(payload.getRoles());
+        if (!userPermissions.containsAll(requiredPermissions)) {
+            log.info("Do not have required permission(s)");
             throw new BusinessException(ResponseStatusEnum.FORBIDDEN);
         }
-        log.info("Check AuthAOP: Cần truyền token là 1st argument");
-        throw new InternalException("First arg must be token");
+
+        return setPayload(joinPoint, args, payload);
     }
 
     private Object setPayload(ProceedingJoinPoint joinPoint, Object[] args, AccessTokenPayload payload) throws Throwable {

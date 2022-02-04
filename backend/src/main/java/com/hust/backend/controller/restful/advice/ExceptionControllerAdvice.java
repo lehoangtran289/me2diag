@@ -4,16 +4,12 @@ import com.hust.backend.config.AppConfig;
 import com.hust.backend.constant.ResponseStatusEnum;
 import com.hust.backend.exception.Common.BaseException;
 import com.hust.backend.exception.Common.BusinessException;
-import com.hust.backend.exception.DuplicatedException;
-import com.hust.backend.exception.NotFoundException;
-import com.hust.backend.exception.NotValidException;
-import com.hust.backend.exception.UnauthorizedException;
+import com.hust.backend.exception.*;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.ResponseFactory;
 import com.hust.backend.utils.Common;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
@@ -134,6 +130,12 @@ public class ExceptionControllerAdvice {
         return badRequestResponse(ex.getConstraintViolations().stream()
                                     .map(ConstraintViolation::getMessage)
                                     .collect(Collectors.toSet()));
+    }
+
+    @ExceptionHandler(RefreshTokenException.class)
+    public ResponseEntity<GeneralResponse<String>> handleRefreshTokenExceptions(RefreshTokenException ex) {
+        log.info("handle refresh token exception", ex);
+        return responseFactory.fail(ResponseStatusEnum.FORBIDDEN, ex.getArgs()); // pass msg arguments
     }
 
     @ExceptionHandler(UnauthorizedException.class)

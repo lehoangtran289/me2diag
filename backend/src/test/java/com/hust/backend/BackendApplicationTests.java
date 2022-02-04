@@ -1,8 +1,6 @@
 package com.hust.backend;
 
-import com.hust.backend.entity.UserEntity;
-import com.hust.backend.service.AuthService;
-import org.junit.jupiter.api.Test;
+import com.hust.backend.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,9 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 class BackendApplicationTests {
 
     @Autowired
-    private AuthService jwtService;
+    private JwtService jwtService;
 
-    @Test
+//    @Test
     public void generateToken() {
 //        System.out.println(jwtService.validateToken(jwtService.generateAccessToken(
 //                UserEntity.builder().id("123").build()

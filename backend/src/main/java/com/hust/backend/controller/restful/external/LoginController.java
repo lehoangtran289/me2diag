@@ -1,9 +1,14 @@
 package com.hust.backend.controller.restful.external;
 
+import com.hust.backend.dto.request.TokenRefreshRequestDTO;
 import com.hust.backend.dto.request.UserLoginRequestDTO;
+import com.hust.backend.dto.response.PayLoadResponseDTO;
+import com.hust.backend.dto.response.RenewTokenResponseDTO;
 import com.hust.backend.dto.response.UserLoginResponseDTO;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.ResponseFactory;
+import com.hust.backend.model.token.TokenInfo;
+import com.hust.backend.service.JwtService;
 import com.hust.backend.service.UserAuthenticationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +28,12 @@ public class LoginController {
 
     private final ResponseFactory responseFactory;
     private final UserAuthenticationService userAuthenticationService;
+    private final JwtService authService;
 
-    public LoginController(ResponseFactory responseFactory, UserAuthenticationService userAuthenticationService) {
+    public LoginController(ResponseFactory responseFactory, UserAuthenticationService userAuthenticationService, JwtService authService) {
         this.responseFactory = responseFactory;
         this.userAuthenticationService = userAuthenticationService;
+        this.authService = authService;
     }
 
     @PostMapping( "/login")
@@ -36,17 +43,10 @@ public class LoginController {
         return responseFactory.success(userAuthenticationService.buildLoginSuccessResponse(request));
     }
 
-//    @PostMapping("/refresh-token")
-//    public ResponseEntity<GeneralResponse<TokenResponseDTO>> refreshAccessToken(
-//            @Valid @RequestBody RenewTokenRequestDTO request
-//    ) {
-//        TokenInfo accessTokenInfo = userAuthenticationService.renewAccessToken(request);
-//        return responseFactory.success(
-//                TokenResponseDTO.builder()
-//                        .accessToken(accessTokenInfo.getToken())
-//                        .refreshToken(request.getRefreshToken())
-//                        .payload(PayLoadResponseDTO.toDTO(accessTokenInfo.getClaims()))
-//                        .build()
-//        );
-//    }
+    @PostMapping("/refresh-token")
+    public ResponseEntity<GeneralResponse<RenewTokenResponseDTO>> refreshAccessToken(
+            @Valid @RequestBody TokenRefreshRequestDTO request
+    ) {
+        return responseFactory.success(userAuthenticationService.renewAccessToken(request));
+    }
 }

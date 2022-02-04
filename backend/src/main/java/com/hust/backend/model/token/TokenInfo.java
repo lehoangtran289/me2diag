@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TokenInfo {
-
     private String token;
     private Claims claims;
 }
