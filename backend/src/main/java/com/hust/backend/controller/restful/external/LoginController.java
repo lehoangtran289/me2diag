@@ -1,22 +1,17 @@
 package com.hust.backend.controller.restful.external;
 
+import com.hust.backend.dto.request.ResetPasswordRequestDTO;
 import com.hust.backend.dto.request.TokenRefreshRequestDTO;
 import com.hust.backend.dto.request.UserLoginRequestDTO;
-import com.hust.backend.dto.response.PayLoadResponseDTO;
 import com.hust.backend.dto.response.RenewTokenResponseDTO;
 import com.hust.backend.dto.response.UserLoginResponseDTO;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.ResponseFactory;
-import com.hust.backend.model.token.TokenInfo;
-import com.hust.backend.service.JwtService;
 import com.hust.backend.service.UserAuthenticationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -28,12 +23,10 @@ public class LoginController {
 
     private final ResponseFactory responseFactory;
     private final UserAuthenticationService userAuthenticationService;
-    private final JwtService authService;
 
-    public LoginController(ResponseFactory responseFactory, UserAuthenticationService userAuthenticationService, JwtService authService) {
+    public LoginController(ResponseFactory responseFactory, UserAuthenticationService userAuthenticationService) {
         this.responseFactory = responseFactory;
         this.userAuthenticationService = userAuthenticationService;
-        this.authService = authService;
     }
 
     @PostMapping( "/login")
@@ -48,5 +41,19 @@ public class LoginController {
             @Valid @RequestBody TokenRefreshRequestDTO request
     ) {
         return responseFactory.success(userAuthenticationService.renewAccessToken(request));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<GeneralResponse<String>> forgotPassword(@RequestParam String email) {
+        userAuthenticationService.sendPasswordResetToken(email);
+        return responseFactory.success();
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<GeneralResponse<Boolean>> resetPassword(
+            @Valid @RequestBody ResetPasswordRequestDTO request
+    ) {
+        userAuthenticationService.resetPassword(request);
+        return responseFactory.success();
     }
 }

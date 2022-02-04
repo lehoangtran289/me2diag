@@ -51,7 +51,7 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(NotValidException.class)
     public ResponseEntity<GeneralResponse<String>> handleDataNotValidExceptions(NotValidException ex) {
         log.info("handleDataNotValidExceptions", ex);
-        return responseFactory.fail(ResponseStatusEnum.DATA_NOT_VALID,
+        return responseFactory.build(ResponseStatusEnum.DATA_NOT_VALID,
                 ex.getData(),
                 appConfig.getAppName(),
                 appConfig.getEnv());
@@ -61,13 +61,13 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<GeneralResponse<String>> handleEntityDuplicatedExceptions(DuplicatedException ex) {
         log.info("handleEntityDuplicatedExceptions", ex);
         if (ex.getTarget() != null) {
-            return responseFactory.fail(ResponseStatusEnum.ENTITY_DUPLICATED,
+            return responseFactory.build(ResponseStatusEnum.ENTITY_DUPLICATED,
                     ex.getTarget().getName(),
                     ex.getIdentifier(),
                     appConfig.getAppName(),
                     appConfig.getEnv());
         } else {
-            return responseFactory.fail(ResponseStatusEnum.ENTITY_DUPLICATED,
+            return responseFactory.build(ResponseStatusEnum.ENTITY_DUPLICATED,
                     ex.getMessage(),
                     StringUtils.EMPTY,
                     appConfig.getAppName(),
@@ -79,13 +79,13 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<GeneralResponse<String>> handleEntityNotFoundExceptions(NotFoundException ex) {
         log.info("handleEntityNotFoundExceptions", ex);
         if (ex.getTarget() != null) {
-            return responseFactory.fail(ResponseStatusEnum.ENTITY_NOT_FOUND,
+            return responseFactory.build(ResponseStatusEnum.ENTITY_NOT_FOUND,
                     ex.getTarget().getName(),
                     ex.getIdentifier(),
                     appConfig.getAppName(),
                     appConfig.getEnv());
         } else {
-            return responseFactory.fail(ResponseStatusEnum.ENTITY_NOT_FOUND,
+            return responseFactory.build(ResponseStatusEnum.ENTITY_NOT_FOUND,
                     ex.getMessage(),
                     StringUtils.EMPTY,
                     appConfig.getAppName(),
@@ -95,7 +95,7 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<GeneralResponse<String>> handleBusinessExceptions(BusinessException ex) {
-        return responseFactory.fail(ex.getResponseStatusEnum(), ex.getArgs());
+        return responseFactory.build(ex.getResponseStatusEnum(), ex.getArgs());
     }
 
     @ExceptionHandler(BaseException.class)
@@ -135,36 +135,36 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(RefreshTokenException.class)
     public ResponseEntity<GeneralResponse<String>> handleRefreshTokenExceptions(RefreshTokenException ex) {
         log.info("handle refresh token exception", ex);
-        return responseFactory.fail(ResponseStatusEnum.FORBIDDEN, ex.getArgs()); // pass msg arguments
+        return responseFactory.build(ResponseStatusEnum.FORBIDDEN, ex.getArgs()); // pass msg arguments
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<GeneralResponse<String>> handleAuthExceptions(UnauthorizedException ex) {
         log.info("handle unauthorized exception", ex);
-        return responseFactory.fail(ResponseStatusEnum.UNAUTHORIZED, ex.getArgs()); // pass msg arguments
+        return responseFactory.build(ResponseStatusEnum.UNAUTHORIZED, ex.getArgs()); // pass msg arguments
     }
 
     @ExceptionHandler({ HttpRequestMethodNotSupportedException.class })
     public ResponseEntity<GeneralResponse<String>> methodNotSupportErrorHandler(HttpRequestMethodNotSupportedException e) {
         log.error("Http method not support exception: {}", e.getMessage());
-        return responseFactory.fail(ResponseStatusEnum.METHOD_NOT_SUPPORT, e.getMethod());
+        return responseFactory.build(ResponseStatusEnum.METHOD_NOT_SUPPORT, e.getMethod());
     }
 
     @ExceptionHandler({ HttpMediaTypeNotSupportedException.class })
     public ResponseEntity<GeneralResponse<String>> mediaTypeNotSupportedErrorHandler(HttpMediaTypeNotSupportedException e) {
         log.error("Http media type not support exception: {}", e.getMessage());
-        return responseFactory.fail(ResponseStatusEnum.UNSUPPORTED_MEDIA_TYPE, Objects.requireNonNull(e.getContentType()).toString());
+        return responseFactory.build(ResponseStatusEnum.UNSUPPORTED_MEDIA_TYPE, Objects.requireNonNull(e.getContentType()).toString());
     }
 
     private <T> ResponseEntity<GeneralResponse<String>> badRequestResponse(T content) {
-        return responseFactory.fail(ResponseStatusEnum.BAD_REQUEST,
+        return responseFactory.build(ResponseStatusEnum.BAD_REQUEST,
                 Common.toJson(content),
                 appConfig.getAppName(),
                 appConfig.getEnv());
     }
 
     private <T> ResponseEntity<GeneralResponse<String>> internalServerErrorResponse(T content) {
-        return responseFactory.fail(ResponseStatusEnum.INTERNAL_SERVER_ERROR,
+        return responseFactory.build(ResponseStatusEnum.INTERNAL_SERVER_ERROR,
                 content instanceof String ? content.toString() : Common.toJson(content),
                 appConfig.getAppName(),
                 appConfig.getEnv());

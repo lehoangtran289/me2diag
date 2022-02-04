@@ -30,7 +30,7 @@ public class ResponseFactory {
      * @return response with message of ResponseStatusEnum request but using status SUCCESS
      */
     public <T> ResponseEntity<GeneralResponse<T>> success(T data, ResponseStatusEnum status, String... values) {
-        ResponseEntity<GeneralResponse<T>> response = this.fail(data, status, values);
+        ResponseEntity<GeneralResponse<T>> response = this.build(data, status, values);
         Objects.requireNonNull(response.getBody()).getStatus()
                 .setCode(ResponseStatusEnum.SUCCESS.getCode());
         return response;
@@ -48,14 +48,14 @@ public class ResponseFactory {
                 .body(buildGeneralResponse(data, ResponseStatusEnum.SUCCESS, values));
     }
 
-    public ResponseEntity<GeneralResponse<Object>> fail(
+    public ResponseEntity<GeneralResponse<Object>> build(
             ResponseStatus customResponseStatus,
             HttpStatus httpStatus
     ) {
         return ResponseEntity.status(httpStatus).body(buildGeneralResponse(null, customResponseStatus));
     }
 
-    public <T> ResponseEntity<GeneralResponse<T>> fail(
+    public <T> ResponseEntity<GeneralResponse<T>> build(
             T data,
             ResponseStatus customResponseStatus,
             HttpStatus httpStatus
@@ -63,11 +63,11 @@ public class ResponseFactory {
         return ResponseEntity.status(httpStatus).body(buildGeneralResponse(data, customResponseStatus));
     }
 
-    public <T> ResponseEntity<GeneralResponse<T>> fail(ResponseStatusEnum responseStatusEnum, String... values) {
-        return fail(null, responseStatusEnum, values);
+    public <T> ResponseEntity<GeneralResponse<T>> build(ResponseStatusEnum responseStatusEnum, String... values) {
+        return build(null, responseStatusEnum, values);
     }
 
-    public <T> ResponseEntity<GeneralResponse<T>> fail(T data, ResponseStatusEnum responseStatusEnum, String... values) {
+    public <T> ResponseEntity<GeneralResponse<T>> build(T data, ResponseStatusEnum responseStatusEnum, String... values) {
         return ResponseEntity.status(responseStatusEnum.getHttpCode())
                 .body(buildGeneralResponse(data, responseStatusEnum, values));
     }

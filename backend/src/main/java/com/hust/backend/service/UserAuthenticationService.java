@@ -1,5 +1,6 @@
 package com.hust.backend.service;
 
+import com.hust.backend.dto.request.ResetPasswordRequestDTO;
 import com.hust.backend.dto.request.TokenRefreshRequestDTO;
 import com.hust.backend.dto.request.UserLoginRequestDTO;
 import com.hust.backend.dto.response.RenewTokenResponseDTO;
@@ -9,4 +10,8 @@ public interface UserAuthenticationService {
     UserLoginResponseDTO buildLoginSuccessResponse(UserLoginRequestDTO request);
 
     RenewTokenResponseDTO renewAccessToken(TokenRefreshRequestDTO request);
+
+    void sendPasswordResetToken(String email);
+
+    void resetPassword(ResetPasswordRequestDTO request);
 }

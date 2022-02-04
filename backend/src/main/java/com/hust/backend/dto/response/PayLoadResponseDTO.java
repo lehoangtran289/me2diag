@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,18 +23,13 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PayLoadResponseDTO {
-
     private String subject;
     private String jti;
     private String email;
     private String env;
+    private long iat;
+    private long exp;
     private List<UserRoleEnum> roles;
-
-    @DateTimeFormat(iso = ISO.DATE_TIME)
-    private Date iat;
-
-    @DateTimeFormat(iso = ISO.DATE_TIME)
-    private Date exp;
 
     public static PayLoadResponseDTO toDTO(Claims claims) {
         return PayLoadResponseDTO.builder()
@@ -42,8 +38,8 @@ public class PayLoadResponseDTO {
                                  .email(claims.get("email", String.class))
                                  .env(claims.get("env", String.class))
                                  .roles(claims.get("roles", ArrayList.class))
-                                 .iat(claims.getIssuedAt())
-                                 .exp(claims.getExpiration())
+                                 .iat(claims.getIssuedAt().getTime())
+                                 .exp(claims.getExpiration().getTime())
                                  .build();
     }
 }

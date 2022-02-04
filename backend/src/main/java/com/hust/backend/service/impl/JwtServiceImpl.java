@@ -8,7 +8,9 @@ import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.response.RenewTokenResponseDTO;
 import com.hust.backend.entity.RoleEntity;
 import com.hust.backend.entity.UserEntity;
-import com.hust.backend.exception.*;
+import com.hust.backend.exception.InternalException;
+import com.hust.backend.exception.NotFoundException;
+import com.hust.backend.exception.RefreshTokenException;
 import com.hust.backend.model.token.TokenInfo;
 import com.hust.backend.repository.UserRepository;
 import com.hust.backend.service.JwtService;
@@ -19,11 +21,9 @@ import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.spec.InvalidKeySpecException;
-import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 

@@ -34,6 +34,9 @@ public class UserEntity {
     @Column(name = "password_token")
     private String passwordToken;
 
+    @Column(name = "token_creation_date")
+    private Date tokenCreationDate;
+
     @Column(name = "is_enable")
     private String isEnable;
 
