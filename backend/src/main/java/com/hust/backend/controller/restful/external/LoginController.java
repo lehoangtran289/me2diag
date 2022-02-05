@@ -1,5 +1,6 @@
 package com.hust.backend.controller.restful.external;
 
+import com.hust.backend.dto.request.UserSignupRequestDTO;
 import com.hust.backend.dto.request.ResetPasswordRequestDTO;
 import com.hust.backend.dto.request.TokenRefreshRequestDTO;
 import com.hust.backend.dto.request.UserLoginRequestDTO;
@@ -8,6 +9,7 @@ import com.hust.backend.dto.response.UserLoginResponseDTO;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.ResponseFactory;
 import com.hust.backend.service.UserAuthenticationService;
+import com.hust.backend.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,10 +25,14 @@ public class LoginController {
 
     private final ResponseFactory responseFactory;
     private final UserAuthenticationService userAuthenticationService;
+    private final UserService userService;
 
-    public LoginController(ResponseFactory responseFactory, UserAuthenticationService userAuthenticationService) {
+    public LoginController(ResponseFactory responseFactory,
+                           UserAuthenticationService userAuthenticationService,
+                           UserService userService) {
         this.responseFactory = responseFactory;
         this.userAuthenticationService = userAuthenticationService;
+        this.userService = userService;
     }
 
     @PostMapping( "/login")
@@ -54,6 +60,14 @@ public class LoginController {
             @Valid @RequestBody ResetPasswordRequestDTO request
     ) {
         userAuthenticationService.resetPassword(request);
+        return responseFactory.success();
+    }
+
+    @PostMapping("/user/sign-up")
+    public ResponseEntity<GeneralResponse<String>> signup(
+            @Valid @RequestBody UserSignupRequestDTO request
+    ) {
+        userService.registerUser(request);
         return responseFactory.success();
     }
 }

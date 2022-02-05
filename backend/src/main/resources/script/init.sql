@@ -35,7 +35,7 @@ CREATE TABLE `user`
 CREATE TABLE `role`
 (
     `id`          VARCHAR(50) PRIMARY KEY NOT NULL,
-    `name`        VARCHAR(255)            NULL,
+    `name`        VARCHAR(255) UNIQUE     NULL,
     `description` VARCHAR(255)            NULL,
     `created_at`  datetime                NOT NULL,
     `updated_at`  datetime                NOT NULL

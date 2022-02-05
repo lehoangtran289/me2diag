@@ -38,7 +38,7 @@ public class UserEntity {
     private Date tokenCreationDate;
 
     @Column(name = "is_enable")
-    private String isEnable;
+    private boolean isEnable;
 
     @Column(name = "first_name")
     private String firstName;
