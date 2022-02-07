@@ -1,4 +1,4 @@
-package com.hust.backend.service;
+package com.hust.backend.service.auth;
 
 import com.hust.backend.dto.request.ResetPasswordRequestDTO;
 import com.hust.backend.dto.request.TokenRefreshRequestDTO;

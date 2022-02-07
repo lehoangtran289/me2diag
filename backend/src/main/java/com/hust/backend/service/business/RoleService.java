@@ -1,4 +1,4 @@
-package com.hust.backend.service;
+package com.hust.backend.service.business;
 
 import com.hust.backend.entity.RoleEntity;
 import com.hust.backend.entity.UserRoleEntity;

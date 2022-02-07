@@ -1,4 +1,4 @@
-package com.hust.backend.service.impl;
+package com.hust.backend.service.auth.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,8 +13,8 @@ import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.exception.RefreshTokenException;
 import com.hust.backend.model.token.TokenInfo;
 import com.hust.backend.repository.UserRepository;
-import com.hust.backend.service.JwtService;
-import com.hust.backend.service.RoleService;
+import com.hust.backend.service.auth.JwtService;
+import com.hust.backend.service.business.RoleService;
 import com.hust.backend.utils.Transformer;
 import com.hust.backend.utils.ULID;
 import io.jsonwebtoken.*;

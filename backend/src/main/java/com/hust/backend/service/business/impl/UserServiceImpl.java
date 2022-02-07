@@ -1,4 +1,4 @@
-package com.hust.backend.service.impl;
+package com.hust.backend.service.business.impl;
 
 import com.hust.backend.constant.ResponseStatusEnum;
 import com.hust.backend.constant.UserRoleEnum;
@@ -10,7 +10,7 @@ import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.repository.RoleRepository;
 import com.hust.backend.repository.UserRepository;
 import com.hust.backend.repository.UserRoleRepository;
-import com.hust.backend.service.UserService;
+import com.hust.backend.service.business.UserService;
 import com.hust.backend.utils.ULID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

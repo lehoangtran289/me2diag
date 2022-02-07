@@ -1,6 +1,6 @@
 package com.hust.backend;
 
-import com.hust.backend.service.JwtService;
+import com.hust.backend.service.auth.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

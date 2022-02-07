@@ -1,4 +1,4 @@
-package com.hust.backend.service.impl;
+package com.hust.backend.service.auth.impl;
 
 import com.hust.backend.config.ResetPasswordConfig;
 import com.hust.backend.constant.ResponseStatusEnum;
@@ -14,9 +14,9 @@ import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.exception.UnauthorizedException;
 import com.hust.backend.model.token.TokenInfo;
 import com.hust.backend.repository.UserRepository;
-import com.hust.backend.service.JwtService;
-import com.hust.backend.service.UserAuthenticationService;
-import com.hust.backend.service.UserService;
+import com.hust.backend.service.auth.JwtService;
+import com.hust.backend.service.auth.UserAuthenticationService;
+import com.hust.backend.service.business.UserService;
 import com.hust.backend.utils.ULID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.validator.routines.EmailValidator;

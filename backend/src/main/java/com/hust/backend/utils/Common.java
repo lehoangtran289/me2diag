@@ -12,7 +12,9 @@ import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.factory.GeneralResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -35,6 +37,16 @@ public class Common {
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+    public static Object getProperty(Object bean, String name) {
+        try {
+            return PropertyUtils.getProperty(bean, name);
+        }
+        catch (Exception ex) {
+            log.error("get property failed!");
+            return null;
+        }
+    }
 
     public static String toJson(Object object) {
         try {

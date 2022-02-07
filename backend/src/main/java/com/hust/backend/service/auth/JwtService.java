@@ -1,4 +1,4 @@
-package com.hust.backend.service;
+package com.hust.backend.service.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hust.backend.dto.response.RenewTokenResponseDTO;

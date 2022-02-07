@@ -7,7 +7,7 @@ import com.hust.backend.constant.TokenType;
 import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.InternalException;
 import com.hust.backend.model.token.AccessTokenPayload;
-import com.hust.backend.service.JwtService;
+import com.hust.backend.service.auth.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
