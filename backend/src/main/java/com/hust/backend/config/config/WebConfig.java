@@ -1,5 +1,6 @@
 package com.hust.backend.config.config;
 
+import com.hust.backend.config.config.converter.GenderEnumConverter;
 import com.hust.backend.config.config.converter.TrimStringConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -16,6 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new TrimStringConverter());
+        registry.addConverter(new GenderEnumConverter());
     }
 
     /**

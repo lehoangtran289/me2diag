@@ -1,5 +1,6 @@
 package com.hust.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hust.backend.constant.UserGenderEnum;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,11 +30,17 @@ public class UserEntity {
     private String email;
 
     @Column(name = "password")
+    @JsonIgnore
+    @ToString.Exclude
     private String password;
 
+    @JsonIgnore
+    @ToString.Exclude
     @Column(name = "password_token")
     private String passwordToken;
 
+    @JsonIgnore
+    @ToString.Exclude
     @Column(name = "token_creation_date")
     private Date tokenCreationDate;
 

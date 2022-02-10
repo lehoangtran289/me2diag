@@ -21,7 +21,6 @@ public class MinioConfig {
     @Bean
     @SuppressWarnings("java:S1141")
     public MinioClient minioClient(MinioAutoConfiguration config) {
-
         MinioClient minioClient;
         try {
             minioClient = MinioClient.builder()

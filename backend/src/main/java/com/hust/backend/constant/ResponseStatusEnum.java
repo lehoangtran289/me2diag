@@ -16,7 +16,8 @@ public enum ResponseStatusEnum {
     FORBIDDEN("ER93", HttpStatus.FORBIDDEN.value()),
     UNAUTHORIZED("ER92", HttpStatus.UNAUTHORIZED.value()),
     METHOD_NOT_SUPPORT("ER91", HttpStatus.HTTP_VERSION_NOT_SUPPORTED.value()),
-    UNSUPPORTED_MEDIA_TYPE("ER90", HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
+    UNSUPPORTED_MEDIA_TYPE("ER90", HttpStatus.UNSUPPORTED_MEDIA_TYPE.value()),
+    FILE_TOO_LARGE("ER100", HttpStatus.EXPECTATION_FAILED.value()),
     ;
 
     private final String code;

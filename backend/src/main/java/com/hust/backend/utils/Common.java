@@ -15,16 +15,19 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 
+import java.beans.FeatureDescriptor;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -101,6 +104,21 @@ public class Common {
 
     public static String toBearerToken(String accessToken) {
         return "Bearer " + accessToken;
+    }
+
+    public static String[] getNullPropertyNames(Object source) {
+        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
+        return Stream.of(wrappedSource.getPropertyDescriptors())
+                .map(FeatureDescriptor::getName)
+                .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
+                .toArray(String[]::new);
+    }
+
+    public static void copyPropertiesIgnoreNull(Object src, Object target, String... ignoreProperties) {
+        String[] toBeIgnored = ignoreProperties != null ?
+                ArrayUtils.addAll(getNullPropertyNames(src), ignoreProperties) :
+                getNullPropertyNames(src);
+        BeanUtils.copyProperties(src, target, toBeIgnored);
     }
 
     public static <T, R> T convertObject(R source, Class<T> clazz) {

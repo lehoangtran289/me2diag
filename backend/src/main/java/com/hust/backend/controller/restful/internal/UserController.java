@@ -1,18 +1,26 @@
 package com.hust.backend.controller.restful.internal;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hust.backend.aop.AuthRequired;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.request.UserInfoUpdateRequestDTO;
+import com.hust.backend.dto.response.UserInfoResponseDTO;
+import com.hust.backend.exception.NotValidException;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.ResponseFactory;
+import com.hust.backend.model.token.AccessTokenPayload;
+import com.hust.backend.service.auth.JwtService;
 import com.hust.backend.service.business.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 @Slf4j
 @Validated
@@ -20,21 +28,31 @@ import javax.validation.constraints.NotBlank;
 @RequestMapping("${app.application-context-name}/api/v1/user")
 public class UserController {
     private final UserService userService;
+    private final JwtService jwtService;
     private final ResponseFactory responseFactory;
 
-    public UserController(UserService userService, ResponseFactory responseFactory) {
+    public UserController(UserService userService, JwtService jwtService, ResponseFactory responseFactory) {
         this.userService = userService;
+        this.jwtService = jwtService;
         this.responseFactory = responseFactory;
     }
 
-    @PatchMapping("{userId}")
+    @PatchMapping(value = "{userId}", consumes = "multipart/form-data")
     @AuthRequired(roles = UserRoleEnum.USER)
-    public ResponseEntity<GeneralResponse<String>> updateUserInfo(
-            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authorization,
+    public ResponseEntity<GeneralResponse<UserInfoResponseDTO>> updateUserInfo(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @PathVariable @NotBlank(message = "userId must not be blank") String userId,
-            @RequestBody UserInfoUpdateRequestDTO request
-    ) {
-
-        return responseFactory.success();
+            @ModelAttribute UserInfoUpdateRequestDTO request
+    ) throws InvalidKeySpecException, NoSuchAlgorithmException, JsonProcessingException {
+        // validate userId
+        AccessTokenPayload payload = jwtService.parse(authToken, AccessTokenPayload.class);
+        if (
+                !payload.getRoles().contains(UserRoleEnum.ADMIN) &&
+                !StringUtils.equals(userId, payload.getSubject())
+        ) {
+            log.error("Invalid token, user id {} mismatched with token, id = {}", userId, payload.getSubject());
+            throw new NotValidException("invalid token, id mismatched");
+        }
+        return responseFactory.success(userService.updateUserInfo(userId, request));
     }
 }

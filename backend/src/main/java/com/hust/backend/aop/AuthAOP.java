@@ -67,11 +67,16 @@ public class AuthAOP {
         // verify roles
         List<UserRoleEnum> requiredPermissions = Arrays.asList(authRequired.roles());
         Set<UserRoleEnum> userPermissions = new HashSet<>(payload.getRoles());
+
+        // permits all if role = ADMIN
+        if (userPermissions.contains(UserRoleEnum.ADMIN)) {
+            return setPayload(joinPoint, args, payload);
+        }
+
         if (!userPermissions.containsAll(requiredPermissions)) {
             log.info("Do not have required permission(s)");
             throw new BusinessException(ResponseStatusEnum.FORBIDDEN);
         }
-
         return setPayload(joinPoint, args, payload);
     }
 

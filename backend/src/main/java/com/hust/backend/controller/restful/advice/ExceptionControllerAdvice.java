@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -20,10 +21,12 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -55,6 +58,14 @@ public class ExceptionControllerAdvice {
                 ex.getData(),
                 appConfig.getAppName(),
                 appConfig.getEnv());
+    }
+
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<GeneralResponse<String>> handleBindExceptions(BindException ex) {
+        log.info("handleBindExceptions", ex);
+        return badRequestResponse(ex.getBindingResult().getAllErrors().stream()
+                .map(ObjectError::getDefaultMessage)
+                .collect(Collectors.toSet()));
     }
 
     @ExceptionHandler(DuplicatedException.class)
@@ -122,6 +133,20 @@ public class ExceptionControllerAdvice {
         return badRequestResponse(ex.getMessage());
     }
 
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<GeneralResponse<String>> handleIOException(
+            IOException ex
+    ) {
+        log.info("handleIOException", ex);
+        return badRequestResponse(ex.getMessage());
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<GeneralResponse<String>> handleMaxSizeException(MaxUploadSizeExceededException exc) {
+        log.info("handleMaxSizeUploadException!");
+        return responseFactory.build(ResponseStatusEnum.FILE_TOO_LARGE);
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<GeneralResponse<String>> handleConstraintViolationExceptions(
             ConstraintViolationException ex
@@ -135,7 +160,7 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(RefreshTokenException.class)
     public ResponseEntity<GeneralResponse<String>> handleRefreshTokenExceptions(RefreshTokenException ex) {
         log.info("handle refresh token exception", ex);
-        return responseFactory.build(ResponseStatusEnum.FORBIDDEN, ex.getArgs()); // pass msg arguments
+        return responseFactory.build(ResponseStatusEnum.FORBIDDEN); // pass msg arguments
     }
 
     @ExceptionHandler(UnauthorizedException.class)
