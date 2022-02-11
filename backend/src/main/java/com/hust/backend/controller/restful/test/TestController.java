@@ -1,4 +1,4 @@
-package com.hust.backend.controller.restful.external;
+package com.hust.backend.controller.restful.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hust.backend.aop.AuthRequired;

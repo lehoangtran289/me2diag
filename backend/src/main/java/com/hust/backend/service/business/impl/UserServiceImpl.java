@@ -12,18 +12,23 @@ import com.hust.backend.entity.UserEntity;
 import com.hust.backend.entity.UserRoleEntity;
 import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.NotFoundException;
+import com.hust.backend.factory.PagingInfo;
 import com.hust.backend.repository.RoleRepository;
 import com.hust.backend.repository.UserRepository;
 import com.hust.backend.repository.UserRoleRepository;
 import com.hust.backend.service.business.UserService;
 import com.hust.backend.service.storage.StorageService;
 import com.hust.backend.utils.Common;
+import com.hust.backend.utils.Transformer;
 import com.hust.backend.utils.ULID;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -68,7 +73,8 @@ public class UserServiceImpl implements UserService {
                 .isEnable(true)
                 .build());
         RoleEntity roleEntity = roleRepository.findByRoleEnum(UserRoleEnum.USER)
-                .orElseThrow(() -> new BusinessException(ResponseStatusEnum.INTERNAL_SERVER_ERROR, "Role USER not existed"));
+                .orElseThrow(() -> new BusinessException(ResponseStatusEnum.INTERNAL_SERVER_ERROR, "Role USER" +
+                        " not existed"));
         userRoleRepository.save(UserRoleEntity.builder().userId(userId).roleId(roleEntity.getId()).build());
         log.info("New user registered successfully " + userId);
     }
@@ -97,4 +103,23 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return Common.convertObject(user, UserInfoResponseDTO.class);
     }
+
+    @Override
+    public PagingInfo<UserInfoResponseDTO> getAllUsers(String usernameQuery, Pageable pageable) {
+        Page<UserEntity> userEntityPage = getAllUsersByNameOrEmailLike(usernameQuery, pageable);
+        List<UserInfoResponseDTO> results = Transformer.listToList(
+                userEntityPage.getContent(),
+                userEntity -> Common.convertObject(userEntity, UserInfoResponseDTO.class));
+        return PagingInfo.<UserInfoResponseDTO>builder()
+                .items(results)
+                .currentPage(userEntityPage.getNumber())
+                .totalItems(userEntityPage.getTotalElements())
+                .totalPages(userEntityPage.getTotalPages())
+                .build();
+    }
+
+    private Page<UserEntity> getAllUsersByNameOrEmailLike(String query, Pageable pageable) {
+        return userRepository.findByUsernameContainingOrEmailContaining(query, query, pageable);
+    }
+
 }

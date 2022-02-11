@@ -1,4 +1,4 @@
-package com.hust.backend.controller.restful.external;
+package com.hust.backend.controller.restful.test;
 
 import lombok.Data;
 import lombok.Setter;
