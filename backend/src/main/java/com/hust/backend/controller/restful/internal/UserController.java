@@ -59,7 +59,7 @@ public class UserController {
         return responseFactory.success(userService.getAllUsers(query, pageable));
     }
 
-    @PatchMapping(value = "{userId}", consumes = "multipart/form-data")
+    @PatchMapping(value = "/{userId}", consumes = "multipart/form-data")
     @AuthRequired(roles = UserRoleEnum.USER)
     public ResponseEntity<GeneralResponse<UserInfoResponseDTO>> updateUserInfo(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,

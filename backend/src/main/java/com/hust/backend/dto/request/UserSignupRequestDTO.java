@@ -39,6 +39,5 @@ public class UserSignupRequestDTO {
 
     @Size(max = 255, message = "Invalid string length")
     private String lastName;
-
 }
 

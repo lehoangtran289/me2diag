@@ -36,11 +36,12 @@ import java.util.stream.Stream;
 @RequestMapping("${app.application-context-name}/api/v1/pfs")
 public class PictureFuzzyController {
     private final ResponseFactory responseFactory;
-    private final PictureFuzzyRelationService pfsService;
     private final JwtService jwtService;
+    private final PictureFuzzyRelationService pfsService;
 
     public PictureFuzzyController(ResponseFactory responseFactory,
-                                  PictureFuzzyRelationService pfsService, JwtService jwtService) {
+                                  PictureFuzzyRelationService pfsService,
+                                  JwtService jwtService) {
         this.responseFactory = responseFactory;
         this.pfsService = pfsService;
         this.jwtService = jwtService;

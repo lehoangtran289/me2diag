@@ -22,6 +22,7 @@ import com.hust.backend.utils.Common;
 import com.hust.backend.utils.Transformer;
 import com.hust.backend.utils.ULID;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -106,7 +107,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PagingInfo<UserInfoResponseDTO> getAllUsers(String usernameQuery, Pageable pageable) {
-        Page<UserEntity> userEntityPage = getAllUsersByNameOrEmailLike(usernameQuery, pageable);
+        Page<UserEntity> userEntityPage = StringUtils.isBlank(usernameQuery) ?
+                userRepository.findAll(pageable) :
+                getAllUsersByNameOrEmailLike(usernameQuery, pageable);
         List<UserInfoResponseDTO> results = Transformer.listToList(
                 userEntityPage.getContent(),
                 userEntity -> Common.convertObject(userEntity, UserInfoResponseDTO.class));

@@ -15,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Entity
+@ToString
 @Table(name = "patient")
 public class PatientEntity {
     @Id

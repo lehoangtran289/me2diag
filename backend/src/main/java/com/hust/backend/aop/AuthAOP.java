@@ -7,6 +7,7 @@ import com.hust.backend.constant.TokenType;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.InternalException;
+import com.hust.backend.exception.UnauthorizedException;
 import com.hust.backend.model.token.AccessTokenPayload;
 import com.hust.backend.service.auth.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +47,7 @@ public class AuthAOP {
         }
         if (args.length <= 0 || !(args[0] instanceof String)) {
             log.info("AuthAOP verify: First argument must be access token");
-            throw new InternalException("First arg must be token");
+            throw new UnauthorizedException("First arg must be token", "Missing access token");
         }
 
         AccessTokenPayload payload;
