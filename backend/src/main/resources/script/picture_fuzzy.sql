@@ -36,13 +36,12 @@ CREATE TABLE `diagnose`
 CREATE TABLE `patient_symptom`
 (
     `examination_id` VARCHAR(50) NOT NULL,
-    `patient_id`     VARCHAR(50) NOT NULL,
     `symptom`        VARCHAR(50),
     `positive`       DOUBLE,
     `neutral`        DOUBLE,
     `negative`       DOUBLE,
     `created_at`     DATETIME,
-    PRIMARY KEY (examination_id, patient_id, symptom)
+    PRIMARY KEY (examination_id, symptom)
 );
 
 CREATE TABLE `symptom_diagnose`
@@ -66,10 +65,10 @@ CREATE TABLE `examination`
 
 CREATE TABLE `examination_result`
 (
-    `examination_id` VARCHAR(50) PRIMARY KEY NOT NULL,
+    `examination_id` VARCHAR(50) NOT NULL,
     `diagnose`       VARCHAR(50),
     `probability`    DOUBLE,
-    `created_at`     DATETIME
+    PRIMARY KEY (examination_id, diagnose)
 );
 
 INSERT INTO backend.diagnose (name, description, created_at, updated_at) VALUES ('CHEST_PROBLEM', null, '2022-02-26 18:04:40', '2022-02-26 18:04:46');

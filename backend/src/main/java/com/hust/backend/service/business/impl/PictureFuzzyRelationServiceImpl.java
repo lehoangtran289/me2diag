@@ -4,11 +4,9 @@ import com.hust.backend.constant.DiagnoseEnum;
 import com.hust.backend.constant.ResponseStatusEnum;
 import com.hust.backend.constant.SymptomEnum;
 import com.hust.backend.dto.response.DiagnoseResponseDTO;
-import com.hust.backend.entity.ExaminationEntity;
-import com.hust.backend.entity.ExaminationResultEntity;
-import com.hust.backend.entity.PatientSymptomEntity;
-import com.hust.backend.entity.SymptomDiagnoseEntity;
+import com.hust.backend.entity.*;
 import com.hust.backend.exception.Common.BusinessException;
+import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.model.PictureFuzzySet;
 import com.hust.backend.repository.*;
 import com.hust.backend.service.business.PictureFuzzyRelationService;
@@ -50,10 +48,9 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
             String patientId,
             List<Tuple2<SymptomEnum, PictureFuzzySet>> PSRelations // 1x5 matrix patient_symptom
     ) {
-        // TODO: validate input
         if (!patientRepository.existsById(patientId)) {
             log.error("patientId not found, id = {}", patientId);
-//            throw new NotFoundException(PatientEntity.class, patientId);
+            throw new NotFoundException(PatientEntity.class, patientId);
         }
 
         log.info("diagnose patient {} with data: {}", patientId, PSRelations);
@@ -71,7 +68,6 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
         for (Tuple2<SymptomEnum, PictureFuzzySet> tuple : PSRelations) {
             patientSymptomEntityList.add(PatientSymptomEntity.builder()
                     .examinationId(examinationId)
-                    .patientId(patientId)
                     .symptom(tuple.getA0())
                     .pictureFuzzySet(tuple.getA1())
                     .build());
@@ -111,6 +107,7 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
         examinationResultRepository.saveAll(examResults);
 
         return DiagnoseResponseDTO.builder()
+                .examinationId(examinationId)
                 .patientId(patientId)
                 .result(result)
                 .build();

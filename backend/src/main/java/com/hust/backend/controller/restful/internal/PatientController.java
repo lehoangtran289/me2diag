@@ -3,11 +3,13 @@ package com.hust.backend.controller.restful.internal;
 import com.hust.backend.aop.AuthRequired;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.request.PatientRegisterRequestDTO;
+import com.hust.backend.dto.response.ExamIDListResponseDTO;
 import com.hust.backend.dto.response.PatientInfoResponseDTO;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.PagingInfo;
 import com.hust.backend.factory.ResponseFactory;
 import com.hust.backend.service.auth.JwtService;
+import com.hust.backend.service.business.ExaminationService;
 import com.hust.backend.service.business.PagingConverterService;
 import com.hust.backend.service.business.PatientService;
 import com.hust.backend.service.business.PictureFuzzyRelationService;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Slf4j
 @Validated
@@ -32,17 +35,20 @@ public class PatientController {
     private final JwtService jwtService;
     private final PictureFuzzyRelationService pfsService;
     private final PatientService patientService;
+    private final ExaminationService examinationService;
     private final PagingConverterService pageService;
 
     public PatientController(ResponseFactory responseFactory,
                              PictureFuzzyRelationService pfsService,
                              PatientService patientService,
                              JwtService jwtService,
+                             ExaminationService examinationService,
                              PagingConverterService pageService) {
         this.responseFactory = responseFactory;
         this.pfsService = pfsService;
         this.patientService = patientService;
         this.jwtService = jwtService;
+        this.examinationService = examinationService;
         this.pageService = pageService;
     }
 
@@ -74,6 +80,15 @@ public class PatientController {
             @PathVariable @NotBlank(message = "patient id must not be blank") String patientId
     ) {
         return responseFactory.success(patientService.getPatient(patientId));
+    }
+
+    @GetMapping("/{patientId}/examinations")
+    @AuthRequired(roles = UserRoleEnum.USER)
+    public ResponseEntity<GeneralResponse<List<ExamIDListResponseDTO>>> getPatientExaminations(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
+            @PathVariable @NotBlank(message = "patient id must not be blank") String patientId
+    ) {
+        return responseFactory.success(examinationService.getPatientExaminations(patientId));
     }
 
 }

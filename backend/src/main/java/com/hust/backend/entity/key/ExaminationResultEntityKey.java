@@ -1,5 +1,6 @@
 package com.hust.backend.entity.key;
 
+import com.hust.backend.constant.DiagnoseEnum;
 import com.hust.backend.constant.SymptomEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +13,8 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Data
-public class PatientSymptomEntityKey implements Serializable {
+public class ExaminationResultEntityKey implements Serializable {
     private String examinationId;
-    private SymptomEnum symptom;
+    private DiagnoseEnum diagnose;
 }
+

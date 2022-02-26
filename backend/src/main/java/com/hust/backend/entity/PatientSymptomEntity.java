@@ -24,10 +24,6 @@ public class PatientSymptomEntity {
     private String examinationId;
 
     @Id
-    @Column(name = "patient_id")
-    private String patientId;
-
-    @Id
     @Enumerated(EnumType.STRING)
     @Column(name = "symptom")
     private SymptomEnum symptom;

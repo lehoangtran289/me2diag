@@ -3,12 +3,9 @@ package com.hust.backend.service.business.impl;
 import com.hust.backend.config.AppConfig;
 import com.hust.backend.constant.ResourceType;
 import com.hust.backend.constant.ResponseStatusEnum;
-import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.request.PatientRegisterRequestDTO;
 import com.hust.backend.dto.response.PatientInfoResponseDTO;
 import com.hust.backend.entity.PatientEntity;
-import com.hust.backend.entity.RoleEntity;
-import com.hust.backend.entity.UserRoleEntity;
 import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.factory.PagingInfo;
@@ -23,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -77,6 +75,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public void registerPatient(PatientRegisterRequestDTO request) {
         if (patientRepository.existsById(request.getId())) {
             throw new BusinessException(ResponseStatusEnum.ENTITY_DUPLICATED, "Patient already existed!",
