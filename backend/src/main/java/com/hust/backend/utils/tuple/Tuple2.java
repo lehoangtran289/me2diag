@@ -1,17 +1,17 @@
 package com.hust.backend.utils.tuple;
 
 import com.hust.backend.utils.assertion.Assertions;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
 @SuppressWarnings({"java:S1301", "java:S131", "java:S119"})
 @Getter
+@Setter
 @EqualsAndHashCode
 @AllArgsConstructor
+@ToString
 public class Tuple2<A0, A1> implements Tuple {
-    private final A0 a0;
-    private final A1 a1;
+    private A0 a0;
+    private A1 a1;
 
     @Override
     public Object get(int index) {

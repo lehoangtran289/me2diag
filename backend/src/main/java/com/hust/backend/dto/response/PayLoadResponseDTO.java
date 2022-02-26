@@ -5,15 +5,10 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.hust.backend.constant.UserRoleEnum;
 import io.jsonwebtoken.Claims;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor

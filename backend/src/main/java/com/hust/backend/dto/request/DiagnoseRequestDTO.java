@@ -3,12 +3,17 @@ package com.hust.backend.dto.request;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.hust.backend.model.PictureFuzzySet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.util.List;
+import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,9 +21,12 @@ import javax.validation.constraints.NotBlank;
 @Data
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TokenRefreshRequestDTO {
-    @NotBlank
-    private String accessToken;
-    @NotBlank
-    private String refreshToken;
+public class DiagnoseRequestDTO {
+    @Size(max = 50, message = "Invalid string length")
+    @NotBlank(message = "patientId must not blank")
+    private String patientId;
+
+    @NotEmpty(message = "patientData is required")
+    private List<Map.Entry<String, PictureFuzzySet>> symptoms;
+
 }

@@ -4,6 +4,7 @@ import com.hust.backend.config.AppConfig;
 import com.hust.backend.config.AuthConfig;
 import com.hust.backend.constant.ResponseStatusEnum;
 import com.hust.backend.constant.TokenType;
+import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.InternalException;
 import com.hust.backend.model.token.AccessTokenPayload;
@@ -16,7 +17,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.springframework.stereotype.Component;
-import com.hust.backend.constant.UserRoleEnum;
 
 import java.util.*;
 

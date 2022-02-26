@@ -7,12 +7,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.hust.backend.constant.ResponseStatusEnum;
-import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.factory.GeneralResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -22,13 +19,14 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
 import java.beans.FeatureDescriptor;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Date;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -145,5 +143,13 @@ public class Common {
 
     public static String formatDate(Date date){
         return formatDate(date, "dd/MM/yyyy HH:mm");
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

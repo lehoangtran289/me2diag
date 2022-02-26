@@ -1,6 +1,5 @@
 package com.hust.backend.controller.restful.test;
 
-import lombok.Data;
 import lombok.Setter;
 
 import java.io.Serializable;
