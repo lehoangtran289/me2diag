@@ -28,6 +28,7 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RequestMapping("${app.application-context-name}/api/v1/patient")
 public class PatientController {
 
@@ -52,7 +53,8 @@ public class PatientController {
         this.pageService = pageService;
     }
 
-    @PostMapping
+    //TODO: POST return entity not void
+    @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<GeneralResponse<String>> registerPatient(
             @Valid @ModelAttribute PatientRegisterRequestDTO request
     ) {

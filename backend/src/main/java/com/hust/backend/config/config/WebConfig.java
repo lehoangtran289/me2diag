@@ -29,6 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods(
                         RequestMethod.GET.name(),
                         RequestMethod.POST.name(),
+                        RequestMethod.PATCH.name(),
                         RequestMethod.PUT.name(),
                         RequestMethod.DELETE.name())
                 .maxAge(1800L);

@@ -12,6 +12,8 @@ import com.hust.backend.service.business.PagingConverterService;
 import com.hust.backend.service.business.PatientService;
 import com.hust.backend.service.business.PictureFuzzyRelationService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -53,5 +55,18 @@ public class ExaminationController {
             @PathVariable @NotBlank(message = "examination id must not be blank") String id
     ) {
         return responseFactory.success(examinationService.getExamination(id));
+    }
+
+    @GetMapping
+    @AuthRequired(roles = UserRoleEnum.USER)
+    public ResponseEntity<GeneralResponse<PagingInfo<PatientExaminationResponseDTO>>> getAllExaminations(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
+            @RequestParam(required = false) String query,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNo,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize,
+            @RequestParam(required = false) String[] sort
+    ) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, pageService.from(sort));
+        return responseFactory.success(examinationService.getAllExaminations(query, pageable));
     }
 }
