@@ -6,7 +6,6 @@ import com.hust.backend.constant.ResponseStatusEnum;
 import com.hust.backend.constant.TokenType;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.exception.Common.BusinessException;
-import com.hust.backend.exception.InternalException;
 import com.hust.backend.exception.UnauthorizedException;
 import com.hust.backend.model.token.AccessTokenPayload;
 import com.hust.backend.service.auth.JwtService;

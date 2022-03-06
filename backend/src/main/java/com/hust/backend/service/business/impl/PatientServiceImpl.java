@@ -9,7 +9,7 @@ import com.hust.backend.entity.PatientEntity;
 import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.factory.PagingInfo;
-import com.hust.backend.repository.*;
+import com.hust.backend.repository.PatientRepository;
 import com.hust.backend.service.business.PatientService;
 import com.hust.backend.service.storage.StorageService;
 import com.hust.backend.utils.Common;
@@ -27,25 +27,13 @@ import java.util.List;
 @Slf4j
 public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
-    private final ExaminationRepository examinationRepository;
-    private final ExaminationResultRepository examinationResultRepository;
-    private final PatientSymptomRepository patientSymptomRepository;
-    private final SymptomDiagnoseRepository symptomDiagnoseRepository;
     private final StorageService storageService;
     private final AppConfig appConfig;
 
     public PatientServiceImpl(PatientRepository patientRepository,
-                              ExaminationRepository examinationRepository,
-                              ExaminationResultRepository examinationResultRepository,
-                              PatientSymptomRepository patientSymptomRepository,
-                              SymptomDiagnoseRepository symptomDiagnoseRepository,
                               StorageService storageService,
                               AppConfig appConfig) {
         this.patientRepository = patientRepository;
-        this.examinationRepository = examinationRepository;
-        this.examinationResultRepository = examinationResultRepository;
-        this.patientSymptomRepository = patientSymptomRepository;
-        this.symptomDiagnoseRepository = symptomDiagnoseRepository;
         this.storageService = storageService;
         this.appConfig = appConfig;
     }
@@ -53,7 +41,7 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PagingInfo<PatientInfoResponseDTO> getALlPatients(String query, Pageable pageable) {
         Page<PatientEntity> patientEntityPage = StringUtils.isBlank(query) ?
-                patientRepository.findAll(pageable) :
+                patientRepository.findAllByOrderByCreatedAtDesc(pageable) :
                 getAllPatientsByNameLike(query, pageable);
         List<PatientInfoResponseDTO> results = Transformer.listToList(
                 patientEntityPage.getContent(),

@@ -1,13 +1,10 @@
 package com.hust.backend.service.business.impl;
 
-import com.hust.backend.config.AppConfig;
 import com.hust.backend.constant.DiagnoseEnum;
 import com.hust.backend.constant.SymptomEnum;
 import com.hust.backend.dto.response.ExamIDListResponseDTO;
 import com.hust.backend.dto.response.PatientExaminationResponseDTO;
-import com.hust.backend.dto.response.PatientInfoResponseDTO;
 import com.hust.backend.entity.ExaminationEntity;
-import com.hust.backend.entity.ExaminationResultEntity;
 import com.hust.backend.entity.PatientEntity;
 import com.hust.backend.entity.UserEntity;
 import com.hust.backend.exception.NotFoundException;
@@ -15,9 +12,6 @@ import com.hust.backend.factory.PagingInfo;
 import com.hust.backend.model.PictureFuzzySet;
 import com.hust.backend.repository.*;
 import com.hust.backend.service.business.ExaminationService;
-import com.hust.backend.service.storage.StorageService;
-import com.hust.backend.utils.Common;
-import com.hust.backend.utils.Transformer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;

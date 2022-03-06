@@ -5,7 +5,6 @@ import com.hust.backend.dto.request.UserInfoUpdateRequestDTO;
 import com.hust.backend.entity.UserEntity;
 import com.hust.backend.service.auth.JwtService;
 import com.hust.backend.utils.Common;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

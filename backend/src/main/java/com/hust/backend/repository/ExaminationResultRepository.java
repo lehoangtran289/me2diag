@@ -1,6 +1,5 @@
 package com.hust.backend.repository;
 
-import com.hust.backend.constant.DiagnoseEnum;
 import com.hust.backend.entity.ExaminationResultEntity;
 import com.hust.backend.entity.key.ExaminationResultEntityKey;
 import org.springframework.data.jpa.repository.JpaRepository;

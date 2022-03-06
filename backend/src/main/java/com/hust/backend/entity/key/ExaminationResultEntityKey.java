@@ -1,7 +1,6 @@
 package com.hust.backend.entity.key;
 
 import com.hust.backend.constant.DiagnoseEnum;
-import com.hust.backend.constant.SymptomEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
