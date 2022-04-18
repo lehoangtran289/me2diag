@@ -1,4 +1,4 @@
-package com.hust.backend.config.config.converter;
+package com.hust.backend.config.common.converter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.converter.Converter;

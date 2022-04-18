@@ -65,7 +65,8 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
         UserEntity user = optionalUser.orElseThrow(() -> new UnauthorizedException("UserEntity.class", request.getUsername()));
 
         if (!bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new UnauthorizedException("Incorrect password: " + user.getPassword(), request.getUsername());
+            String message = String.format("Incorrect password: %s for user %s", request.getPassword(), request.getUsername());
+            throw new UnauthorizedException(message, request.getUsername());
         }
 
         // build jwt token

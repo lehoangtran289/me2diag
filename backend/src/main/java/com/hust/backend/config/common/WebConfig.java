@@ -1,7 +1,7 @@
-package com.hust.backend.config.config;
+package com.hust.backend.config.common;
 
-import com.hust.backend.config.config.converter.GenderEnumConverter;
-import com.hust.backend.config.config.converter.TrimStringConverter;
+import com.hust.backend.config.common.converter.GenderEnumConverter;
+import com.hust.backend.config.common.converter.TrimStringConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.bind.annotation.RequestMethod;

@@ -1,4 +1,4 @@
-package com.hust.backend.config.config.converter;
+package com.hust.backend.config.common.converter;
 
 import com.hust.backend.constant.UserGenderEnum;
 import org.springframework.core.convert.converter.Converter;
