@@ -1,9 +1,10 @@
-package com.hust.backend.config.filter;
+package com.hust.backend.config.logging;
 
 import com.hust.backend.constant.TrackingContextEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.ThreadContext;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Configuration
+@ConditionalOnProperty(value = "app.correlation.log.enable", havingValue = "true")
 @Slf4j
 public class LogCorrelationFilter extends OncePerRequestFilter {
     @Value("${app.application-context-name")
