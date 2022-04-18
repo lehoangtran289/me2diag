@@ -2,7 +2,6 @@ package com.hust.backend.service.business.impl;
 
 import com.hust.backend.constant.DiagnoseEnum;
 import com.hust.backend.constant.ResponseStatusEnum;
-import com.hust.backend.constant.SymptomEnum;
 import com.hust.backend.dto.response.DiagnoseResponseDTO;
 import com.hust.backend.entity.*;
 import com.hust.backend.exception.Common.BusinessException;
@@ -11,8 +10,7 @@ import com.hust.backend.model.PictureFuzzySet;
 import com.hust.backend.repository.*;
 import com.hust.backend.service.business.PictureFuzzyRelationService;
 import com.hust.backend.utils.PFSCommon;
-import com.hust.backend.utils.ULID;
-import com.hust.backend.utils.tuple.Tuple2;
+import com.hust.backend.utils.Transformer;
 import com.hust.backend.utils.tuple.Tuple3;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -44,9 +42,10 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
     @Override
     @Transactional(rollbackOn = Exception.class)
     public DiagnoseResponseDTO diagnose(
+            String examinationId,
             String userId,
             String patientId,
-            List<Tuple2<SymptomEnum, PictureFuzzySet>> PSRelations // 1x5 matrix patient_symptom
+            List<PatientSymptomEntity> PSRelations // 1x5 matrix patient_symptom
     ) {
         if (!patientRepository.existsById(patientId)) {
             log.error("patientId not found, id = {}", patientId);
@@ -55,8 +54,7 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
 
         log.info("diagnose patient {} with data: {}", patientId, PSRelations);
 
-        // init new examination
-        String examinationId = ULID.nextULID();
+        // save new examination
         examinationRepository.save(ExaminationEntity.builder()
                 .id(examinationId)
                 .userId(userId)
@@ -64,21 +62,13 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
                 .build());
 
         // save patient symptoms
-        List<PatientSymptomEntity> patientSymptomEntityList = new ArrayList<>();
-        for (Tuple2<SymptomEnum, PictureFuzzySet> tuple : PSRelations) {
-            patientSymptomEntityList.add(PatientSymptomEntity.builder()
-                    .examinationId(examinationId)
-                    .symptom(tuple.getA0())
-                    .pictureFuzzySet(tuple.getA1())
-                    .build());
-        }
-        patientSymptomRepository.saveAll(patientSymptomEntityList);
+        patientSymptomRepository.saveAll(PSRelations);
 
-        List<Map.Entry<DiagnoseEnum, Double>> result = new ArrayList<>();
         List<ExaminationResultEntity> examResults = new ArrayList<>();
         for (DiagnoseEnum diagnoseEnum : DiagnoseEnum.values()) {
-            // get Symptom_Diagnose relations -> 5x1 matrix
+            // get Symptom_Diagnose relations -> 5x1 matrix symptom_diagnose
             List<SymptomDiagnoseEntity> SDRelations = symptomDiagnoseRepository.getAllByDiagnose(diagnoseEnum);
+
             // sort by SymptomEnum to match patient_symptom relations
             SDRelations.sort(Comparator.comparing(SymptomDiagnoseEntity::getSymptom));
 
@@ -101,11 +91,16 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
 
             log.info("Patient {} diagnosis: {} - {} - {}",
                     patientId, diagnoseEnum, diagnoseResult.getA1(), diagnoseResult.getA2());
-
-            result.add(new AbstractMap.SimpleEntry<>(diagnoseEnum, diagnoseResult.getA2()));
         }
+
+        // save exam results
         examinationResultRepository.saveAll(examResults);
 
+        // return result
+        List<Map.Entry<DiagnoseEnum, Double>> result = Transformer.listToList(
+                examResults,
+                res -> new AbstractMap.SimpleEntry<>(res.getDiagnose(), res.getProbability())
+        );
         return DiagnoseResponseDTO.builder()
                 .examinationId(examinationId)
                 .patientId(patientId)

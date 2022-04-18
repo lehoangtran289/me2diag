@@ -18,9 +18,11 @@ import java.util.Date;
 @Entity
 @IdClass(PatientSymptomEntityKey.class)
 @Table(name = "patient_symptom")
+@ToString
 public class PatientSymptomEntity {
     @Id
     @Column(name = "examination_id")
+    @ToString.Exclude
     private String examinationId;
 
     @Id
@@ -34,5 +36,6 @@ public class PatientSymptomEntity {
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @ToString.Exclude
     private Date createdAt;
 }
