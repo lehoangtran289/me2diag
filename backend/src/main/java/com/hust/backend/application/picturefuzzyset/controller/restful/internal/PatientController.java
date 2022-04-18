@@ -33,22 +33,16 @@ import java.util.List;
 public class PatientController {
 
     private final ResponseFactory responseFactory;
-    private final JwtService jwtService;
-    private final PictureFuzzyRelationService pfsService;
     private final PatientService patientService;
     private final ExaminationService examinationService;
     private final PagingConverterService pageService;
 
     public PatientController(ResponseFactory responseFactory,
-                             PictureFuzzyRelationService pfsService,
                              PatientService patientService,
-                             JwtService jwtService,
                              ExaminationService examinationService,
                              PagingConverterService pageService) {
         this.responseFactory = responseFactory;
-        this.pfsService = pfsService;
         this.patientService = patientService;
-        this.jwtService = jwtService;
         this.examinationService = examinationService;
         this.pageService = pageService;
     }
