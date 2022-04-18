@@ -24,7 +24,10 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "backendEntityManagerFactory",
         transactionManagerRef = "backendTransactionManager",
-        basePackages = {"com.hust.backend.repository"}
+        basePackages = {
+                "com.hust.backend.repository",
+                "com.hust.backend.application.picturefuzzyset.repository"
+        }
 )
 public class DatabaseConfig {
 
@@ -51,7 +54,11 @@ public class DatabaseConfig {
             EntityManagerFactoryBuilder builder,
             @Qualifier("backendDataSource") DataSource dataSource
     ) {
-        return builder.dataSource(dataSource).packages("com.hust.backend.entity")
+        return builder.dataSource(dataSource)
+                .packages(
+                        "com.hust.backend.entity",
+                        "com.hust.backend.application.picturefuzzyset.entity"
+                )
                 .persistenceUnit("backend")
                 .build();
     }
