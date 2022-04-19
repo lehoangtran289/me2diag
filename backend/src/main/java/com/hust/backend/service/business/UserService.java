@@ -12,4 +12,6 @@ public interface UserService {
     UserInfoResponseDTO updateUserInfo(String userId, UserInfoUpdateRequestDTO request);
 
     PagingInfo<UserInfoResponseDTO> getAllUsers(String usernameQuery, Pageable pageable);
+
+    UserInfoResponseDTO getUserInfo(String userId);
 }

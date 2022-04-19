@@ -46,6 +46,16 @@ public class UserController {
         this.pageService = pageService;
     }
 
+    @GetMapping("/me")
+    @AuthRequired(roles = UserRoleEnum.USER)
+    public ResponseEntity<GeneralResponse<UserInfoResponseDTO>> getUserInfo(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken
+    ) throws InvalidKeySpecException, NoSuchAlgorithmException, JsonProcessingException {
+        // validate userId
+        AccessTokenPayload payload = jwtService.parse(authToken, AccessTokenPayload.class);
+        return responseFactory.success(userService.getUserInfo(payload.getSubject()));
+    }
+
     @GetMapping
     @AuthRequired(roles = UserRoleEnum.USER)
     public ResponseEntity<GeneralResponse<PagingInfo<UserInfoResponseDTO>>> getAllUsers(

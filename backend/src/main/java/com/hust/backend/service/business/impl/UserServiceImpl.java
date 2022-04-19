@@ -121,6 +121,14 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    @Override
+    public UserInfoResponseDTO getUserInfo(String userId) {
+        return Common.convertObject(
+                userRepository.findById(userId)
+                        .orElseThrow(() -> new NotFoundException(UserEntity.class, userId)),
+                UserInfoResponseDTO.class);
+    }
+
     private Page<UserEntity> getAllUsersByNameOrEmailLike(String query, Pageable pageable) {
         return userRepository.findByUsernameContainingOrEmailContaining(query, query, pageable);
     }
