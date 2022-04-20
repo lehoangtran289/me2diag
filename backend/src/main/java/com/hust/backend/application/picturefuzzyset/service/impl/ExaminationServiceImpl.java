@@ -6,13 +6,13 @@ import com.hust.backend.application.picturefuzzyset.dto.response.ExamIDListRespo
 import com.hust.backend.application.picturefuzzyset.dto.response.PatientExaminationResponseDTO;
 import com.hust.backend.application.picturefuzzyset.entity.ExaminationEntity;
 import com.hust.backend.application.picturefuzzyset.entity.PatientEntity;
+import com.hust.backend.application.picturefuzzyset.model.PictureFuzzySet;
 import com.hust.backend.application.picturefuzzyset.repository.*;
+import com.hust.backend.application.picturefuzzyset.service.ExaminationService;
 import com.hust.backend.entity.UserEntity;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.factory.PagingInfo;
-import com.hust.backend.application.picturefuzzyset.model.PictureFuzzySet;
-import com.hust.backend.repository.*;
-import com.hust.backend.application.picturefuzzyset.service.ExaminationService;
+import com.hust.backend.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;

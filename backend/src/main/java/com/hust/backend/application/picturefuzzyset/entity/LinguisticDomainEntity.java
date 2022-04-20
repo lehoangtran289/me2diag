@@ -24,10 +24,10 @@ public class LinguisticDomainEntity {
     private LinguisticDomainEnum linguisticDomainElement;
 
     @Column(name = "fm")
-    private Double fm;
+    private Double fmValue;
 
     @Column(name = "v")
-    private Double v;
+    private Double vValue;
 
     @Column(name = "order")
     private Integer order;

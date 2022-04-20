@@ -2,8 +2,6 @@ package com.hust.backend.application.picturefuzzyset.entity;
 
 import com.hust.backend.application.picturefuzzyset.constant.HedgeAlgebraEnum;
 import com.hust.backend.application.picturefuzzyset.constant.HedgeAlgebraTypeEnum;
-import com.hust.backend.application.picturefuzzyset.constant.LinguisticDomainEnum;
-import com.hust.backend.application.picturefuzzyset.entity.key.ExaminationResultEntityKey;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -26,7 +24,7 @@ public class HedgeAlgebraEntity {
     private HedgeAlgebraEnum hedgeAlgebraEnum;
 
     @Column(name = "fm")
-    private Double fm;
+    private Double fmValue;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)

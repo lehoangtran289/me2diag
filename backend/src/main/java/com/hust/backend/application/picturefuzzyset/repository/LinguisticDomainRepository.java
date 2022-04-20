@@ -5,6 +5,9 @@ import com.hust.backend.application.picturefuzzyset.entity.LinguisticDomainEntit
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface LinguisticDomainRepository extends JpaRepository<LinguisticDomainEntity, LinguisticDomainEnum> {
+    List<LinguisticDomainEntity> findAllByLinguisticDomainElementIn(List<LinguisticDomainEnum> ids);
 }

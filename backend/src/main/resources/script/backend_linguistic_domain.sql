@@ -1,3 +1,4 @@
+TRUNCATE TABLE backend.linguistic_domain;
 INSERT INTO backend.linguistic_domain (name, fm, v, `order`, created_at, updated_at) VALUES ('COMPLETELY', 1, 1, 99, '2022-04-18 22:54:51', null);
 INSERT INTO backend.linguistic_domain (name, fm, v, `order`, created_at, updated_at) VALUES ('HIGH', 0.5, 0.75, 3, '2022-04-18 22:54:49', null);
 INSERT INTO backend.linguistic_domain (name, fm, v, `order`, created_at, updated_at) VALUES ('LOW', 0.5, 0.25, -1, '2022-04-18 22:54:47', null);

@@ -1,18 +1,16 @@
 package com.hust.backend.application.picturefuzzyset.controller.restful.internal;
 
 import com.hust.backend.aop.AuthRequired;
-import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.application.picturefuzzyset.dto.request.PatientRegisterRequestDTO;
 import com.hust.backend.application.picturefuzzyset.dto.response.ExamIDListResponseDTO;
 import com.hust.backend.application.picturefuzzyset.dto.response.PatientInfoResponseDTO;
+import com.hust.backend.application.picturefuzzyset.service.ExaminationService;
+import com.hust.backend.application.picturefuzzyset.service.PatientService;
+import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.PagingInfo;
 import com.hust.backend.factory.ResponseFactory;
-import com.hust.backend.service.auth.JwtService;
-import com.hust.backend.application.picturefuzzyset.service.ExaminationService;
 import com.hust.backend.service.business.PagingConverterService;
-import com.hust.backend.application.picturefuzzyset.service.PatientService;
-import com.hust.backend.application.picturefuzzyset.service.PictureFuzzyRelationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

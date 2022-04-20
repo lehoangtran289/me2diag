@@ -2,17 +2,17 @@ package com.hust.backend.application.picturefuzzyset.service.impl;
 
 import com.hust.backend.application.picturefuzzyset.constant.DiagnoseEnum;
 import com.hust.backend.application.picturefuzzyset.constant.LinguisticDomainEnum;
+import com.hust.backend.application.picturefuzzyset.dto.response.DiagnoseResponseDTO;
 import com.hust.backend.application.picturefuzzyset.entity.*;
 import com.hust.backend.application.picturefuzzyset.model.GeneralPictureFuzzySet;
+import com.hust.backend.application.picturefuzzyset.model.PictureFuzzySet;
 import com.hust.backend.application.picturefuzzyset.repository.*;
+import com.hust.backend.application.picturefuzzyset.service.PictureFuzzyRelationService;
+import com.hust.backend.application.picturefuzzyset.utils.PFSCommon;
 import com.hust.backend.constant.ResponseStatusEnum;
-import com.hust.backend.application.picturefuzzyset.dto.response.DiagnoseResponseDTO;
 import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.InternalException;
 import com.hust.backend.exception.NotFoundException;
-import com.hust.backend.application.picturefuzzyset.model.PictureFuzzySet;
-import com.hust.backend.application.picturefuzzyset.service.PictureFuzzyRelationService;
-import com.hust.backend.application.picturefuzzyset.utils.PFSCommon;
 import com.hust.backend.utils.Transformer;
 import com.hust.backend.utils.tuple.Tuple3;
 import lombok.extern.slf4j.Slf4j;
@@ -141,7 +141,7 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
             LinguisticDomainEntity linguisticEntity =
                     linguisticDomainRepo.findById(linguisticDomainEnum)
                             .orElseThrow(() -> new NotFoundException(LinguisticDomainEntity.class, (String) gpfs.getPositive()));
-            pfs.setPositive(linguisticEntity.getV());
+            pfs.setPositive(linguisticEntity.getVValue());
         }
 
         // pfs.neutral
@@ -152,7 +152,7 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
             LinguisticDomainEntity linguisticEntity =
                     linguisticDomainRepo.findById(linguisticDomainEnum)
                             .orElseThrow(() -> new NotFoundException(LinguisticDomainEntity.class, (String) gpfs.getNeutral()));
-            pfs.setNeutral(linguisticEntity.getV());
+            pfs.setNeutral(linguisticEntity.getVValue());
         }
 
         // pfs.negative
@@ -163,7 +163,7 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
             LinguisticDomainEntity linguisticEntity =
                     linguisticDomainRepo.findById(linguisticDomainEnum)
                             .orElseThrow(() -> new NotFoundException(LinguisticDomainEntity.class, (String) gpfs.getNegative()));
-            pfs.setNegative(linguisticEntity.getV());
+            pfs.setNegative(linguisticEntity.getVValue());
         }
         return pfs;
     }
