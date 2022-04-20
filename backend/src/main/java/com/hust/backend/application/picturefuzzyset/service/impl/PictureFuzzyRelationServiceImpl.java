@@ -1,11 +1,14 @@
 package com.hust.backend.application.picturefuzzyset.service.impl;
 
 import com.hust.backend.application.picturefuzzyset.constant.DiagnoseEnum;
+import com.hust.backend.application.picturefuzzyset.constant.LinguisticDomainEnum;
 import com.hust.backend.application.picturefuzzyset.entity.*;
+import com.hust.backend.application.picturefuzzyset.model.GeneralPictureFuzzySet;
 import com.hust.backend.application.picturefuzzyset.repository.*;
 import com.hust.backend.constant.ResponseStatusEnum;
 import com.hust.backend.application.picturefuzzyset.dto.response.DiagnoseResponseDTO;
 import com.hust.backend.exception.Common.BusinessException;
+import com.hust.backend.exception.InternalException;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.application.picturefuzzyset.model.PictureFuzzySet;
 import com.hust.backend.application.picturefuzzyset.service.PictureFuzzyRelationService;
@@ -26,17 +29,23 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
     private final ExaminationResultRepository examinationResultRepository;
     private final PatientSymptomRepository patientSymptomRepository;
     private final SymptomDiagnoseRepository symptomDiagnoseRepository;
+    private final HedgeAlgebraConfigRepository hedgeAlgebraConfigRepo;
+    private final LinguisticDomainRepository linguisticDomainRepo;
 
     public PictureFuzzyRelationServiceImpl(PatientRepository patientRepository,
                                            ExaminationRepository examinationRepository,
                                            ExaminationResultRepository examinationResultRepository,
                                            PatientSymptomRepository patientSymptomRepository,
-                                           SymptomDiagnoseRepository symptomDiagnoseRepository) {
+                                           SymptomDiagnoseRepository symptomDiagnoseRepository,
+                                           HedgeAlgebraConfigRepository hedgeAlgebraConfigRepo,
+                                           LinguisticDomainRepository linguisticDomainRepo) {
         this.patientRepository = patientRepository;
         this.examinationRepository = examinationRepository;
         this.examinationResultRepository = examinationResultRepository;
         this.patientSymptomRepository = patientSymptomRepository;
         this.symptomDiagnoseRepository = symptomDiagnoseRepository;
+        this.hedgeAlgebraConfigRepo = hedgeAlgebraConfigRepo;
+        this.linguisticDomainRepo = linguisticDomainRepo;
     }
 
     @Override
@@ -74,8 +83,10 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
 
             // validate matrix sizes for Patient_Diagnose composition
             if (SDRelations.size() != PSRelations.size()) {
-                log.error("Fuzzy relation size error, size PS = {}, size SD = {}", PSRelations.size(), SDRelations.size());
-                throw new BusinessException(ResponseStatusEnum.INTERNAL_SERVER_ERROR, "fuzzy relation size error");
+                log.error("Fuzzy relation size error, size PS = {}, size SD = {}", PSRelations.size(),
+                        SDRelations.size());
+                throw new BusinessException(ResponseStatusEnum.INTERNAL_SERVER_ERROR, "fuzzy relation size " +
+                        "error");
             }
 
             // process fuzzy relation composition
@@ -106,5 +117,54 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
                 .patientId(patientId)
                 .result(result)
                 .build();
+    }
+
+    // TODO: validate invalid linguistic input
+    @Override
+    public PictureFuzzySet convertGeneralPFSToPFS(GeneralPictureFuzzySet gpfs) {
+        PictureFuzzySet pfs = new PictureFuzzySet();
+
+        // if not linguistic domain -> throw
+        if (!((gpfs.getPositive() instanceof Double || gpfs.getPositive() instanceof String) &&
+                (gpfs.getNeutral() instanceof Double || gpfs.getNeutral() instanceof String) &&
+                (gpfs.getNegative() instanceof Double || gpfs.getNegative() instanceof String))
+        ) {
+            throw new InternalException("Picture Fuzzy Set type must be enum STRING or DOUBLE");
+        }
+
+        // traverse fields, check type and set fields corresponding to type
+        // pfs.positive
+        if (gpfs.getPositive() instanceof Double) {
+            pfs.setPositive((Double) gpfs.getPositive());
+        } else {
+            LinguisticDomainEnum linguisticDomainEnum = LinguisticDomainEnum.from((String) gpfs.getPositive());
+            LinguisticDomainEntity linguisticEntity =
+                    linguisticDomainRepo.findById(linguisticDomainEnum)
+                            .orElseThrow(() -> new NotFoundException(LinguisticDomainEntity.class, (String) gpfs.getPositive()));
+            pfs.setPositive(linguisticEntity.getV());
+        }
+
+        // pfs.neutral
+        if (gpfs.getNeutral() instanceof Double) {
+            pfs.setNeutral((Double) gpfs.getNeutral());
+        } else {
+            LinguisticDomainEnum linguisticDomainEnum = LinguisticDomainEnum.from((String) gpfs.getNeutral());
+            LinguisticDomainEntity linguisticEntity =
+                    linguisticDomainRepo.findById(linguisticDomainEnum)
+                            .orElseThrow(() -> new NotFoundException(LinguisticDomainEntity.class, (String) gpfs.getNeutral()));
+            pfs.setNeutral(linguisticEntity.getV());
+        }
+
+        // pfs.negative
+        if (gpfs.getNegative() instanceof Double) {
+            pfs.setNegative((Double) gpfs.getNegative());
+        } else {
+            LinguisticDomainEnum linguisticDomainEnum = LinguisticDomainEnum.from((String) gpfs.getNegative());
+            LinguisticDomainEntity linguisticEntity =
+                    linguisticDomainRepo.findById(linguisticDomainEnum)
+                            .orElseThrow(() -> new NotFoundException(LinguisticDomainEntity.class, (String) gpfs.getNegative()));
+            pfs.setNegative(linguisticEntity.getV());
+        }
+        return pfs;
     }
 }
