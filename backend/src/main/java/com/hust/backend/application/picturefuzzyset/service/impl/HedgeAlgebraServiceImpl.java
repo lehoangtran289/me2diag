@@ -93,19 +93,9 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
         }
         hedgeAlgebraConfigRepo.saveAll(hedgeAlgebrasToBeChanged);
 
-        // cache calculated v values (to avoid db query)
-        Map<LinguisticDomainEnum, Double> v = new HashMap<>(Map.ofEntries(
-                entry(LinguisticDomainEnum.VERY_HIGH, 0.0),
-                entry(LinguisticDomainEnum.HIGH, 0.0),
-                entry(LinguisticDomainEnum.SLIGHTLY_HIGH, 0.0),
-                entry(LinguisticDomainEnum.MEDIUM, 0.0),
-                entry(LinguisticDomainEnum.SLIGHTLY_LOW, 0.0),
-                entry(LinguisticDomainEnum.LOW, 0.0),
-                entry(LinguisticDomainEnum.VERY_LOW, 0.0)
-        ));
-
         // linguistic_domain
-        List<LinguisticDomainEntity> linguisticToBeChanged = linguisticDomainRepo.findAllByLinguisticDomainElementIn(
+        List<LinguisticDomainEntity> linguisticToBeChanged =
+                linguisticDomainRepo.findAllByLinguisticDomainElementIn(
                 Arrays.asList(
                         LinguisticDomainEnum.VERY_HIGH,
                         LinguisticDomainEnum.HIGH,
@@ -120,7 +110,6 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                 case LOW:
                     entity.setFmValue(fm.get(HedgeAlgebraEnum.LOW));
                     entity.setVValue(theta - alpha * fm.get(HedgeAlgebraEnum.LOW));
-                    v.put(LinguisticDomainEnum.LOW, entity.getVValue());
                     break;
 
                 case MEDIUM:
@@ -131,37 +120,36 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                 case HIGH:
                     entity.setFmValue(fm.get(HedgeAlgebraEnum.HIGH));
                     entity.setVValue(theta + alpha * fm.get(HedgeAlgebraEnum.LOW));
-                    v.put(LinguisticDomainEnum.HIGH, entity.getVValue());
                     break;
 
                 case VERY_HIGH:
                     double fmVeryHigh = fm.get(HedgeAlgebraEnum.VERY) * fm.get(HedgeAlgebraEnum.HIGH);
-                    double vVeryHigh = theta + alpha * fm.get(HedgeAlgebraEnum.HIGH) + //vLow
-                            1 * (fmVeryHigh - 0.5 * (1 - 1 * 1 * (1 - alpha - alpha)) * fmVeryHigh);
+                    double vVeryHigh = computeVValue(theta, alpha, 1, fm.get(HedgeAlgebraEnum.HIGH),
+                            fmVeryHigh, 1);
                     entity.setFmValue(fmVeryHigh);
                     entity.setVValue(vVeryHigh);
                     break;
 
                 case SLIGHTLY_HIGH:
                     double fmSlightlyHigh = fm.get(HedgeAlgebraEnum.SLIGHTLY) * fm.get(HedgeAlgebraEnum.HIGH);
-                    double vSlightlyHigh = theta + alpha * fm.get(HedgeAlgebraEnum.HIGH) + //vHigh
-                            (-1) * (fmSlightlyHigh - 0.5 * (1 - (-1) * (-1) * (1 - alpha - alpha)) * fmSlightlyHigh);
+                    double vSlightlyHigh = computeVValue(theta, alpha, 1, fm.get(HedgeAlgebraEnum.HIGH),
+                            fmSlightlyHigh, -1);
                     entity.setFmValue(fmSlightlyHigh);
                     entity.setVValue(vSlightlyHigh);
                     break;
 
                 case SLIGHTLY_LOW:
                     double fmSlightlyLow = fm.get(HedgeAlgebraEnum.SLIGHTLY) * fm.get(HedgeAlgebraEnum.LOW);
-                    double vSlightlyLow = theta - alpha * fm.get(HedgeAlgebraEnum.LOW) + //vLow
-                            1 * (fmSlightlyLow - 0.5 * (1 - 1 * 1 * (1 - alpha - alpha)) * fmSlightlyLow);
+                    double vSlightlyLow = computeVValue(theta, alpha, -1, fm.get(HedgeAlgebraEnum.LOW),
+                            fmSlightlyLow, 1);
                     entity.setFmValue(fmSlightlyLow);
                     entity.setVValue(vSlightlyLow);
                     break;
 
                 case VERY_LOW:
                     double fmVeryLow = fm.get(HedgeAlgebraEnum.VERY) * fm.get(HedgeAlgebraEnum.LOW);
-                    double vVeryLow = theta - alpha * fm.get(HedgeAlgebraEnum.LOW) + //vLow
-                            (-1) * (fmVeryLow - 0.5 * (1 - (-1) * (-1) * (1 - alpha - alpha)) * fmVeryLow);
+                    double vVeryLow = computeVValue(theta, alpha, -1, fm.get(HedgeAlgebraEnum.LOW), fmVeryLow
+                            , -1);
                     entity.setFmValue(fmVeryLow);
                     entity.setVValue(vVeryLow);
                     break;
@@ -174,5 +162,11 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                 linguisticDomainEntity -> Common.convertObject(linguisticDomainEntity,
                         LinguisticDomainDTO.class)
         );
+    }
+
+    private double computeVValue(double theta, double alpha, int cSign, double fmC, double fmDomain,
+                                 int domainSign) {
+        return theta + cSign * alpha * fmC + //vLow
+                domainSign * (fmDomain - 0.5 * (1 - domainSign * domainSign * (1 - alpha - alpha)) * fmDomain);
     }
 }
