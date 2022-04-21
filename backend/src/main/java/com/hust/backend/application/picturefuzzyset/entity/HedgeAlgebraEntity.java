@@ -2,6 +2,7 @@ package com.hust.backend.application.picturefuzzyset.entity;
 
 import com.hust.backend.application.picturefuzzyset.constant.HedgeAlgebraEnum;
 import com.hust.backend.application.picturefuzzyset.constant.HedgeAlgebraTypeEnum;
+import com.hust.backend.utils.Common;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -30,8 +31,8 @@ public class HedgeAlgebraEntity {
     @Enumerated(EnumType.STRING)
     private HedgeAlgebraTypeEnum hedgeAlgebraTypeEnum;
 
-    @Column(name = "order")
-    private Integer order;
+    @Column(name = "linguistic_order")
+    private Integer linguisticOrder;
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
@@ -42,4 +43,8 @@ public class HedgeAlgebraEntity {
     @UpdateTimestamp
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date updatedAt;
+
+    public void setFmValue(Double fmValue) {
+        this.fmValue = Common.round(fmValue, 3);
+    }
 }

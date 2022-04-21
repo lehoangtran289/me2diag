@@ -91,7 +91,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                     break;
             }
         }
-        hedgeAlgebraConfigRepo.saveAll(hedgeAlgebrasToBeChanged);
+//        hedgeAlgebraConfigRepo.saveAll(hedgeAlgebrasToBeChanged);
 
         // linguistic_domain
         List<LinguisticDomainEntity> linguisticToBeChanged =
@@ -155,7 +155,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                     break;
             }
         }
-        hedgeAlgebraConfigRepo.saveAll(hedgeAlgebrasToBeChanged);
+//        hedgeAlgebraConfigRepo.saveAll(hedgeAlgebrasToBeChanged);
 
         return Transformer.listToList(
                 linguisticToBeChanged,

@@ -12,5 +12,5 @@ public class LinguisticDomainDTO {
     private LinguisticDomainEnum linguisticDomainElement;
     private Double fmValue;
     private Double vValue;
-    private Integer order;
+    private Integer linguisticOrder;
 }

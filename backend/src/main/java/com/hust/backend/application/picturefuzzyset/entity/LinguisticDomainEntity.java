@@ -1,6 +1,7 @@
 package com.hust.backend.application.picturefuzzyset.entity;
 
 import com.hust.backend.application.picturefuzzyset.constant.LinguisticDomainEnum;
+import com.hust.backend.utils.Common;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -29,8 +30,8 @@ public class LinguisticDomainEntity {
     @Column(name = "v")
     private Double vValue;
 
-    @Column(name = "order")
-    private Integer order;
+    @Column(name = "linguistic_order")
+    private Integer linguisticOrder;
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
@@ -42,7 +43,15 @@ public class LinguisticDomainEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date updatedAt;
 
-//    @Converter(autoApply = true)
+    public void setVValue(Double vValue) {
+        this.vValue = Common.round(vValue, 3);
+    }
+
+    public void setFmValue(Double fmValue) {
+        this.fmValue = Common.round(fmValue, 3);
+    }
+
+    //    @Converter(autoApply = true)
 //    public static class LinguisticDomainConverter implements AttributeConverter<LinguisticDomainEnum, String> {
 //        @Override
 //        public String convertToDatabaseColumn(LinguisticDomainEnum attribute) {
