@@ -164,6 +164,17 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
         );
     }
 
+    /**
+     * @param theta fm(c-)
+     * @param alpha fm(h-)
+     * @param cSign sign(c+-)
+     * @param fmC fm(c+-)
+     * @param fmDomain fm(hj x)
+     * @param domainSign sign(hj x)
+     * @param domainExtendedSign extended linguistic hedge h_1 = 'slightly'
+     *                           => sign(extended hj x) = sign(slightly + hj + x)
+     * @return computed v value
+     */
     private double computeVValue(double theta, double alpha, int cSign, double fmC, double fmDomain,
                                  int domainSign, int domainExtendedSign) {
         return theta + cSign * alpha * fmC + //vLow
