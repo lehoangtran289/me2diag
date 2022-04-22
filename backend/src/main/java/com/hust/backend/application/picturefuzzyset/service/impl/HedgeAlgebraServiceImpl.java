@@ -125,7 +125,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                 case VERY_HIGH:
                     double fmVeryHigh = fm.get(HedgeAlgebraEnum.VERY) * fm.get(HedgeAlgebraEnum.HIGH);
                     double vVeryHigh = computeVValue(theta, alpha, 1, fm.get(HedgeAlgebraEnum.HIGH),
-                            fmVeryHigh, 1);
+                            fmVeryHigh, 1, -1);
                     entity.setFmValue(fmVeryHigh);
                     entity.setVValue(vVeryHigh);
                     break;
@@ -133,7 +133,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                 case SLIGHTLY_HIGH:
                     double fmSlightlyHigh = fm.get(HedgeAlgebraEnum.SLIGHTLY) * fm.get(HedgeAlgebraEnum.HIGH);
                     double vSlightlyHigh = computeVValue(theta, alpha, 1, fm.get(HedgeAlgebraEnum.HIGH),
-                            fmSlightlyHigh, -1);
+                            fmSlightlyHigh, -1, -1);
                     entity.setFmValue(fmSlightlyHigh);
                     entity.setVValue(vSlightlyHigh);
                     break;
@@ -141,7 +141,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                 case SLIGHTLY_LOW:
                     double fmSlightlyLow = fm.get(HedgeAlgebraEnum.SLIGHTLY) * fm.get(HedgeAlgebraEnum.LOW);
                     double vSlightlyLow = computeVValue(theta, alpha, -1, fm.get(HedgeAlgebraEnum.LOW),
-                            fmSlightlyLow, 1);
+                            fmSlightlyLow, 1, 1);
                     entity.setFmValue(fmSlightlyLow);
                     entity.setVValue(vSlightlyLow);
                     break;
@@ -149,7 +149,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                 case VERY_LOW:
                     double fmVeryLow = fm.get(HedgeAlgebraEnum.VERY) * fm.get(HedgeAlgebraEnum.LOW);
                     double vVeryLow = computeVValue(theta, alpha, -1, fm.get(HedgeAlgebraEnum.LOW), fmVeryLow
-                            , -1);
+                            , -1, 1);
                     entity.setFmValue(fmVeryLow);
                     entity.setVValue(vVeryLow);
                     break;
@@ -165,8 +165,8 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
     }
 
     private double computeVValue(double theta, double alpha, int cSign, double fmC, double fmDomain,
-                                 int domainSign) {
+                                 int domainSign, int domainExtendedSign) {
         return theta + cSign * alpha * fmC + //vLow
-                domainSign * (fmDomain - 0.5 * (1 - domainSign * domainSign * (1 - alpha - alpha)) * fmDomain);
+                domainSign * (fmDomain - 0.5 * (1 - domainSign * domainExtendedSign * (1 - alpha - alpha)) * fmDomain);
     }
 }
