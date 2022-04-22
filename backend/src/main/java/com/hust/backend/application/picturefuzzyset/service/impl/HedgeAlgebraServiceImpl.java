@@ -73,16 +73,16 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                     entity.setFmValue(alpha);
                     fm.put(HedgeAlgebraEnum.SLIGHTLY, entity.getFmValue());
                     break;
-                case LOW:
-                    entity.setFmValue(alpha);
-                    fm.put(HedgeAlgebraEnum.LOW, entity.getFmValue());
-                    break;
                 case VERY:
                     entity.setFmValue(1 - alpha);
                     fm.put(HedgeAlgebraEnum.VERY, entity.getFmValue());
                     break;
+                case LOW:
+                    entity.setFmValue(theta);
+                    fm.put(HedgeAlgebraEnum.LOW, entity.getFmValue());
+                    break;
                 case HIGH:
-                    entity.setFmValue(1 - alpha);
+                    entity.setFmValue(1 - theta);
                     fm.put(HedgeAlgebraEnum.HIGH, entity.getFmValue());
                     break;
                 case MEDIUM:
