@@ -81,6 +81,7 @@ public class DiagnosisController {
         );
     }
 
+    @Deprecated
     @PostMapping("/diagnose-no-hedge")
     @AuthRequired(roles = UserRoleEnum.USER)
     public ResponseEntity<GeneralResponse<DiagnoseResponseDTO>> diagnoseWithoutHedgeAlgebra(
