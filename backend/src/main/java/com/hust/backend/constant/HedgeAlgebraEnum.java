@@ -1,7 +1,6 @@
 package com.hust.backend.constant;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.hust.backend.application.picturefuzzyset.constant.SymptomEnum;
 import com.hust.backend.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

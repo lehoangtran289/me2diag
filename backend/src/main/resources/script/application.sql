@@ -101,6 +101,13 @@ CREATE TABLE `kdc_examination_result`
     `result`         VARCHAR(50)
 );
 
+CREATE TABLE `kdc_domain`
+(
+    `name` VARCHAR(50) PRIMARY KEY NOT NULL,
+    `max`   DOUBLE,
+    `min`   DOUBLE
+);
+
 CREATE TABLE `hedge_algebra_config`
 (
     `application_id`   VARCHAR(50) NOT NULL,

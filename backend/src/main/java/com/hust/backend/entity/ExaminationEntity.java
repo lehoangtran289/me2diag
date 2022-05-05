@@ -1,10 +1,8 @@
 package com.hust.backend.entity;
 
 import com.hust.backend.constant.ApplicationEnum;
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.TypeDef;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;

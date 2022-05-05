@@ -2,17 +2,19 @@ package com.hust.backend.application.picturefuzzyset.service.impl;
 
 import com.hust.backend.application.picturefuzzyset.constant.DiagnoseEnum;
 import com.hust.backend.application.picturefuzzyset.dto.response.DiagnoseResponseDTO;
-import com.hust.backend.application.picturefuzzyset.entity.*;
 import com.hust.backend.application.picturefuzzyset.entity.PFSExamResultEntity;
+import com.hust.backend.application.picturefuzzyset.entity.PatientSymptomEntity;
+import com.hust.backend.application.picturefuzzyset.entity.SymptomDiagnoseEntity;
 import com.hust.backend.application.picturefuzzyset.model.GeneralPictureFuzzySet;
 import com.hust.backend.application.picturefuzzyset.model.PictureFuzzySet;
-import com.hust.backend.application.picturefuzzyset.repository.*;
+import com.hust.backend.application.picturefuzzyset.repository.PFSExamResultRepository;
+import com.hust.backend.application.picturefuzzyset.repository.PatientSymptomRepository;
+import com.hust.backend.application.picturefuzzyset.repository.SymptomDiagnoseRepository;
 import com.hust.backend.application.picturefuzzyset.service.PictureFuzzyRelationService;
 import com.hust.backend.application.picturefuzzyset.utils.PFSCommon;
 import com.hust.backend.constant.ApplicationEnum;
 import com.hust.backend.constant.LinguisticDomainEnum;
 import com.hust.backend.constant.ResponseStatusEnum;
-import com.hust.backend.entity.ApplicationEntity;
 import com.hust.backend.entity.ExaminationEntity;
 import com.hust.backend.entity.LinguisticDomainEntity;
 import com.hust.backend.entity.PatientEntity;
@@ -24,11 +26,13 @@ import com.hust.backend.repository.*;
 import com.hust.backend.utils.Transformer;
 import com.hust.backend.utils.tuple.Tuple3;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 @Slf4j

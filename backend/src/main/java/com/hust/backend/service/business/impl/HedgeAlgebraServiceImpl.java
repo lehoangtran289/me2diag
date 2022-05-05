@@ -4,7 +4,6 @@ import com.hust.backend.constant.ApplicationEnum;
 import com.hust.backend.constant.HedgeAlgebraEnum;
 import com.hust.backend.constant.LinguisticDomainEnum;
 import com.hust.backend.dto.request.HedgeAlgebraConfigRequestDTO;
-import com.hust.backend.dto.request.HedgeFmConfig;
 import com.hust.backend.dto.response.LinguisticDomainResponseDTO;
 import com.hust.backend.entity.HedgeAlgebraEntity;
 import com.hust.backend.entity.LinguisticDomainEntity;
@@ -22,7 +21,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.Map.entry;
 

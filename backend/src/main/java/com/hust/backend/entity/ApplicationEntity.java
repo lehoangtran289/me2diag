@@ -1,9 +1,6 @@
 package com.hust.backend.entity;
 
 import com.hust.backend.constant.ApplicationEnum;
-import com.hust.backend.constant.HedgeAlgebraEnum;
-import com.hust.backend.constant.HedgeAlgebraTypeEnum;
-import com.hust.backend.utils.Common;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

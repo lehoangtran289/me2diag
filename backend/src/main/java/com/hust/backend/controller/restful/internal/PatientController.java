@@ -2,15 +2,15 @@ package com.hust.backend.controller.restful.internal;
 
 import com.hust.backend.aop.AuthRequired;
 import com.hust.backend.application.picturefuzzyset.dto.response.ExamInfoResponseDTO;
+import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.request.PatientRegisterRequestDTO;
 import com.hust.backend.dto.response.PatientInfoResponseDTO;
-import com.hust.backend.service.business.ExamService;
-import com.hust.backend.service.business.PatientService;
-import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.PagingInfo;
 import com.hust.backend.factory.ResponseFactory;
+import com.hust.backend.service.business.ExamService;
 import com.hust.backend.service.business.PagingConverterService;
+import com.hust.backend.service.business.PatientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
