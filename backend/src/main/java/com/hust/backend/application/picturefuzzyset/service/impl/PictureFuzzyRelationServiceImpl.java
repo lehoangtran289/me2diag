@@ -1,7 +1,9 @@
 package com.hust.backend.application.picturefuzzyset.service.impl;
 
 import com.hust.backend.application.picturefuzzyset.constant.DiagnoseEnum;
-import com.hust.backend.application.picturefuzzyset.dto.response.DiagnoseResponseDTO;
+import com.hust.backend.application.picturefuzzyset.constant.SymptomEnum;
+import com.hust.backend.application.picturefuzzyset.dto.request.GeneralDiagnoseRequestDTO;
+import com.hust.backend.application.picturefuzzyset.dto.response.PFSDiagnoseResponseDTO;
 import com.hust.backend.application.picturefuzzyset.entity.PFSExamResultEntity;
 import com.hust.backend.application.picturefuzzyset.entity.PatientSymptomEntity;
 import com.hust.backend.application.picturefuzzyset.entity.SymptomDiagnoseEntity;
@@ -24,15 +26,13 @@ import com.hust.backend.exception.InternalException;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.repository.*;
 import com.hust.backend.utils.Transformer;
+import com.hust.backend.utils.ULID;
 import com.hust.backend.utils.tuple.Tuple3;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -42,47 +42,34 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
     private final PFSExamResultRepository pfsExamResultRepository;
     private final PatientSymptomRepository patientSymptomRepository;
     private final SymptomDiagnoseRepository symptomDiagnoseRepository;
-    private final HedgeAlgebraConfigRepository hedgeAlgebraConfigRepo;
     private final LinguisticDomainRepository linguisticDomRepo;
-    private final ApplicationRepository applicationRepository;
 
     public PictureFuzzyRelationServiceImpl(PatientRepository patientRepository,
                                            ExamRepository examRepository,
                                            PFSExamResultRepository pfsExamResultRepository,
                                            PatientSymptomRepository patientSymptomRepository,
                                            SymptomDiagnoseRepository symptomDiagnoseRepository,
-                                           HedgeAlgebraConfigRepository hedgeAlgebraConfigRepo,
-                                           LinguisticDomainRepository linguisticDomRepo,
-                                           ApplicationRepository applicationRepository) {
+                                           LinguisticDomainRepository linguisticDomRepo) {
         this.patientRepository = patientRepository;
         this.examRepository = examRepository;
         this.pfsExamResultRepository = pfsExamResultRepository;
         this.patientSymptomRepository = patientSymptomRepository;
         this.symptomDiagnoseRepository = symptomDiagnoseRepository;
-        this.hedgeAlgebraConfigRepo = hedgeAlgebraConfigRepo;
         this.linguisticDomRepo = linguisticDomRepo;
-        this.applicationRepository = applicationRepository;
     }
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public DiagnoseResponseDTO diagnose(
-            String examinationId,
-            String userId,
-            String patientId,
-            List<PatientSymptomEntity> PSRelations // 1x5 matrix patient_symptom
-    ) {
+    public PFSDiagnoseResponseDTO diagnose(String userId, GeneralDiagnoseRequestDTO request) {
+        // build input
+        String patientId = request.getPatientId();
         if (!patientRepository.existsById(patientId)) {
             log.error("patientId not found, id = {}", patientId);
             throw new NotFoundException(PatientEntity.class, patientId);
         }
 
-        log.info("diagnose patient {} with data: {}", patientId, PSRelations);
-
-        // save patient symptoms
-        patientSymptomRepository.saveAll(PSRelations);
-
-        // save new examination
+        // save exam
+        String examinationId = ULID.nextULID();
         examRepository.save(ExaminationEntity.builder()
                 .id(examinationId)
                 .appId(ApplicationEnum.PFS)
@@ -90,12 +77,39 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
                 .patientId(patientId)
                 .build());
 
+        // build patient symptoms relations
+        List<PatientSymptomEntity> patientSymptoms = new ArrayList<>();
+        for (Map.Entry<String, GeneralPictureFuzzySet> data : request.getSymptoms()) {
+            PictureFuzzySet pfs = convertGeneralPFSToPFS(data.getValue());
+            if (!PFSCommon.isPFSValid(pfs)) {
+                log.error("PFS not valid, {}", pfs);
+                throw new BusinessException(ResponseStatusEnum.BAD_REQUEST, "PFS not valid");
+            }
+            patientSymptoms.add(PatientSymptomEntity.builder()
+                    .examinationId(examinationId)
+                    .symptom(SymptomEnum.from(data.getKey()))
+                    .pictureFuzzySet(pfs)
+                    .build());
+        }
+        // save patient symptoms
+        patientSymptomRepository.saveAll(patientSymptoms);
+
+        return diagnose(examinationId, patientId, patientSymptoms);
+    }
+
+    private PFSDiagnoseResponseDTO diagnose(
+            String examinationId,
+            String patientId,
+            List<PatientSymptomEntity> PSRelations // 1x5 matrix patient_symptom
+    ) {
+        log.info("PFS - Diagnose patient {} with data: {}", patientId, PSRelations);
+
         List<PFSExamResultEntity> examResults = new ArrayList<>();
         for (DiagnoseEnum diagnoseEnum : DiagnoseEnum.values()) {
             // get Symptom_Diagnose relations -> 5x1 matrix symptom_diagnose
             List<SymptomDiagnoseEntity> SDRelations = symptomDiagnoseRepository.getAllByDiagnose(diagnoseEnum);
 
-            // sort by SymptomEnum to match patient_symptom relations
+            // sort by `SymptomEnum` to match patient_symptom relations
             SDRelations.sort(Comparator.comparing(SymptomDiagnoseEntity::getSymptom));
 
             // validate matrix sizes for Patient_Diagnose composition
@@ -123,7 +137,7 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
         pfsExamResultRepository.saveAll(examResults);
 
         // response result
-        return DiagnoseResponseDTO.builder()
+        return PFSDiagnoseResponseDTO.builder()
                 .examinationId(examinationId)
                 .patientId(patientId)
                 .result(Transformer.listToList(
@@ -133,10 +147,8 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
                 .build();
     }
 
-    // TODO: validate invalid linguistic input
-    // TODO 2: optimize duplicate
-    @Override
-    public PictureFuzzySet convertGeneralPFSToPFS(GeneralPictureFuzzySet gpfs) {
+    // TODO: optimize code duplication
+    private PictureFuzzySet convertGeneralPFSToPFS(GeneralPictureFuzzySet gpfs) {
         // if not linguistic domain -> throw
         if (!isValidGPFS(gpfs))
             throw new InternalException("Picture Fuzzy Set type must be enum STRING or DOUBLE");
@@ -179,6 +191,7 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
         return pfs;
     }
 
+    // TODO: validate invalid linguistic input
     private boolean isValidGPFS(GeneralPictureFuzzySet gpfs) {
         return (gpfs.getPositive() instanceof Double || gpfs.getPositive() instanceof String) &&
                 (gpfs.getNeutral() instanceof Double || gpfs.getNeutral() instanceof String) &&

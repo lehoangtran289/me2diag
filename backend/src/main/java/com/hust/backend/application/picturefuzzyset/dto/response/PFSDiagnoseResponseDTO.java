@@ -11,7 +11,7 @@ import java.util.Map;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DiagnoseResponseDTO {
+public class PFSDiagnoseResponseDTO {
     private String examinationId;
     private String patientId;
     private List<Map.Entry<DiagnoseEnum, Double>> result;

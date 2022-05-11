@@ -9,6 +9,49 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The order of elements in this enum MUST BE SAME to those in any request body of the api /pfs/diagnose
+ * {
+ * 	"patient_id": "0123",
+ * 	"symptoms": [
+ *                {
+ *             "TEMPERATURE" : {
+ * 			    "positive": 0.7,
+ * 			    "neutral": "VERY LOW",
+ * 			    "negative": 0.1
+ *            }
+ *         },
+ *        {
+ *             "HEADACHE" : {
+ * 			    "positive": 0.7,
+ * 			    "neutral": 0.05,
+ * 			    "negative": 0.2
+ *            }
+ *         },
+ *         {
+ *             "STOMACH_PAIN" : {
+ * 			    "positive": 0.1,
+ * 			    "neutral": 0.2,
+ * 			    "negative": 0.6
+ *            }
+ *         },
+ *        {
+ *             "COUGH" : {
+ * 			    "positive": 0.7,
+ * 			    "neutral": 0.15,
+ * 			    "negative": 0.1
+ *            }
+ *         },
+ *         {
+ *             "CHEST_PAIN" : {
+ * 			    "positive": 0.2,
+ * 			    "neutral": 0.3,
+ * 			    "negative": 0.5
+ *            }
+ *         }
+ * 	]
+ * }
+ */
 @AllArgsConstructor
 @Getter
 public enum SymptomEnum {
