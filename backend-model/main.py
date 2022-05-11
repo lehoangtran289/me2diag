@@ -11,7 +11,6 @@ model = pickle.load(open('model.pkl', 'rb'))
 def predict():
     data = request.get_json(force=True)
     print(data)
-    print(type(data))
     x_test = pd.DataFrame([data], columns=data.keys())
     print(x_test)
     prediction = model.predict(x_test)
