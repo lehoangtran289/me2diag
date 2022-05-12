@@ -77,12 +77,11 @@ public class KDCExamServiceImpl implements KDCExamService {
                 .patientId(request.getPatientId())
                 .build());
 
-        log.info("KDC - Diagnose patient with data: {}", request);
 
         // build inputs & call to Flask service for disease classification
         KDCModelInputRequestDTO data = buildInputDataModel(request);
-
         KDCResultEnum result = KDCResultEnum.from(kdcModelService.predictDisease(data));
+        log.info("KDC - Diagnose patient with data: {} and result: {}", data, result);
 
         // save to kdcExamResultRepository
         examResultRepository.save(KDCExamResultEntity.builder()

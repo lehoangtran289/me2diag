@@ -26,20 +26,21 @@ public enum LinguisticDomainEnum {
 
     // KDC
     // VERY_LOW
-    MORE_LOW("COMPLETELY"),
+    MORE_LOW("MORE LOW"),
     //LOW
-    POSSIBLE_LOW("COMPLETELY"),
-    LITTLE_LOW("COMPLETELY"),
+    POSSIBLE_LOW("POSSIBLE LOW"),
+    LITTLE_LOW("LITTLE LOW"),
     // MEDIUM
-    LITTLE_HIGH("COMPLETELY"),
-    POSSIBLE_HIGH("COMPLETELY"),
+    LITTLE_HIGH("LITTLE HIGH"),
+    POSSIBLE_HIGH("POSSIBLE HIGH"),
     // HIGH
-    MORE_HIGH("COMPLETELY");
+    MORE_HIGH("MORE HIGH");
     // VERY_HIGH
 
     private final String value;
 
     private static final Map<String, LinguisticDomainEnum> map = new HashMap<>();
+
     static {
         for (LinguisticDomainEnum linguisticDomainEnum : values()) {
             map.put(linguisticDomainEnum.getValue(), linguisticDomainEnum);
@@ -47,9 +48,9 @@ public enum LinguisticDomainEnum {
     }
 
     @JsonCreator
-    public static LinguisticDomainEnum from (String linguisticElement) {
+    public static LinguisticDomainEnum from(String linguisticElement) {
         return Optional.ofNullable(map.get(linguisticElement))
-                .orElseThrow(() -> new NotFoundException(SymptomEnum.class, linguisticElement));
+                .orElseThrow(() -> new NotFoundException(LinguisticDomainEnum.class, linguisticElement));
     }
 
     @Override
