@@ -84,28 +84,28 @@ CREATE TABLE `pfs_examination_result`
 
 CREATE TABLE `kdc_examination_result`
 (
-    `examination_id` VARCHAR(50) PRIMARY KEY NOT NULL,
-    `WBC`            DOUBLE,
-    `LY`             DOUBLE,
-    `NE`             DOUBLE,
-    `RBC`            DOUBLE,
-    `HGB`            DOUBLE,
-    `HCT`            DOUBLE,
-    `PLT`            DOUBLE,
-    `NA`             DOUBLE,
-    `K`              DOUBLE,
-    `Total protein`  DOUBLE,
-    `Albumin`        DOUBLE,
-    `Ure`            DOUBLE,
-    `Creatinin`      DOUBLE,
-    `result`         VARCHAR(50)
+    `examination_id`      VARCHAR(50) PRIMARY KEY NOT NULL,
+    `WBC_value`           DOUBLE,
+    `LY_value`            DOUBLE,
+    `NE_value`            DOUBLE,
+    `RBC_value`           DOUBLE,
+    `HGB_value`           DOUBLE,
+    `HCT_value`           DOUBLE,
+    `PLT_value`           DOUBLE,
+    `NA_value`            DOUBLE,
+    `K_value`             DOUBLE,
+    `Total_Protein_value` DOUBLE,
+    `Albumin_value`       DOUBLE,
+    `Ure_value`           DOUBLE,
+    `Creatinin_value`     DOUBLE,
+    `result`              VARCHAR(50)
 );
 
 CREATE TABLE `kdc_domain`
 (
     `name` VARCHAR(50) PRIMARY KEY NOT NULL,
-    `max`   DOUBLE,
-    `min`   DOUBLE
+    `max`  DOUBLE,
+    `min`  DOUBLE
 );
 
 CREATE TABLE `hedge_algebra_config`
