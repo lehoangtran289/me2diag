@@ -26,7 +26,8 @@ import javax.sql.DataSource;
         transactionManagerRef = "backendTransactionManager",
         basePackages = {
                 "com.hust.backend.repository",
-                "com.hust.backend.application.picturefuzzyset.repository"
+                "com.hust.backend.application.picturefuzzyset.repository",
+                "com.hust.backend.application.KDclassification.repository"
         }
 )
 public class DatabaseConfig {
@@ -57,7 +58,8 @@ public class DatabaseConfig {
         return builder.dataSource(dataSource)
                 .packages(
                         "com.hust.backend.entity",
-                        "com.hust.backend.application.picturefuzzyset.entity"
+                        "com.hust.backend.application.picturefuzzyset.entity",
+                        "com.hust.backend.application.KDclassification.entity"
                 )
                 .persistenceUnit("backend")
                 .build();

@@ -7,6 +7,8 @@ import com.hust.backend.dto.response.LinguisticDomainResponseDTO;
 import java.util.List;
 
 public interface HedgeAlgebraService {
+    Double getVValueFromLinguistic(ApplicationEnum appId, String linguisticValue);
+
     List<LinguisticDomainResponseDTO> getAllLinguisticDomainElements(ApplicationEnum appId);
 
     List<LinguisticDomainResponseDTO> changeHedgeAlgebraConfigs(HedgeAlgebraConfigRequestDTO request);

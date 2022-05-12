@@ -25,6 +25,7 @@ import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.InternalException;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.repository.*;
+import com.hust.backend.service.business.HedgeAlgebraService;
 import com.hust.backend.utils.Transformer;
 import com.hust.backend.utils.ULID;
 import com.hust.backend.utils.tuple.Tuple3;
@@ -43,19 +44,22 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
     private final PatientSymptomRepository patientSymptomRepository;
     private final SymptomDiagnoseRepository symptomDiagnoseRepository;
     private final LinguisticDomainRepository linguisticDomRepo;
+    private final HedgeAlgebraService HAService;
 
     public PictureFuzzyRelationServiceImpl(PatientRepository patientRepository,
                                            ExamRepository examRepository,
                                            PFSExamResultRepository pfsExamResultRepository,
                                            PatientSymptomRepository patientSymptomRepository,
                                            SymptomDiagnoseRepository symptomDiagnoseRepository,
-                                           LinguisticDomainRepository linguisticDomRepo) {
+                                           LinguisticDomainRepository linguisticDomRepo,
+                                           HedgeAlgebraService haService) {
         this.patientRepository = patientRepository;
         this.examRepository = examRepository;
         this.pfsExamResultRepository = pfsExamResultRepository;
         this.patientSymptomRepository = patientSymptomRepository;
         this.symptomDiagnoseRepository = symptomDiagnoseRepository;
         this.linguisticDomRepo = linguisticDomRepo;
+        HAService = haService;
     }
 
     @Override
@@ -114,8 +118,10 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
 
             // validate matrix sizes for Patient_Diagnose composition
             if (SDRelations.size() != PSRelations.size()) {
-                log.error("Fuzzy relation size error, size PS = {}, size SD = {}", PSRelations.size(), SDRelations.size());
-                throw new BusinessException(ResponseStatusEnum.INTERNAL_SERVER_ERROR, "fuzzy relation size error");
+                log.error("Fuzzy relation size error, size PS = {}, size SD = {}", PSRelations.size(),
+                        SDRelations.size());
+                throw new BusinessException(ResponseStatusEnum.INTERNAL_SERVER_ERROR, "fuzzy relation size " +
+                        "error");
             }
 
             // process fuzzy relation composition
@@ -147,48 +153,19 @@ public class PictureFuzzyRelationServiceImpl implements PictureFuzzyRelationServ
                 .build();
     }
 
-    // TODO: optimize code duplication
     private PictureFuzzySet convertGeneralPFSToPFS(GeneralPictureFuzzySet gpfs) {
         // if not linguistic domain -> throw
         if (!isValidGPFS(gpfs))
             throw new InternalException("Picture Fuzzy Set type must be enum STRING or DOUBLE");
 
-        PictureFuzzySet pfs = new PictureFuzzySet();
-
-        // traverse fields, check type and set fields corresponding to type
-        // pfs.positive
-        if (gpfs.getPositive() instanceof Double) {
-            pfs.setPositive((Double) gpfs.getPositive());
-        } else {
-            LinguisticDomainEnum linguisticDomainEnum = LinguisticDomainEnum.from((String) gpfs.getPositive());
-            LinguisticDomainEntity linguisticEntity = linguisticDomRepo.findById(
-                    new LinguisticApplicationEntityKey(ApplicationEnum.PFS, linguisticDomainEnum))
-                            .orElseThrow(() -> new NotFoundException(LinguisticDomainEntity.class, (String) gpfs.getPositive()));
-            pfs.setPositive(linguisticEntity.getVValue());
-        }
-
-        // pfs.neutral
-        if (gpfs.getNeutral() instanceof Double) {
-            pfs.setNeutral((Double) gpfs.getNeutral());
-        } else {
-            LinguisticDomainEnum linguisticDomEnum = LinguisticDomainEnum.from((String) gpfs.getNeutral());
-            LinguisticDomainEntity linguisticEntity = linguisticDomRepo.findById(
-                    new LinguisticApplicationEntityKey(ApplicationEnum.PFS, linguisticDomEnum))
-                            .orElseThrow(() -> new NotFoundException(LinguisticDomainEntity.class, (String) gpfs.getNeutral()));
-            pfs.setNeutral(linguisticEntity.getVValue());
-        }
-
-        // pfs.negative
-        if (gpfs.getNegative() instanceof Double) {
-            pfs.setNegative((Double) gpfs.getNegative());
-        } else {
-            LinguisticDomainEnum linguisticDomainEnum = LinguisticDomainEnum.from((String) gpfs.getNegative());
-            LinguisticDomainEntity linguisticEntity = linguisticDomRepo.findById(
-                    new LinguisticApplicationEntityKey(ApplicationEnum.PFS, linguisticDomainEnum))
-                            .orElseThrow(() -> new NotFoundException(LinguisticDomainEntity.class, (String) gpfs.getNegative()));
-            pfs.setNegative(linguisticEntity.getVValue());
-        }
-        return pfs;
+        return PictureFuzzySet.builder()
+                .positive(gpfs.getPositive() instanceof Double ? (Double) gpfs.getPositive() :
+                        HAService.getVValueFromLinguistic(ApplicationEnum.PFS, (String) gpfs.getPositive()))
+                .neutral(gpfs.getNeutral() instanceof Double ? (Double) gpfs.getNeutral() :
+                        HAService.getVValueFromLinguistic(ApplicationEnum.PFS, (String) gpfs.getNeutral()))
+                .negative(gpfs.getNegative() instanceof Double ? (Double) gpfs.getNegative() :
+                        HAService.getVValueFromLinguistic(ApplicationEnum.PFS, (String) gpfs.getNegative()))
+                .build();
     }
 
     // TODO: validate invalid linguistic input

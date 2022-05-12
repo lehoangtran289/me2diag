@@ -7,6 +7,7 @@ import com.hust.backend.dto.request.HedgeAlgebraConfigRequestDTO;
 import com.hust.backend.dto.response.LinguisticDomainResponseDTO;
 import com.hust.backend.entity.HedgeAlgebraEntity;
 import com.hust.backend.entity.LinguisticDomainEntity;
+import com.hust.backend.entity.key.LinguisticApplicationEntityKey;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.repository.HedgeAlgebraConfigRepository;
 import com.hust.backend.repository.LinguisticDomainRepository;
@@ -30,18 +31,27 @@ import static java.util.Map.entry;
 @Slf4j
 public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
     private final HedgeAlgebraConfigRepository hedgeAlgebraConfigRepo;
-    private final LinguisticDomainRepository linguisticDomainRepo;
+    private final LinguisticDomainRepository linguisticDomRepo;
 
     public HedgeAlgebraServiceImpl(HedgeAlgebraConfigRepository hedgeAlgebraConfigRepo,
-                                   LinguisticDomainRepository linguisticDomainRepo) {
+                                   LinguisticDomainRepository linguisticDomRepo) {
         this.hedgeAlgebraConfigRepo = hedgeAlgebraConfigRepo;
-        this.linguisticDomainRepo = linguisticDomainRepo;
+        this.linguisticDomRepo = linguisticDomRepo;
+    }
+
+    @Override
+    public Double getVValueFromLinguistic(ApplicationEnum appId, String linguisticValue) {
+        LinguisticDomainEnum linguisticDomainEnum = LinguisticDomainEnum.from(linguisticValue);
+        LinguisticDomainEntity linguisticEntity = linguisticDomRepo.findById(
+                        new LinguisticApplicationEntityKey(appId, linguisticDomainEnum))
+                .orElseThrow(() -> new NotFoundException(LinguisticDomainEntity.class, linguisticValue));
+        return linguisticEntity.getVValue();
     }
 
     @Override
     public List<LinguisticDomainResponseDTO> getAllLinguisticDomainElements(ApplicationEnum appId) {
         return Transformer.listToList(
-                linguisticDomainRepo.findAllByApplicationId(appId),
+                linguisticDomRepo.findAllByApplicationId(appId),
                 linguisticDomainEntity -> Common.convertObject(linguisticDomainEntity,
                         LinguisticDomainResponseDTO.class)
         );
@@ -113,7 +123,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
 
         // linguistic_domain
         List<LinguisticDomainEntity> linguisticToBeChanged =
-                linguisticDomainRepo.findAllByApplicationIdAndLinguisticDomainElementIn(
+                linguisticDomRepo.findAllByApplicationIdAndLinguisticDomainElementIn(
                         ApplicationEnum.PFS,
                         Arrays.asList(
                                 LinguisticDomainEnum.VERY_HIGH,
@@ -247,7 +257,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
 
         // linguistic_domain
         List<LinguisticDomainEntity> linguisticToBeChanged =
-                linguisticDomainRepo.findAllByApplicationIdAndLinguisticDomainElementIn(
+                linguisticDomRepo.findAllByApplicationIdAndLinguisticDomainElementIn(
                         ApplicationEnum.KDC,
                         Arrays.asList(
                                 LinguisticDomainEnum.LITTLE_LOW,

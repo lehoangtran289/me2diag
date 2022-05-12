@@ -12,10 +12,11 @@ import java.util.Optional;
 @AllArgsConstructor
 @Getter
 public enum UserGenderEnum {
-    MALE("male"),
-    FEMALE("female");
+    MALE("male", 1),
+    FEMALE("female", 0);
 
     private final String gender;
+    private final Integer value;
 
     private static final Map<String, UserGenderEnum> map = new HashMap<>();
     static {
