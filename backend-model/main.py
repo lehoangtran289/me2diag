@@ -15,8 +15,8 @@ def predict():
     print(x_test)
     prediction = model.predict(x_test)
 
-    print(prediction)
-    return str(prediction)
+    print(type(prediction[0]))
+    return str(prediction[0])
     
 if __name__ == '__main__':
     app.run(debug=True)
