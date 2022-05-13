@@ -3,6 +3,7 @@ import json
 import numpy as np
 import pandas as pd
 import pickle
+import os
 
 app = Flask(__name__)
 model = pickle.load(open('model.pkl', 'rb'))
@@ -19,4 +20,4 @@ def predict():
     return str(prediction[0])
     
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=os.environ['PORT'], debug=os.environ['DEBUG'])
