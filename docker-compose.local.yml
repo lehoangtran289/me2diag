@@ -14,7 +14,6 @@ services:
       - "mariadb-data:/bitnami/mariadb"
       - "./backend/src/main/resources/script/init.sql:/docker-entrypoint-initdb.d/init.sql"
 
-
   storage:
     image: bitnami/minio:latest
     container_name: "backend_minio"
@@ -26,28 +25,42 @@ services:
     environment:
       - MINIO_ROOT_USER=$MINIO_ROOT_USER
       - MINIO_ROOT_PASSWORD=$MINIO_ROOT_USER
-  
-  # app:
-  #   container_name: "backend"
-  #   depends_on:
-  #     - database
-  #     - storage
-  #   restart: on-failure
-  #   ports:
-  #     - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
-  #   environment:
-  #     SPRING_APPLICATION_JSON: '{
-  #       "app.datasource.backend.url" : "jdbc:mariadb://database:3306/backend",
-  #       "spring.profiles.active" : "dev"
-  #     }'
-  #   volumes:
-  #     - .m2:/root/.m2
-  #   build: ./backend
-  #   stdin_open: true
-  #   tty: true
+
+  model:
+    image: model:v1
+    container_name: "model"
+    build: ./backend-model
+    restart: on-failure
+    ports:
+      - $MODEL_LOCAL_PORT:$MODEL_DOCKER_PORT
+    environment:
+      - PORT=$MODEL_DOCKER_PORT
+      - DEBUG=$MODEL_ISDEBUG
+
+#  app:
+#    image: backend:v1
+#    container_name: "backend"
+#    build: ./backend
+#    restart: on-failure
+#    depends_on:
+#      - database
+#      - storage
+#      - model
+#    ports:
+#      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+#    environment:
+#      SPRING_APPLICATION_JSON: '{
+#       "app.datasource.backend.url" : "jdbc:mariadb://database:$MARIADB_DOCKER_PORT/backend",
+#       "kdc-model.host" : "model"
+#       "spring.profiles.active" : "dev"
+#     }'
+#    volumes:
+#      - .m2:/root/.m2
+#    stdin_open: true
+#    tty: true
 
 volumes:
-    mariadb-data:
-    .m2:
-    media:
-      driver: local
+  mariadb-data:
+  .m2:
+  media:
+    driver: local
