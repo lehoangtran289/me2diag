@@ -1,12 +1,15 @@
+DROP TABLE IF EXISTS `application`;
 DROP TABLE IF EXISTS `diagnose`;
-DROP TABLE IF EXISTS `symptom`;
+DROP TABLE IF EXISTS `examination`;
+DROP TABLE IF EXISTS `hedge_algebra_config`;
+DROP TABLE IF EXISTS `kdc_domain`;
+DROP TABLE IF EXISTS `kdc_examination_result`;
+DROP TABLE IF EXISTS `linguistic_domain`;
 DROP TABLE IF EXISTS `patient`;
 DROP TABLE IF EXISTS `patient_symptom`;
+DROP TABLE IF EXISTS `pfs_examination_result`;
+DROP TABLE IF EXISTS `symptom`;
 DROP TABLE IF EXISTS `symptom_diagnose`;
-DROP TABLE IF EXISTS `application`;
-DROP TABLE IF EXISTS `linguistic_domain`;
-DROP TABLE IF EXISTS `hedge_algebra_config`;
-DROP TABLE IF EXISTS `examination`;
 
 CREATE TABLE `application`
 (
