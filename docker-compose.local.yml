@@ -34,30 +34,36 @@ services:
     ports:
       - $MODEL_LOCAL_PORT:$MODEL_DOCKER_PORT
     environment:
+      - PYTHONUNBUFFERED=1
       - PORT=$MODEL_DOCKER_PORT
       - DEBUG=$MODEL_ISDEBUG
 
-#  app:
-#    image: backend:v1
-#    container_name: "backend"
-#    build: ./backend
-#    restart: on-failure
-#    depends_on:
-#      - database
-#      - storage
-#      - model
-#    ports:
-#      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
-#    environment:
-#      SPRING_APPLICATION_JSON: '{
-#       "app.datasource.backend.url" : "jdbc:mariadb://database:$MARIADB_DOCKER_PORT/backend",
-#       "kdc-model.host" : "model"
-#       "spring.profiles.active" : "dev"
-#     }'
-#    volumes:
-#      - .m2:/root/.m2
-#    stdin_open: true
-#    tty: true
+  # To update code inside container, run 
+  # >> docker-compose -f... down && docker-compose -f... build app && docker-compose -f... up
+  app:
+    image: backend:v1
+    container_name: "backend"
+    build: ./backend
+    restart: on-failure
+    depends_on:
+      - database
+      - storage
+      - model
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+    environment:
+      SPRING_APPLICATION_JSON: '{
+       "spring.profiles.active" : "dev",
+       "app.datasource.backend.url" : "jdbc:mariadb://database:$MARIADB_DOCKER_PORT/backend",
+       "spring.application.domain" : "http://app:$SPRING_LOCAL_PORT",
+       "app.minio.url" : "http://storage:9000",
+       "kdc-model.host" : "http://model:$MODEL_LOCAL_PORT"
+      }'
+    volumes:
+      - ./backend/src:/src
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
 
 volumes:
   mariadb-data:

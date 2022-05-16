@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import pickle
 import os
+import logging
 
 app = Flask(__name__)
 model = pickle.load(open('model.pkl', 'rb'))
@@ -11,12 +12,13 @@ model = pickle.load(open('model.pkl', 'rb'))
 @app.route('/kdc/api/v1/predict', methods=['POST'])
 def predict():
     data = request.get_json(force=True)
-    print(data)
+    app.logger.info(data)
     x_test = pd.DataFrame([data], columns=data.keys())
-    print(x_test)
+    
+    app.logger.info(x_test)
     prediction = model.predict(x_test)
 
-    print(type(prediction[0]))
+    app.logger.info(type(prediction[0]))
     return str(prediction[0])
     
 if __name__ == '__main__':
