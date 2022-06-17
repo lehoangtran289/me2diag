@@ -12,6 +12,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @Getter
 public enum KDCResultEnum {
+    //TODO: 4 labels
     N00("0"),
     N14("1"),
     N18("2");
