@@ -3,23 +3,20 @@ import createSagaMiddleware from "redux-saga";
 import {reduxBatch} from "@manaflair/redux-batch";
 import {persistStore} from "redux-persist";
 import {rootReducer, rootSaga} from "./rootReducer";
-import logger from 'redux-logger';
 
 const sagaMiddleware = createSagaMiddleware();
-
 const middleware = [
   ...getDefaultMiddleware({
     immutableCheck: false,
     serializableCheck: false,
     thunk: true
   }),
-  sagaMiddleware,
-  logger
+  sagaMiddleware
 ];
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: middleware,
+  middleware,
   devTools: process.env.NODE_ENV !== "production",
   enhancers: [reduxBatch]
 });

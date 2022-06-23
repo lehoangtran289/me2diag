@@ -7,8 +7,6 @@ export function BreadCrumbs({ items }) {
     return "";
   }
 
-  console.log(items);
-
   return (
     <ul className="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2">
       <li className="breadcrumb-item">

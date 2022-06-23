@@ -2,6 +2,7 @@
 import React, {useMemo, useLayoutEffect, useEffect} from "react";
 import objectPath from "object-path";
 import {useLocation} from "react-router-dom";
+import {QuickActions} from "./components/QuickActions";
 import {BreadCrumbs} from "./components/BreadCrumbs";
 import {getBreadcrumbsAndTitle, useSubheader} from "../../_core/MetronicSubheader";
 import {useHtmlClassService} from "../../_core/MetronicLayout"
@@ -71,16 +72,15 @@ export function SubHeader() {
             <BreadCrumbs items={subheader.breadcrumbs} />
           </div>
 
-          {/* TODO: Sub header Toolbar */}
           {/* Toolbar */}
-          {/*<div className="d-flex align-items-center">*/}
-          {/*  <a href="#" className="btn btn-light btn-sm font-weight-bold" id="kt_dashboard_daterangepicker"*/}
-          {/*     data-toggle="tooltip" title="Select dashboard daterange" data-placement="left">*/}
-          {/*    <span className="text-muted font-weight-bold mr-2" id="kt_dashboard_daterangepicker_title">Today</span>*/}
-          {/*    <span className="text-primary font-weight-bold" id="kt_dashboard_daterangepicker_date">Aug 16</span>*/}
-          {/*  </a>*/}
-          {/*  <QuickActions/>*/}
-          {/*</div>*/}
+          <div className="d-flex align-items-center">
+            <a href="#" className="btn btn-light btn-sm font-weight-bold" id="kt_dashboard_daterangepicker"
+               data-toggle="tooltip" title="Select dashboard daterange" data-placement="left">
+              <span className="text-muted font-weight-bold mr-2" id="kt_dashboard_daterangepicker_title">Today</span>
+              <span className="text-primary font-weight-bold" id="kt_dashboard_daterangepicker_date">Aug 16</span>
+            </a>
+            <QuickActions/>
+          </div>
         </div>
       </div>
   );

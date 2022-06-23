@@ -72,6 +72,7 @@ function ChangePassword(props) {
     return "";
   };
   const formik = useFormik({
+    initialValues,
     validationSchema: Schema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
       saveUser(values, setStatus, setSubmitting);

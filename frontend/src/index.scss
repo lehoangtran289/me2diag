@@ -6,9 +6,8 @@
 @import "./_metronic/_assets/sass/style.react.scss";
 
 // Default Layout themes
-//@import "./_metronic/_assets/sass/themes/layout/header/base/light.scss";
-//@import "./_metronic/_assets/sass/themes/layout/header/menu/light.scss";
-//TODO
+@import "./_metronic/_assets/sass/themes/layout/header/base/light.scss";
+@import "./_metronic/_assets/sass/themes/layout/header/menu/light.scss";
 @import "./_metronic/_assets/sass/themes/layout/brand/dark.scss";
 @import "./_metronic/_assets/sass/themes/layout/aside/dark.scss";
 
@@ -16,13 +15,13 @@
 // Light
 //@import "./_metronic/_assets/sass/themes/layout/header/base/light.scss";
 // Dark
-@import "./_metronic/_assets/sass/themes/layout/header/base/dark.scss";
+// @import "./_metronic/_assets/sass/themes/layout/header/base/dark.scss";
   
 // Header Menu themes
 // Light
 //@import "./_metronic/_assets/sass/themes/layout/header/menu/light.scss";
 // Dark
-@import "./_metronic/_assets/sass/themes/layout/header/menu/dark.scss";
+// @import "./_metronic/_assets/sass/themes/layout/header/menu/dark.scss";
 
 // Brand themes
 .brand-dark {

@@ -176,7 +176,7 @@ export function SearchDropdown() {
               overlay={<Tooltip id="search-panel-tooltip">Quick search</Tooltip>}
             >
               <div className="btn btn-icon btn-clean btn-lg btn-dropdown mr-1">
-                <span className="svg-icon svg-icon-xl svg-icon-light">
+                <span className="svg-icon svg-icon-xl svg-icon-primary">
                   <SVG
                     src={toAbsoluteUrl("/media/svg/icons/General/Search.svg")}
                   />

@@ -1,22 +1,17 @@
-import axios from 'axios';
+import axios from "axios";
 
-import { LOGIN_URL, ME_URL, REGISTER_URL, REQUEST_PASSWORD_URL, BACKEND_ORIGIN } from '../../../../config';
+export const LOGIN_URL = "api/auth/login";
+export const REGISTER_URL = "api/auth/register";
+export const REQUEST_PASSWORD_URL = "api/auth/forgot-password";
+
+export const ME_URL = "api/me";
 
 export function login(email, password) {
-  const username = email;
-  return axios.post(LOGIN_URL, { username, password });
+  return axios.post(LOGIN_URL, { email, password });
 }
 
 export function register(email, fullname, username, password) {
-  let splitted = fullname.split(' ');
-
-  let first_name = splitted[0];
-
-  let last_name = '';
-  if (splitted.length > 1) {
-    last_name = splitted.slice(1).join(' ').trim();
-  }
-  return axios.post(REGISTER_URL, { email, first_name, last_name, username, password });
+  return axios.post(REGISTER_URL, { email, fullname, username, password });
 }
 
 export function requestPassword(email) {
@@ -25,28 +20,5 @@ export function requestPassword(email) {
 
 export function getUserByToken() {
   // Authorization head should be fulfilled in interceptor.
-
   return axios.get(ME_URL);
-}
-
-export function updateUserApi(user, userId) {
-  return axios.patch(`${BACKEND_ORIGIN}api/v1/users/${userId}/`, user)
-    .then(res => {
-      if (res.data) {
-        return {
-          status: 'SUCCESS',
-          data: res.data,
-        }
-      } else {
-        return {
-          status: 'ERROR'
-        }
-      }
-    })
-    .catch(err => {
-      return {
-        status: 'ERROR',
-        error: err,
-      }
-    })
 }

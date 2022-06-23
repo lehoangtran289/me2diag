@@ -6,49 +6,59 @@ import * as Yup from "yup";
 import { ModalProgressBar } from "../../../_metronic/_partials/controls";
 import { toAbsoluteUrl } from "../../../_metronic/_helpers";
 import * as auth from "../Auth";
-import { BACKEND_ORIGIN } from '../../../config';
 
 function PersonaInformation(props) {
   // Fields
+  const [loading, setloading] = useState(false);
   const [pic, setPic] = useState("");
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user, shallowEqual);
-  const statusLoading = useSelector((state) => state.auth.statusLoading);
   useEffect(() => {
-    if (user.avatar) {
-      setPic(user.avatar);
+    if (user.pic) {
+      setPic(user.pic);
     }
   }, [user]);
   // Methods
   const saveUser = (values, setStatus, setSubmitting) => {
-    //compare update info
-    const keyUserChanges = Object.keys(values).filter(key => (values[key] !== initialValues[key]) && (key !== 'file'));
-    const formData = new FormData();
-    formData.append('avatar', values.file, values.file.name);
-    keyUserChanges.forEach(key => {
-      formData.append(key, values[key]);
-    })
-    console.log('formData', formData);
+    setloading(true);
+    const updatedUser = Object.assign(user, values);
     // user for update preparation
-    dispatch(props.updateUser(formData, user.id));
+    dispatch(props.setUser(updatedUser));
+    setTimeout(() => {
+      setloading(false);
+      setSubmitting(false);
+      // Do request to your server for user update, we just imitate user update there, For example:
+      // update(updatedUser)
+      //  .then(()) => {
+      //    setloading(false);
+      //  })
+      //  .catch((error) => {
+      //    setloading(false);
+      //    setSubmitting(false);
+      //    setStatus(error);
+      // });
+    }, 1000);
   };
   // UI Helpers
   const initialValues = {
-    avatar: user.avatar,
-    first_name: user.first_name,
-    last_name: user.last_name,
+    pic: user.pic,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    companyName: user.companyName,
+    phone: user.phone,
     email: user.email,
-    bio: user.bio,
-    file: null,
+    website: user.website,
   };
   const Schema = Yup.object().shape({
-    avatar: Yup.string(),
-    first_name: Yup.string().required("First name is required"),
-    last_name: Yup.string().required("Last name is required"),
+    pic: Yup.string(),
+    firstname: Yup.string().required("First name is required"),
+    lastname: Yup.string().required("Last name is required"),
+    companyName: Yup.string(),
+    phone: Yup.string().required("Phone is required"),
     email: Yup.string()
       .email("Wrong email format")
       .required("Email is required"),
-    bio: Yup.string(),
+    website: Yup.string(),
   });
   const getInputClasses = (fieldname) => {
     if (formik.touched[fieldname] && formik.errors[fieldname]) {
@@ -75,27 +85,18 @@ function PersonaInformation(props) {
     if (!pic) {
       return "none";
     }
+
     return `url(${pic})`;
   };
   const removePic = () => {
     setPic("");
   };
-  
-  const handleUploadAvatar = (e) => {
-    console.log(e.currentTarget.files);
-    formik.setFieldValue('file', e.currentTarget.files[0]);
-    if (e.currentTarget.files.length > 0) {
-      const file = URL.createObjectURL(e.currentTarget.files[0]);
-      setPic(file);
-    }
-  }
-  
   return (
     <form
       className="card card-custom card-stretch"
       onSubmit={formik.handleSubmit}
     >
-      {statusLoading.updateUser === 'loading' && <ModalProgressBar />}
+      {loading && <ModalProgressBar />}
 
       {/* begin::Header */}
       <div className="card-header py-3">
@@ -112,13 +113,14 @@ function PersonaInformation(props) {
             type="submit"
             className="btn btn-success mr-2"
             disabled={
-              statusLoading.updateUser === 'loading' //|| (formik.touched && !formik.isValid)
+              formik.isSubmitting || (formik.touched && !formik.isValid)
             }
           >
             Save Changes
+            {formik.isSubmitting}
           </button>
           <Link
-            to="/user-profile/personal-information"
+            to="/user-profile/profile-overview"
             className="btn btn-secondary"
           >
             Cancel
@@ -150,7 +152,7 @@ function PersonaInformation(props) {
               >
                 <div
                   className="image-input-wrapper"
-                  style={{ backgroundImage: `${getUserPic(user.avatar)}` }}
+                  style={{ backgroundImage: `${getUserPic()}` }}
                 />
                 <label
                   className="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
@@ -162,9 +164,8 @@ function PersonaInformation(props) {
                   <i className="fa fa-pen icon-sm text-muted"></i>
                   <input
                     type="file"
-                    name="file"
+                    // name="pic"
                     accept=".png, .jpg, .jpeg"
-                    onChange={handleUploadAvatar}
                     // {...formik.getFieldProps("pic")}
                   />
                   <input type="hidden" name="profile_avatar_remove" />
@@ -203,14 +204,14 @@ function PersonaInformation(props) {
                 type="text"
                 placeholder="First name"
                 className={`form-control form-control-lg form-control-solid ${getInputClasses(
-                  "first_name"
+                  "firstname"
                 )}`}
-                name="first_name"
-                {...formik.getFieldProps("first_name")}
+                name="firstname"
+                {...formik.getFieldProps("firstname")}
               />
-              {formik.touched.first_name && formik.errors.first_name ? (
+              {formik.touched.firstname && formik.errors.firstname ? (
                 <div className="invalid-feedback">
-                  {formik.errors.first_name}
+                  {formik.errors.firstname}
                 </div>
               ) : null}
             </div>
@@ -224,14 +225,69 @@ function PersonaInformation(props) {
                 type="text"
                 placeholder="Last name"
                 className={`form-control form-control-lg form-control-solid ${getInputClasses(
-                  "last_name"
+                  "lastname"
                 )}`}
-                name="last_name"
-                {...formik.getFieldProps("last_name")}
+                name="lastname"
+                {...formik.getFieldProps("lastname")}
               />
-              {formik.touched.last_name && formik.errors.last_name ? (
-                <div className="invalid-feedback">{formik.errors.last_name}</div>
+              {formik.touched.lastname && formik.errors.lastname ? (
+                <div className="invalid-feedback">{formik.errors.lastname}</div>
               ) : null}
+            </div>
+          </div>
+          <div className="form-group row">
+            <label className="col-xl-3 col-lg-3 col-form-label">
+              Company Name
+            </label>
+            <div className="col-lg-9 col-xl-6">
+              <input
+                type="text"
+                placeholder="Company name"
+                className={`form-control form-control-lg form-control-solid`}
+                name="companyName"
+                {...formik.getFieldProps("companyName")}
+              />
+              <span className="form-text text-muted">
+                If you want your invoices addressed to a company. Leave blank to
+                use your full name.
+              </span>
+            </div>
+          </div>
+          <div className="row">
+            <label className="col-xl-3"></label>
+            <div className="col-lg-9 col-xl-6">
+              <h5 className="font-weight-bold mt-10 mb-6">Contact Info</h5>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label className="col-xl-3 col-lg-3 col-form-label">
+              Contact Phone
+            </label>
+            <div className="col-lg-9 col-xl-6">
+              <div className="input-group input-group-lg input-group-solid">
+                <div className="input-group-prepend">
+                  <span className="input-group-text">
+                    <i className="fa fa-phone"></i>
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="+1(123)112-11-11"
+                  className={`form-control form-control-lg form-control-solid ${getInputClasses(
+                    "phone"
+                  )}`}
+                  name="phone"
+                  {...formik.getFieldProps("phone")}
+                />
+              </div>
+              {formik.touched.phone && formik.errors.phone ? (
+                <div className="invalid-feedback display-block">
+                  {formik.errors.phone}
+                </div>
+              ) : null}
+              <span className="form-text text-muted">
+                We'll never share your phone with anyone else.
+              </span>
             </div>
           </div>
           <div className="form-group row">
@@ -264,20 +320,22 @@ function PersonaInformation(props) {
           </div>
           <div className="form-group row">
             <label className="col-xl-3 col-lg-3 col-form-label">
-              About me
+              Company Site
             </label>
             <div className="col-lg-9 col-xl-6">
-              <textarea
-                type="text"
-                placeholder="About me"
-                className={`form-control form-control-lg form-control-solid ${getInputClasses(
-                  "bio"
-                )}`}
-                name="bio"
-                {...formik.getFieldProps("bio")}
-              />
-              {formik.touched.bio && formik.errors.bio ? (
-                <div className="invalid-feedback">{formik.errors.bio}</div>
+              <div className="input-group input-group-lg input-group-solid">
+                <input
+                  type="text"
+                  placeholder="https://keenthemes.com"
+                  className={`form-control form-control-lg form-control-solid`}
+                  name="website"
+                  {...formik.getFieldProps("website")}
+                />
+              </div>
+              {formik.touched.website && formik.errors.website ? (
+                <div className="invalid-feedback display-block">
+                  {formik.errors.website}
+                </div>
               ) : null}
             </div>
           </div>

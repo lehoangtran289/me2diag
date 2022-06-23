@@ -64,7 +64,7 @@ export function getInitLayoutConfig() {
     loader: {
       enabled: true,
       type: "", // default|spinner-message|spinner-logo
-      logo: toAbsoluteUrl("/media/logos/soict-sm.png"),
+      logo: toAbsoluteUrl("/media/logos/logo-dark-sm.png"),
       message: "Please wait...",
     },
     // page toolbar
@@ -76,7 +76,7 @@ export function getInitLayoutConfig() {
         width: "fluid", // fixed|fluid
         theme: "light", // light|dark
         fixed: {
-          desktop: false,
+          desktop: true,
           mobile: true,
         },
       },
@@ -84,14 +84,14 @@ export function getInitLayoutConfig() {
         self: {
           display: true,
           layout: "default", // tab/default
-          "root-arrow": true,
+          "root-arrow": false,
           "icon-style": "duotone", // duotone, line, bold, solid
         },
         desktop: {
           arrow: true,
           toggle: "click",
           submenu: {
-            theme: "dark", // light|dark
+            theme: "light", // light|dark
             arrow: true,
           },
         },
@@ -104,27 +104,27 @@ export function getInitLayoutConfig() {
       },
     },
     subheader: {
-      display: false,
+      display: true,
       displayDesc: false,
-      displayDaterangepicker: false,
+      displayDaterangepicker: true,
       layout: "subheader-v1",
-      fixed: false,
+      fixed: true,
       width: "fluid", // fixed/fluid,
       clear: false,
-      style: "transparent", // solid/transparent
+      style: "solid", // solid/transparent
     },
     content: {
-      width: "fluid", // fluid|fixed
+      width: "fixed", // fluid|fixed
     },
     brand: {
       self: {
-        theme: "light", // light/dark
+        theme: "dark", // light/dark
       },
     },
     aside: {
       self: {
-        theme: "light", // light/dark
-        display: false,
+        theme: "dark", // light/dark
+        display: true,
         fixed: true,
         minimize: {
           toggle: true, // allow toggle
@@ -153,7 +153,7 @@ export function getInitLayoutConfig() {
     footer: {
       self: {
         fixed: true,
-        width: "fixed",
+        width: "fluid",
       },
     },
     extras: {
@@ -165,7 +165,7 @@ export function getInitLayoutConfig() {
         },
       },
       notifications: {
-        display: false,
+        display: true,
         layout: "dropdown", // offcanvas, dropdown
         dropdown: {
           style: "dark", // light, dark
@@ -175,7 +175,7 @@ export function getInitLayoutConfig() {
         },
       },
       "quick-actions": {
-        display: false,
+        display: true,
         layout: "dropdown", // offcanvas, dropdown,
         dropdown: {
           style: "dark", // light, dark
@@ -195,28 +195,28 @@ export function getInitLayoutConfig() {
         },
       },
       languages: {
-        display: false,
+        display: true,
       },
       cart: {
-        display: false,
+        display: true,
         dropdown: {
           style: "dark", // ligth, dark
         },
       },
       "quick-panel": {
-        display: false,
+        display: true,
         offcanvas: {
           directions: "right",
         },
       },
       chat: {
-        display: false,
+        display: true,
       },
       toolbar: {
-        display: false,
+        display: true,
       },
       scrolltop: {
-        display: false,
+        display: true,
       },
     },
   };

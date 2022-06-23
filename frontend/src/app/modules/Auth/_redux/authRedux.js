@@ -1,7 +1,7 @@
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { put, takeLatest } from "redux-saga/effects";
-import { getUserByToken, updateUserApi } from "./authCrud";
+import { getUserByToken } from "./authCrud";
 
 export const actionTypes = {
   Login: "[Login] Action",
@@ -10,33 +10,27 @@ export const actionTypes = {
   UserRequested: "[Request User] Action",
   UserLoaded: "[Load User] Auth API",
   SetUser: "[Set User] Action",
-  SetStatusLoading: "[Set Status Loading] Action",
-  UpdateUser: "[Update User] Action",
 };
 
 const initialAuthState = {
   user: undefined,
   authToken: undefined,
-  statusLoading: {
-    updateUser: 'idle',
-  }
 };
 
 export const reducer = persistReducer(
   { storage, key: "v713-demo1-auth", whitelist: ["user", "authToken"] },
   (state = initialAuthState, action) => {
-
     switch (action.type) {
       case actionTypes.Login: {
         const { authToken } = action.payload;
-        
-        return { ...state, authToken, user: undefined };
+
+        return { authToken, user: undefined };
       }
 
       case actionTypes.Register: {
         const { authToken } = action.payload;
 
-        return { ...state, authToken, user: undefined };
+        return { authToken, user: undefined };
       }
 
       case actionTypes.Logout: {
@@ -46,23 +40,12 @@ export const reducer = persistReducer(
 
       case actionTypes.UserLoaded: {
         const { user } = action.payload;
-        return { ...state, user: {...user} };
+        return { ...state, user };
       }
 
       case actionTypes.SetUser: {
         const { user } = action.payload;
-
-        return {...state, user: {...user} };
-      }
-      
-      case actionTypes.SetStatusLoading: {
-        const { key, status } = action.payload;
-        const newStatusLoading = {
-          ...state.statusLoading,
-          [key]: status,
-        }
-        
-        return {...state, statusLoading: newStatusLoading};
+        return { ...state, user };
       }
 
       default:
@@ -84,8 +67,6 @@ export const actions = {
   }),
   fulfillUser: (user) => ({ type: actionTypes.UserLoaded, payload: { user } }),
   setUser: (user) => ({ type: actionTypes.SetUser, payload: { user } }),
-  setStatusLoading: (key, status) => ({ type: actionTypes.SetStatusLoading, payload: {key, status}}),
-  updateUser: (userChanges, userId) => ({ type: actionTypes.UpdateUser, payload: {userChanges, userId}}),
 };
 
 export function* saga() {
@@ -98,22 +79,8 @@ export function* saga() {
   });
 
   yield takeLatest(actionTypes.UserRequested, function* userRequested() {
-    const user = yield getUserByToken(); //side effect
-    yield put(actions.fulfillUser(user.data));  // return action object which is going to be dispatched to reducer
+    const { data: user } = yield getUserByToken();
+
+    yield put(actions.fulfillUser(user));
   });
-  
-  yield takeLatest(actionTypes.UpdateUser, function* updateUserSaga(action) {
-    const { userChanges, userId } = action.payload || {};
-    
-    yield put(actions.setStatusLoading('updateUser', 'loading'));
-    const responseUpdateUser = yield updateUserApi(userChanges, userId);
-    
-    if (responseUpdateUser.status === "SUCCESS") {
-      yield put(actions.setStatusLoading('updateUser', 'success'));
-      yield put(actions.setUser(responseUpdateUser.data));
-    } else if (responseUpdateUser.status === "ERROR") {
-      yield put(actions.setStatusLoading('updateUser', 'error'));
-    }
-    
-  })
 }

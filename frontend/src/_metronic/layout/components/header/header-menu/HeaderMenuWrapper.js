@@ -26,7 +26,7 @@ export function HeaderMenuWrapper() {
     const getHeaderLogo = () => {
         let result = "logo-light.png";
         if (layoutProps.headerSelfTheme && layoutProps.headerSelfTheme !== "dark") {
-            result = "logo-light.png";
+            result = "logo-dark.png";
         }
         return toAbsoluteUrl(`/media/logos/${result}`);
     };
@@ -39,8 +39,7 @@ export function HeaderMenuWrapper() {
                     {/*begin::Header Logo*/}
                     <div className="header-logo">
                         <Link to="/">
-                            {/*TODO: LOGO CSS*/}
-                            <img  alt="logo" src={getHeaderLogo()}/>
+                            <img alt="logo" src={getHeaderLogo()}/>
                         </Link>
                     </div>
                     {/*end::Header Logo*/}

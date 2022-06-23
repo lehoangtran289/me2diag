@@ -18,8 +18,8 @@ import { login } from "../_redux/authCrud";
 */
 
 const initialValues = {
-  email: "",
-  password: "",
+  email: "admin@demo.com",
+  password: "demo",
 };
 
 function Login(props) {
@@ -72,10 +72,9 @@ function Login(props) {
       enableLoading();
       setTimeout(() => {
         login(values.email, values.password)
-        .then(({ data: { access, refresh } }) => {
+          .then(({ data: { accessToken } }) => {
             disableLoading();
-            const token = access;
-            props.login(token);
+            props.login(accessToken);
           })
           .catch(() => {
             disableLoading();
@@ -113,13 +112,12 @@ function Login(props) {
             <div className="alert-text font-weight-bold">{formik.status}</div>
           </div>
         ) : (
-            <></>
-        //   <div className="mb-10 alert alert-custom alert-light-info alert-dismissible">
-        //     <div className="alert-text ">
-        //       Use account <strong>admin@demo.com</strong> and password{" "}
-        //       <strong>demo</strong> to continue.
-        //     </div>
-        //   </div>
+          <div className="mb-10 alert alert-custom alert-light-info alert-dismissible">
+            <div className="alert-text ">
+              Use account <strong>admin@demo.com</strong> and password{" "}
+              <strong>demo</strong> to continue.
+            </div>
+          </div>
         )}
 
         <div className="form-group fv-plugins-icon-container">
@@ -169,7 +167,7 @@ function Login(props) {
             className={`btn btn-primary font-weight-bold px-9 py-4 my-3`}
           >
             <span>Sign In</span>
-            {loading && <span className='ml-3 spinner spinner-white'/>}
+            {loading && <span className="ml-3 spinner spinner-white"></span>}
           </button>
         </div>
       </form>

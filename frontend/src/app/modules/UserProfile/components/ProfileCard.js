@@ -9,15 +9,11 @@ import {
   DropdownCustomToggler,
   DropdownMenu4,
 } from "../../../../_metronic/_partials/dropdowns";
-import { iconSize20 } from '../../Dashboard/pages/board/components/BoardStyles';
-import { BsFillCreditCardFill } from 'react-icons/bs';
-import { BACKEND_ORIGIN2 } from '../../../../config';
 
 export function ProfileCard() {
   const user = useSelector(({ auth }) => auth.user, shallowEqual);
 
   useEffect(() => {
-    user['avatar'] = user['avatar'].includes("8000") ? user['avatar'] : BACKEND_ORIGIN2 + user['avatar'];
     return () => {};
   }, [user]);
 
@@ -53,7 +49,7 @@ export function ProfileCard() {
                 <div className="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
                   <div
                     className="symbol-label"
-                    style={{ backgroundImage: `url(${user.avatar})` }}
+                    style={{ backgroundImage: `url(${user.pic})` }}
                   ></div>
                   {/* style="background-i
                   mage:url('/metronic/theme/html/demo1/dist/assets/media/users/300_21.jpg')" */}
@@ -72,7 +68,7 @@ export function ProfileCard() {
                       href="#"
                       className="btn btn-sm btn-primary font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1"
                     >
-                      Doctor
+                      Chat
                     </a>
                     <a
                       href="#"
@@ -92,19 +88,19 @@ export function ProfileCard() {
                     {user.email}
                   </span>
                 </div>
-                {/* <div className="d-flex align-items-center justify-content-between mb-2">
+                <div className="d-flex align-items-center justify-content-between mb-2">
                   <span className="font-weight-bold mr-2">Phone:</span>
                   <span className="text-muted">{user.phone}</span>
-                </div> */}
-                {/*<div className="d-flex align-items-center justify-content-between">*/}
-                {/*  <span className="font-weight-bold mr-2">Location:</span>*/}
-                {/*  <span className="text-muted">{user.address.city}</span>*/}
-                {/*</div>*/}
+                </div>
+                <div className="d-flex align-items-center justify-content-between">
+                  <span className="font-weight-bold mr-2">Location:</span>
+                  <span className="text-muted">{user.address.city}</span>
+                </div>
               </div>
               {/* end::Contact */}
               {/* begin::Nav */}
               <div className="navi navi-bold navi-hover navi-active navi-link-rounded">
-                {/* <div className="navi-item mb-2">
+                <div className="navi-item mb-2">
                   <NavLink
                     to="/user-profile/profile-overview"
                     className="navi-link py-4"
@@ -123,7 +119,7 @@ export function ProfileCard() {
                       Profile Overview
                     </span>
                   </NavLink>
-                </div> */}
+                </div>
                 <div className="navi-item mb-2">
                   <NavLink
                     to="/user-profile/personal-information"
@@ -191,46 +187,6 @@ export function ProfileCard() {
                 </div>
                 <div className="navi-item mb-2">
                   <NavLink
-                    to="/user-profile/patients"
-                    className="navi-link py-4"
-                    activeClassName="active"
-                  >
-                    <span className="navi-icon mr-2">
-                      <span className="svg-icon">
-                        <SVG
-                          src={toAbsoluteUrl(
-                            '/media/svg/icons/Communication/Group.svg'
-                          )}
-                        />{" "}
-                      </span>
-                    </span>
-                    <span className="navi-text font-size-lg">
-                      Patients list
-                    </span>
-                  </NavLink>
-                </div>
-                <div className="navi-item mb-2">
-                  <NavLink
-                    to="/user-profile/examinations"
-                    className="navi-link py-4"
-                    activeClassName="active"
-                  >
-                    <span className="navi-icon mr-2">
-                      <span className="svg-icon">
-                        <SVG
-                          src={toAbsoluteUrl(
-                            '/media/svg/icons/Files/File.svg'
-                          )}
-                          />{" "}
-                      </span>
-                    </span>
-                    <span className="navi-text font-size-lg">
-                      Examinations
-                    </span>
-                  </NavLink>
-                </div>
-                {/* <div className="navi-item mb-2">
-                  <NavLink
                     to="/user-profile/email-settings"
                     className="navi-link py-4"
                     activeClassName="active"
@@ -248,8 +204,8 @@ export function ProfileCard() {
                       Email settings
                     </span>
                   </NavLink>
-                </div> */}
-                {/* <div className="navi-item mb-2">
+                </div>
+                <div className="navi-item mb-2">
                   <OverlayTrigger
                     placement="right"
                     overlay={<Tooltip>Coming soon...</Tooltip>}
@@ -269,8 +225,8 @@ export function ProfileCard() {
                       </span>
                     </a>
                   </OverlayTrigger>
-                </div> */}
-                {/* <div className="navi-item mb-2">
+                </div>
+                <div className="navi-item mb-2">
                   <OverlayTrigger
                     placement="right"
                     overlay={<Tooltip>Coming soon...</Tooltip>}
@@ -295,8 +251,8 @@ export function ProfileCard() {
                       </span>
                     </a>
                   </OverlayTrigger>
-                </div> */}
-                {/* <div className="navi-item mb-2">
+                </div>
+                <div className="navi-item mb-2">
                   <OverlayTrigger
                     placement="right"
                     overlay={<Tooltip>Coming soon...</Tooltip>}
@@ -314,7 +270,7 @@ export function ProfileCard() {
                       <span className="navi-text">Statements</span>
                     </a>
                   </OverlayTrigger>
-                </div> */}
+                </div>
               </div>
               {/* end::Nav */}
             </div>
