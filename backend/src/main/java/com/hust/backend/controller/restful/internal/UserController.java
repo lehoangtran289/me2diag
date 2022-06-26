@@ -70,7 +70,7 @@ public class UserController {
     }
 
     @PatchMapping(value = "/{userId}", consumes = "multipart/form-data")
-    @AuthRequired(roles = {UserRoleEnum.USER, UserRoleEnum.EXPERT})
+    @AuthRequired(roles = {UserRoleEnum.ADMIN, UserRoleEnum.USER, UserRoleEnum.EXPERT})
     public ResponseEntity<GeneralResponse<UserInfoResponseDTO>> updateMyUserInfo(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @PathVariable @NotBlank(message = "userId must not be blank") String userId,

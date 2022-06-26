@@ -63,6 +63,7 @@ public class LoginController {
         return responseFactory.success();
     }
 
+    // TODO: remove later. only ADMIN can signup user
     @PostMapping("/user/sign-up")
     public ResponseEntity<GeneralResponse<String>> signup(
             @Valid @RequestBody UserSignupRequestDTO request

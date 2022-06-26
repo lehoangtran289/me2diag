@@ -97,7 +97,7 @@ public class PFSController {
         return responseFactory.success(pfsService.diagnose(userId, request));
     }
 
-    @PostMapping("/config")
+    @PutMapping("/config")
     @AuthRequired(roles = UserRoleEnum.EXPERT)
     public ResponseEntity<GeneralResponse<Boolean>> changePFSConfigs(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,

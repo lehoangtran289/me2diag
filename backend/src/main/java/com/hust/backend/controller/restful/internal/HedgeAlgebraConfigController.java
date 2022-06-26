@@ -54,7 +54,7 @@ public class HedgeAlgebraConfigController {
         );
     }
 
-    @PostMapping("/config")
+    @PutMapping("/config")
     @AuthRequired(roles = UserRoleEnum.EXPERT)
     public ResponseEntity<GeneralResponse<List<LinguisticDomainResponseDTO>>> changeHedgeAlgebraConfigs(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
