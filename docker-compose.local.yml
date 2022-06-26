@@ -9,7 +9,7 @@ services:
       - MARIADB_ROOT_USER=$MARIADB_ROOT_USER
       - MARIADB_ROOT_PASSWORD=$MARIADB_ROOT_PASSWORD
     ports:
-      - $MARIADB_LOCAL_PORT:$MARIADB_DOCKER_PORT
+      - 127.0.0.1:$MARIADB_LOCAL_PORT:$MARIADB_DOCKER_PORT
     volumes:
       - "mariadb-data:/bitnami/mariadb"
       - "./backend/src/main/resources/script/init.sql:/docker-entrypoint-initdb.d/init.sql"
@@ -18,8 +18,8 @@ services:
     image: bitnami/minio:latest
     container_name: "backend_minio"
     ports:
-      - '9000:9000'
-      - '9001:9001'
+      - '127.0.0.1:9000:9000'
+      - '127.0.0.1:9001:9001'
     volumes:
       - 'media:/data'
     environment:
@@ -32,7 +32,7 @@ services:
     build: ./backend-model
     restart: on-failure
     ports:
-      - $MODEL_LOCAL_PORT:$MODEL_DOCKER_PORT
+      - 127.0.0.1:$MODEL_LOCAL_PORT:$MODEL_DOCKER_PORT
     environment:
       - PYTHONUNBUFFERED=1
       - PORT=$MODEL_DOCKER_PORT
