@@ -4,8 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hust.backend.aop.AuthRequired;
 import com.hust.backend.application.picturefuzzyset.constant.SymptomEnum;
 import com.hust.backend.application.picturefuzzyset.dto.request.GeneralDiagnoseRequestDTO;
+import com.hust.backend.application.picturefuzzyset.dto.request.SymptomDiagnoseConfigRequestDTO;
 import com.hust.backend.application.picturefuzzyset.dto.response.PFSDiagnoseResponseDTO;
-import com.hust.backend.application.picturefuzzyset.service.PictureFuzzyRelationService;
+import com.hust.backend.application.picturefuzzyset.service.PFSService;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.ResponseFactory;
@@ -20,19 +21,20 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 @Slf4j
 @Validated
 @RestController
 @RequestMapping("${app.application-context-name}/api/v1/pfs")
-public class PFSDiagnosisController {
+public class PFSController {
     private final ResponseFactory responseFactory;
     private final JwtService jwtService;
-    private final PictureFuzzyRelationService pfsService;
+    private final PFSService pfsService;
 
-    public PFSDiagnosisController(ResponseFactory responseFactory,
-                                  PictureFuzzyRelationService pfsService,
-                                  JwtService jwtService) {
+    public PFSController(ResponseFactory responseFactory,
+                         PFSService pfsService,
+                         JwtService jwtService) {
         this.responseFactory = responseFactory;
         this.pfsService = pfsService;
         this.jwtService = jwtService;
@@ -93,5 +95,16 @@ public class PFSDiagnosisController {
         String userId = payload.getSubject();
 
         return responseFactory.success(pfsService.diagnose(userId, request));
+    }
+
+    @PostMapping("/config")
+    @AuthRequired(roles = UserRoleEnum.EXPERT)
+    public ResponseEntity<GeneralResponse<Boolean>> changePFSConfigs(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
+            @Valid @RequestBody List<SymptomDiagnoseConfigRequestDTO> request
+    ) {
+        return responseFactory.success(
+                pfsService.changePFSConfigs(request)
+        );
     }
 }

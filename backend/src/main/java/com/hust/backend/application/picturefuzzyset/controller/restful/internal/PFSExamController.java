@@ -3,7 +3,7 @@ package com.hust.backend.application.picturefuzzyset.controller.restful.internal
 import com.hust.backend.aop.AuthRequired;
 import com.hust.backend.application.picturefuzzyset.dto.response.PatientPFSExamResponseDTO;
 import com.hust.backend.application.picturefuzzyset.service.PFSExamService;
-import com.hust.backend.application.picturefuzzyset.service.PictureFuzzyRelationService;
+import com.hust.backend.application.picturefuzzyset.service.PFSService;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.PagingInfo;
@@ -24,18 +24,17 @@ import javax.validation.constraints.NotBlank;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("${app.application-context-name}/api/v1/examination/pfs")
+@RequestMapping("${app.application-context-name}/api/v1/pfs/examinations")
 public class PFSExamController {
-
     private final ResponseFactory responseFactory;
     private final JwtService jwtService;
-    private final PictureFuzzyRelationService pfsService;
+    private final PFSService pfsService;
     private final PatientService patientService;
     private final PFSExamService examinationService;
     private final PagingConverterService pageService;
 
     public PFSExamController(ResponseFactory responseFactory,
-                             PictureFuzzyRelationService pfsService,
+                             PFSService pfsService,
                              PatientService patientService,
                              JwtService jwtService,
                              PFSExamService examinationService,

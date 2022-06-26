@@ -3,6 +3,7 @@ package com.hust.backend.application.picturefuzzyset.utils;
 import com.hust.backend.application.picturefuzzyset.constant.DiagnoseEnum;
 import com.hust.backend.application.picturefuzzyset.entity.PatientSymptomEntity;
 import com.hust.backend.application.picturefuzzyset.entity.SymptomDiagnoseEntity;
+import com.hust.backend.application.picturefuzzyset.model.GeneralPictureFuzzySet;
 import com.hust.backend.application.picturefuzzyset.model.PictureFuzzySet;
 import com.hust.backend.utils.Common;
 import com.hust.backend.utils.tuple.Tuple3;
@@ -49,8 +50,15 @@ public class PFSCommon {
         return Tuple3.of(diagnoseEnum, pfs, Common.round(probability, 3));
     }
 
-    public static boolean isPFSValid(PictureFuzzySet pfs) {
+    public static boolean isValidPFS(PictureFuzzySet pfs) {
         return 1 - pfs.getPositive() - pfs.getNeutral() - pfs.getNegative() >= 0;
+    }
+
+    // TODO: validate invalid linguistic input
+    public static boolean isValidGPFS(GeneralPictureFuzzySet gpfs) {
+        return (gpfs.getPositive() instanceof Double || gpfs.getPositive() instanceof String) &&
+                (gpfs.getNeutral() instanceof Double || gpfs.getNeutral() instanceof String) &&
+                (gpfs.getNegative() instanceof Double || gpfs.getNegative() instanceof String);
     }
 
     public static Double calPDCorrespondence(PictureFuzzySet pfs) {
