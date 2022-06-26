@@ -47,6 +47,7 @@ public class PatientController {
 
     //TODO: POST return entity not void
     @PostMapping(consumes = "multipart/form-data")
+    @AuthRequired(roles = UserRoleEnum.USER)
     public ResponseEntity<GeneralResponse<String>> registerPatient(
             @Valid @ModelAttribute PatientRegisterRequestDTO request
     ) {

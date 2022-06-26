@@ -1,7 +1,7 @@
 package com.hust.backend.controller.restful.internal;
 
 import com.hust.backend.aop.AuthRequired;
-import com.hust.backend.application.picturefuzzyset.service.PictureFuzzyRelationService;
+import com.hust.backend.application.picturefuzzyset.service.PFSService;
 import com.hust.backend.constant.ApplicationEnum;
 import com.hust.backend.constant.HedgeAlgebraEnum;
 import com.hust.backend.constant.UserRoleEnum;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -30,11 +31,11 @@ import java.util.Map;
 public class HedgeAlgebraConfigController {
     private final ResponseFactory responseFactory;
     private final JwtService jwtService;
-    private final PictureFuzzyRelationService pfsService;
+    private final PFSService pfsService;
     private final HedgeAlgebraService hedgeAlgebraService;
 
     public HedgeAlgebraConfigController(ResponseFactory responseFactory, JwtService jwtService,
-                                        PictureFuzzyRelationService pfsService,
+                                        PFSService pfsService,
                                         HedgeAlgebraService hedgeAlgebraService) {
         this.responseFactory = responseFactory;
         this.jwtService = jwtService;
@@ -43,7 +44,7 @@ public class HedgeAlgebraConfigController {
     }
 
     @GetMapping
-    @AuthRequired(roles = UserRoleEnum.USER)
+    @AuthRequired(roles = {UserRoleEnum.USER, UserRoleEnum.EXPERT})
     public ResponseEntity<GeneralResponse<List<LinguisticDomainResponseDTO>>> getAllLinguisticDomainElements(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @RequestParam @NotBlank(message = "application id must not be blank") String appId
@@ -54,7 +55,7 @@ public class HedgeAlgebraConfigController {
     }
 
     @PostMapping("/config")
-    @AuthRequired(roles = UserRoleEnum.ADMIN)
+    @AuthRequired(roles = UserRoleEnum.EXPERT)
     public ResponseEntity<GeneralResponse<List<LinguisticDomainResponseDTO>>> changeHedgeAlgebraConfigs(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @Valid @RequestBody HedgeAlgebraConfigRequestDTO request
@@ -70,13 +71,13 @@ public class HedgeAlgebraConfigController {
         switch (request.getAppId()) {
             case PFS:
                 if (hedges.size() != HedgeAlgebraEnum.pfsHedges.size() ||
-                        !hedges.containsAll(HedgeAlgebraEnum.pfsHedges)) {
+                        !new HashSet<>(hedges).containsAll(HedgeAlgebraEnum.pfsHedges)) {
                     throw new IllegalArgumentException("Invalid hedges input pfs");
                 }
                 break;
             case KDC:
                 if (hedges.size() != HedgeAlgebraEnum.kdcHedges.size() ||
-                        !hedges.containsAll(HedgeAlgebraEnum.kdcHedges)) {
+                        !new HashSet<>(hedges).containsAll(HedgeAlgebraEnum.kdcHedges)) {
                     throw new IllegalArgumentException("Invalid hedges input kdc");
                 }
                 break;

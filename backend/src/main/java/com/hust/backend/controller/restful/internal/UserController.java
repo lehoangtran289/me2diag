@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    @AuthRequired(roles = UserRoleEnum.USER)
+    @AuthRequired(roles = {UserRoleEnum.USER, UserRoleEnum.EXPERT})
     public ResponseEntity<GeneralResponse<UserInfoResponseDTO>> getUserInfo(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken
     ) throws InvalidKeySpecException, NoSuchAlgorithmException, JsonProcessingException {
@@ -57,7 +57,7 @@ public class UserController {
     }
 
     @GetMapping
-    @AuthRequired(roles = UserRoleEnum.USER)
+    @AuthRequired(roles = UserRoleEnum.ADMIN)
     public ResponseEntity<GeneralResponse<PagingInfo<UserInfoResponseDTO>>> getAllUsers(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @RequestParam(required = false) String query,
@@ -70,8 +70,8 @@ public class UserController {
     }
 
     @PatchMapping(value = "/{userId}", consumes = "multipart/form-data")
-    @AuthRequired(roles = UserRoleEnum.USER)
-    public ResponseEntity<GeneralResponse<UserInfoResponseDTO>> updateUserInfo(
+    @AuthRequired(roles = {UserRoleEnum.USER, UserRoleEnum.EXPERT})
+    public ResponseEntity<GeneralResponse<UserInfoResponseDTO>> updateMyUserInfo(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @PathVariable @NotBlank(message = "userId must not be blank") String userId,
             @ModelAttribute UserInfoUpdateRequestDTO request
@@ -79,7 +79,7 @@ public class UserController {
         // validate userId
         AccessTokenPayload payload = jwtService.parse(authToken, AccessTokenPayload.class);
         if (
-                !payload.getRoles().contains(UserRoleEnum.ADMIN) &&
+                !payload.getRoles().contains(UserRoleEnum.ADMIN) && // ADMIN can update all user info
                 !StringUtils.equals(userId, payload.getSubject())
         ) {
             log.error("Invalid token, user id {} mismatched with token, id = {}", userId, payload.getSubject());

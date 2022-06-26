@@ -23,6 +23,7 @@ public class MediaController {
         this.storageService = storageService;
     }
 
+    // TODO: some media require permissions
     @GetMapping(
             value = "/media/{resource}/{fileName}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE}
