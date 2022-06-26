@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hust.backend.aop.AuthRequired;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.request.UserInfoUpdateRequestDTO;
+import com.hust.backend.dto.request.UserRegisterRequestDTO;
 import com.hust.backend.dto.response.UserInfoResponseDTO;
 import com.hust.backend.exception.NotValidException;
 import com.hust.backend.factory.GeneralResponse;
@@ -22,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -44,6 +46,15 @@ public class UserController {
         this.jwtService = jwtService;
         this.responseFactory = responseFactory;
         this.pageService = pageService;
+    }
+
+    @PostMapping("/register")
+    @AuthRequired(roles = UserRoleEnum.ADMIN)
+    public ResponseEntity<GeneralResponse<UserInfoResponseDTO>> registerNewUser(
+            @Valid @RequestBody UserRegisterRequestDTO request
+    ) {
+        userService.registerUser(request);
+        return responseFactory.success();
     }
 
     @GetMapping("/me")

@@ -3,7 +3,7 @@ package com.hust.backend.controller.restful.external;
 import com.hust.backend.dto.request.ResetPasswordRequestDTO;
 import com.hust.backend.dto.request.TokenRefreshRequestDTO;
 import com.hust.backend.dto.request.UserLoginRequestDTO;
-import com.hust.backend.dto.request.UserSignupRequestDTO;
+import com.hust.backend.dto.request.UserRegisterRequestDTO;
 import com.hust.backend.dto.response.RenewTokenResponseDTO;
 import com.hust.backend.dto.response.UserLoginResponseDTO;
 import com.hust.backend.factory.GeneralResponse;
@@ -66,7 +66,7 @@ public class LoginController {
     // TODO: remove later. only ADMIN can signup user
     @PostMapping("/user/sign-up")
     public ResponseEntity<GeneralResponse<String>> signup(
-            @Valid @RequestBody UserSignupRequestDTO request
+            @Valid @RequestBody UserRegisterRequestDTO request
     ) {
         userService.registerUser(request);
         return responseFactory.success();

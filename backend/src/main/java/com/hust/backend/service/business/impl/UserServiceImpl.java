@@ -5,7 +5,7 @@ import com.hust.backend.constant.ResourceType;
 import com.hust.backend.constant.ResponseStatusEnum;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.request.UserInfoUpdateRequestDTO;
-import com.hust.backend.dto.request.UserSignupRequestDTO;
+import com.hust.backend.dto.request.UserRegisterRequestDTO;
 import com.hust.backend.dto.response.UserInfoResponseDTO;
 import com.hust.backend.entity.RoleEntity;
 import com.hust.backend.entity.UserEntity;
@@ -29,6 +29,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackOn = {Exception.class})
-    public void registerUser(UserSignupRequestDTO request) {
+    public void registerUser(UserRegisterRequestDTO request) {
         if (userRepository.findByUsernameOrEmail(request.getUsername(), request.getEmail()).isPresent()) {
             throw new BusinessException(ResponseStatusEnum.ENTITY_DUPLICATED,
                     "Account already existed!", request.getUsername(), request.getEmail());
@@ -73,10 +74,16 @@ public class UserServiceImpl implements UserService {
                 .lastName(request.getLastName())
                 .isEnable(true)
                 .build());
-        RoleEntity roleEntity = roleRepository.findByRoleEnum(UserRoleEnum.USER)
-                .orElseThrow(() -> new BusinessException(ResponseStatusEnum.INTERNAL_SERVER_ERROR, "Role USER" +
-                        " not existed"));
-        userRoleRepository.save(UserRoleEntity.builder().userId(userId).roleId(roleEntity.getId()).build());
+
+        // add user roles
+        List<UserRoleEntity> lst = new ArrayList<>();
+        for (UserRoleEnum role: request.getRoles()) {
+            RoleEntity roleEntity = roleRepository.findByRoleEnum(role)
+                    .orElseThrow(() -> new BusinessException(
+                            ResponseStatusEnum.INTERNAL_SERVER_ERROR, "Role " + role.name() + " not existed"));
+            lst.add(UserRoleEntity.builder().userId(userId).roleId(roleEntity.getId()).build());
+        }
+        userRoleRepository.saveAll(lst);
         log.info("New user registered successfully " + userId);
     }
 
