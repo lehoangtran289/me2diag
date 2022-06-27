@@ -35,7 +35,6 @@ import java.util.List;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final RoleRepository roleRepository;
@@ -134,6 +133,16 @@ public class UserServiceImpl implements UserService {
                 userRepository.findById(userId)
                         .orElseThrow(() -> new NotFoundException(UserEntity.class, userId)),
                 UserInfoResponseDTO.class);
+    }
+
+    @Override
+    public void deactivateUser(String userId) {
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(UserEntity.class, userId));
+        if (userEntity.isEnable())
+            return;
+        userEntity.setEnable(false);
+        userRepository.save(userEntity);
     }
 
     private Page<UserEntity> getAllUsersByNameOrEmailLike(String query, Pageable pageable) {

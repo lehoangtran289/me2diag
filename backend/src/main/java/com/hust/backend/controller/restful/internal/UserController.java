@@ -48,6 +48,16 @@ public class UserController {
         this.pageService = pageService;
     }
 
+    @DeleteMapping("/{userId}")
+    @AuthRequired(roles = UserRoleEnum.ADMIN)
+    public ResponseEntity<GeneralResponse<UserInfoResponseDTO>> deactivateUser(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
+            @PathVariable @NotBlank(message = "userId must not be blank") String userId
+    ) {
+        userService.deactivateUser(userId);
+        return responseFactory.success();
+    }
+
     @PostMapping("/register")
     @AuthRequired(roles = UserRoleEnum.ADMIN)
     public ResponseEntity<GeneralResponse<UserInfoResponseDTO>> registerNewUser(

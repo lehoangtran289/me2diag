@@ -64,6 +64,11 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
                 userRepository.findByUsername(request.getUsername());
         UserEntity user = optionalUser.orElseThrow(() -> new UnauthorizedException("UserEntity.class", request.getUsername()));
 
+        if (!user.isEnable()) {
+            log.info("User " + user.getId() + "has been deactivated");
+            throw new BusinessException(ResponseStatusEnum.ENTITY_NOT_FOUND);
+        }
+
         if (!bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())) {
             String message = String.format("Incorrect password: %s for user %s", request.getPassword(), request.getUsername());
             throw new UnauthorizedException(message, request.getUsername());

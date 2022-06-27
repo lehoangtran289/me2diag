@@ -14,4 +14,6 @@ public interface UserService {
     PagingInfo<UserInfoResponseDTO> getAllUsers(String usernameQuery, Pageable pageable);
 
     UserInfoResponseDTO getUserInfo(String userId);
+
+    void deactivateUser(String userId);
 }
