@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { useSubheader } from "../../../_metronic/layout";
 import AccountInformation from "./AccountInformation";
@@ -9,8 +9,12 @@ import EmailSettings from "./EmailSettings";
 import { ProfileCard } from "./components/ProfileCard";
 
 export default function UserProfilePage() {
-  const suhbeader = useSubheader();
-  suhbeader.setTitle("User profile");
+  const subheader = useSubheader();
+
+  useEffect(() => {
+    subheader.setTitle("User profile");
+  })
+
   return (
     <div className="d-flex flex-row">
       <ProfileCard></ProfileCard>
