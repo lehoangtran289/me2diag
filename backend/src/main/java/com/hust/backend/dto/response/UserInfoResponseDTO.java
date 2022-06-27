@@ -19,6 +19,7 @@ public class UserInfoResponseDTO {
     private String avatarUrl;
     private Date birthDate;
     private UserGenderEnum gender;
+    private Boolean isEnable;
     private String description;
     private Date updatedAt;
 }
