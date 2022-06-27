@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
                 .id(userId)
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .password(passwordEncoder.encode(request.getPassword())) // TODO: client should encode password
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .isEnable(true)

@@ -51,6 +51,7 @@ public class UserController {
     @PostMapping("/register")
     @AuthRequired(roles = UserRoleEnum.ADMIN)
     public ResponseEntity<GeneralResponse<UserInfoResponseDTO>> registerNewUser(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @Valid @RequestBody UserRegisterRequestDTO request
     ) {
         userService.registerUser(request);

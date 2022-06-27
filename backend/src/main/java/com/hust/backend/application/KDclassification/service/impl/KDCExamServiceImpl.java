@@ -206,7 +206,7 @@ public class KDCExamServiceImpl implements KDCExamService {
                 .orElseThrow(() -> new NotFoundException(LinguisticDomainEntity.class,
                         LinguisticDomainEnum.VERY_HIGH.getValue()));
 
-        return vValue * domain.getMaxValue() / maxLinguisticEntity.getVValue();
+        return Common.round(vValue * domain.getMaxValue() / maxLinguisticEntity.getVValue(), 2);
     }
 
     // TODO: check valid linguistic input
