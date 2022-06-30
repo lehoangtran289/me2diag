@@ -12,6 +12,7 @@ import {
 
 export function ProfileCard() {
   const user = useSelector(({ auth }) => auth.user, shallowEqual);
+  const roles = useSelector(({ auth }) => auth.payload.roles, shallowEqual);
 
   useEffect(() => {
     return () => {};
@@ -62,7 +63,7 @@ export function ProfileCard() {
                   >
                     {user.firstname} {user.lastname}
                   </a>
-                  <div className="text-muted">{user.occupation}</div>
+                  <div className="text-muted">{roles[0]}</div>
                   {/*<div className="mt-2">*/}
                   {/*  <a*/}
                   {/*    href="#"*/}
