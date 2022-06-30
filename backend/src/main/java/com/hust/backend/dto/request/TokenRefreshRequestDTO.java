@@ -18,7 +18,5 @@ import javax.validation.constraints.NotBlank;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TokenRefreshRequestDTO {
     @NotBlank
-    private String accessToken;
-    @NotBlank
     private String refreshToken;
 }

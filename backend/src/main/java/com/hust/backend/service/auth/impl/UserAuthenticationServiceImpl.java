@@ -87,8 +87,8 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
 
     @Override
     @Transactional(rollbackOn = {Exception.class})
-    public RenewTokenResponseDTO renewAccessToken(TokenRefreshRequestDTO request) {
-        return authService.renewAccessToken(request.getAccessToken(), request.getRefreshToken());
+    public RenewTokenResponseDTO renewAccessToken(String accessToken, String refreshToken) {
+        return authService.renewAccessToken(accessToken, refreshToken);
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.hust.backend.factory.ResponseFactory;
 import com.hust.backend.service.auth.UserAuthenticationService;
 import com.hust.backend.service.business.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class LoginController {
         this.userService = userService;
     }
 
-    @PostMapping( "/login")
+    @PostMapping("/login")
     public ResponseEntity<GeneralResponse<UserLoginResponseDTO>> login(
             @Valid @RequestBody UserLoginRequestDTO request
     ) {
@@ -44,9 +45,10 @@ public class LoginController {
     // TODO: hamdle disabled user
     @PostMapping("/refresh-token")
     public ResponseEntity<GeneralResponse<RenewTokenResponseDTO>> refreshAccessToken(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION) String accessToken,
             @Valid @RequestBody TokenRefreshRequestDTO request
     ) {
-        return responseFactory.success(userAuthenticationService.renewAccessToken(request));
+        return responseFactory.success(userAuthenticationService.renewAccessToken(accessToken, request.getRefreshToken()));
     }
 
     @PostMapping("/forgot-password")
