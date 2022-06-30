@@ -16,7 +16,6 @@ import java.io.IOException;
 @Validated
 @RestController
 public class MediaController {
-
     private final StorageService storageService;
 
     public MediaController(StorageService storageService) {

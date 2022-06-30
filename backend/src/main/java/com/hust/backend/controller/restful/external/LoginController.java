@@ -22,7 +22,6 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("${app.application-context-name}/api/v1")
 public class LoginController {
-
     private final ResponseFactory responseFactory;
     private final UserAuthenticationService userAuthenticationService;
     private final UserService userService;
@@ -42,6 +41,7 @@ public class LoginController {
         return responseFactory.success(userAuthenticationService.buildLoginSuccessResponse(request));
     }
 
+    // TODO: hamdle disabled user
     @PostMapping("/refresh-token")
     public ResponseEntity<GeneralResponse<RenewTokenResponseDTO>> refreshAccessToken(
             @Valid @RequestBody TokenRefreshRequestDTO request
