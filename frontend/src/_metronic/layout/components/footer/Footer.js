@@ -23,17 +23,17 @@ export function Footer() {
         <div className="text-dark order-2 order-md-1">
           <span className="text-muted font-weight-bold mr-2">{today.toString()}</span> &copy;{" "}
           <a
-            href="http://keenthemes.com/metronic"
+            href="https://github.com/lehoangtran289"
             target="_blank"
             rel="noopener noreferrer"
             className="text-dark-75 text-hover-primary"
           >
-            Keenthemes
+            hoang.tl176764
           </a>
         </div>
         <div className="nav nav-dark order-1 order-md-2">
           <a
-            href="http://keenthemes.com/metronic"
+            href="https://www.linkedin.com/in/hoangtl289/"
             target="_blank"
             rel="noopener noreferrer"
             className="nav-link pr-3 pl-0"
@@ -41,15 +41,7 @@ export function Footer() {
             About
           </a>
           <a
-            href="http://keenthemes.com/metronic"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-link px-3"
-          >
-            Team
-          </a>
-          <a
-            href="http://keenthemes.com/metronic"
+            href="https://www.linkedin.com/in/hoangtl289/"
             target="_blank"
             rel="noopener noreferrer"
             className="nav-link pl-3 pr-0"

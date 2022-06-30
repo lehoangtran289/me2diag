@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { useSubheader } from "../../../_metronic/layout";
 import AccountInformation from "./AccountInformation";
-import { ProfileOverview } from "./ProfileOverview";
+// import { ProfileOverview } from "./ProfileOverview";
 import ChangePassword from "./ChangePassword";
 import PersonaInformation from "./PersonaInformation";
-import EmailSettings from "./EmailSettings";
+// import EmailSettings from "./EmailSettings";
 import { ProfileCard } from "./components/ProfileCard";
 
 export default function UserProfilePage() {
@@ -25,10 +25,10 @@ export default function UserProfilePage() {
             exact={true}
             to="/user-profile/profile-overview"
           />
-          <Route
-            path="/user-profile/profile-overview"
-            component={ProfileOverview}
-          />
+          {/*<Route*/}
+          {/*  path="/user-profile/profile-overview"*/}
+          {/*  component={ProfileOverview}*/}
+          {/*/>*/}
           <Route
             path="/user-profile/account-information"
             component={AccountInformation}
@@ -37,10 +37,10 @@ export default function UserProfilePage() {
             path="/user-profile/change-password"
             component={ChangePassword}
           />
-          <Route
-            path="/user-profile/email-settings"
-            component={EmailSettings}
-          />
+          {/*<Route*/}
+          {/*  path="/user-profile/email-settings"*/}
+          {/*  component={EmailSettings}*/}
+          {/*/>*/}
           <Route
             path="/user-profile/personal-information"
             component={PersonaInformation}

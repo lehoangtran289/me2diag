@@ -108,7 +108,7 @@ export function getInitLayoutConfig() {
       displayDesc: true,
       displayDaterangepicker: true,
       layout: "subheader-v1",
-      fixed: true,
+      fixed: false,
       width: "fluid", // fixed/fluid,
       clear: false,
       style: "solid", // solid/transparent
