@@ -26,7 +26,8 @@ export default function setupAxios(axios, store) {
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
-
+      console.log(`[AXIOS rq] config`);
+      console.log(config);
       return config;
     },
     err => {
@@ -36,9 +37,14 @@ export default function setupAxios(axios, store) {
 
   axios.interceptors.response.use(
     response => {
+      console.log(`[AXIOS rq] response`);
+      console.log(response);
       return response;
     },
     err => {
+      console.log(`[AXIOS rq] err`);
+      console.log(err.response);
+
       // Return any error which is not due to authentication back to the calling service
       if (!err.response || err.response.status !== 401) {
         return new Promise((resolve, reject) => {
@@ -48,7 +54,7 @@ export default function setupAxios(axios, store) {
 
       // Logout user if token refresh didn't work or user is disabled
       if (
-        err.config.url === `${REFRESH_URL}`
+        err.config.url === `${REFRESH_URL}` || err.response.status === 403
       ) {
         store.dispatch(actions.logout());
         window.location.href = "/auth/login";
@@ -58,11 +64,11 @@ export default function setupAxios(axios, store) {
         });
       }
 
-      if(err.config.url === `${LOGIN_URL}`){
+      if (err.config.url === `${LOGIN_URL}`) {
         // User send wrong password or username
         return new Promise((resolve, reject) => {
           resolve(err);
-        })
+        });
       }
 
       // Try request again with new token
@@ -80,13 +86,14 @@ export default function setupAxios(axios, store) {
 
       return axios
         .post(`${REFRESH_URL}`, {
-          "access_token": accessToken,
           "refresh_token": refreshToken
+        }, {
+          "Authorization": `Bearer ${accessToken}`
         })
-        .then(res => {
-          store.dispatch(actions.refreshToken(res.data.accessToken));
-          originalReq.headers.Authorization = `Bearer ${res.data.accessToken}`;
-          return axios(originalReq);
+        .then(({ data: { data: { accessToken, refreshToken } } }) => {
+          store.dispatch(actions.refreshToken(accessToken, refreshToken));
+          // originalReq.headers.Authorization = `Bearer ${accessToken}`;
+          // return axios(originalReq);
         })
         .catch(err => {
           store.dispatch(actions.logout());

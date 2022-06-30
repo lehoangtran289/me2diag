@@ -9,12 +9,15 @@ export const actionTypes = {
   Register: "[Register] Action",
   UserRequested: "[Request User] Action",
   UserLoaded: "[Load User] Auth API",
-  SetUser: "[Set User] Action"
+  SetUser: "[Set User] Action",
+  refreshToken: "[Refresh Auth] Action"
 };
 
 const initialAuthState = {
   user: undefined,
-  accessToken: undefined
+  accessToken: undefined,
+  refreshToken: undefined,
+  payload: undefined
 };
 
 export const reducer = persistReducer(
@@ -69,7 +72,11 @@ export const actions = {
     payload: { user }
   }),
   fulfillUser: (user) => ({ type: actionTypes.UserLoaded, payload: { user } }),
-  setUser: (user) => ({ type: actionTypes.SetUser, payload: { user } })
+  setUser: (user) => ({ type: actionTypes.SetUser, payload: { user } }),
+  refreshToken: (accessToken, refreshToken) => ({
+    type: actionTypes.refreshToken,
+    payload: { accessToken, refreshToken }
+  })
 };
 
 export function* saga() {
