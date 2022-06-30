@@ -21,7 +21,7 @@ const initialAuthState = {
 };
 
 export const reducer = persistReducer(
-  { storage, key: "v713-demo1-auth", whitelist: ["user", "accessToken"] },
+  { storage, key: "4UST@202Z_1091N_4U74", whitelist: ["user", "accessToken", "refreshToken", "payload"] },
   (state = initialAuthState, action) => {
     switch (action.type) {
       case actionTypes.Login: {
@@ -37,7 +37,6 @@ export const reducer = persistReducer(
       }
 
       case actionTypes.Logout: {
-        // TODO: Change this code. Actions in reducer aren't allowed.
         return initialAuthState;
       }
 
