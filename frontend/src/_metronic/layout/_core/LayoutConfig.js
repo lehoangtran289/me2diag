@@ -83,7 +83,7 @@ export function getInitLayoutConfig() {
       menu: {
         self: {
           display: true,
-          layout: "default", // tab/default
+          layout: "tab", // tab/default
           "root-arrow": false,
           "icon-style": "duotone", // duotone, line, bold, solid
         },
@@ -104,7 +104,7 @@ export function getInitLayoutConfig() {
       },
     },
     subheader: {
-      display: false,
+      display: true,
       displayDesc: true,
       displayDaterangepicker: true,
       layout: "subheader-v1",
@@ -114,7 +114,7 @@ export function getInitLayoutConfig() {
       style: "solid", // solid/transparent
     },
     content: {
-      width: "fixed", // fluid|fixed
+      width: "fluid", // fluid|fixed
     },
     brand: {
       self: {
