@@ -3,14 +3,17 @@ package com.hust.backend.service.auth.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hust.backend.config.JwtConfig;
+import com.hust.backend.constant.ResponseStatusEnum;
 import com.hust.backend.constant.TokenType;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.response.RenewTokenResponseDTO;
 import com.hust.backend.entity.RoleEntity;
 import com.hust.backend.entity.UserEntity;
+import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.InternalException;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.exception.RefreshTokenException;
+import com.hust.backend.exception.UnauthorizedException;
 import com.hust.backend.model.token.TokenInfo;
 import com.hust.backend.repository.UserRepository;
 import com.hust.backend.service.auth.JwtService;
@@ -103,6 +106,12 @@ public class JwtServiceImpl implements JwtService {
 
         String userId = accessTokenClaims.getSubject();
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(UserEntity.class, userId));
+
+        // validate is user disabled?
+        if (!user.isEnable()) {
+            log.error("User {} is not enabled", user.getId());
+            throw new BusinessException(ResponseStatusEnum.FORBIDDEN, "User is not enabled");
+        }
 
         // check token nearly exp?
         if (isTokenNearlyExpired(accessTokenClaims.getExpiration().getTime())) {

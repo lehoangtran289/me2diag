@@ -68,7 +68,7 @@ public class AuthAOP {
         List<UserRoleEnum> requiredPermissions = Arrays.asList(authRequired.roles());
         Set<UserRoleEnum> userPermissions = new HashSet<>(payload.getRoles());
 
-        // TODO: remove later
+        //TODO: remove later
         // permits all if role = ADMIN
         if (userPermissions.contains(UserRoleEnum.ADMIN)) {
             return setPayload(joinPoint, args, payload);
