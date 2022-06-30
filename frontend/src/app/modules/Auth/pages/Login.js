@@ -18,8 +18,8 @@ import { login } from "../_redux/authCrud";
 */
 
 const initialValues = {
-  email: "admin@demo.com",
-  password: "demo",
+  email: "hoangtl@gmail.com",
+  password: "123",
 };
 
 function Login(props) {
@@ -70,22 +70,21 @@ function Login(props) {
     validationSchema: LoginSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
       enableLoading();
-      setTimeout(() => {
-        login(values.email, values.password)
-          .then(({ data: { accessToken } }) => {
-            disableLoading();
-            props.login(accessToken);
-          })
-          .catch(() => {
-            disableLoading();
-            setSubmitting(false);
-            setStatus(
-              intl.formatMessage({
-                id: "AUTH.VALIDATION.INVALID_LOGIN",
-              })
-            );
-          });
-      }, 1000);
+      login(values.email, values.password)
+        .then(res => {
+          disableLoading();
+          props.login(res.data.data);
+        })
+        .catch(() => {
+          disableLoading();
+          console.log("here2");
+          // setSubmitting(false);
+          setStatus(
+            intl.formatMessage({
+              id: "AUTH.VALIDATION.INVALID_LOGIN",
+            })
+          );
+        });
     },
   });
 

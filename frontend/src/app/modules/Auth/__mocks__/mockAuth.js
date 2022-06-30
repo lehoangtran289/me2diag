@@ -1,10 +1,5 @@
-import {
-  LOGIN_URL,
-  ME_URL,
-  REGISTER_URL,
-  REQUEST_PASSWORD_URL
-} from "../_redux/authCrud";
 import userTableMock from "./userTableMock";
+import { LOGIN_URL, ME_URL, REGISTER_URL, REQUEST_PASSWORD_URL } from "../../../../config";
 
 export default function mockAuth(mock) {
   mock.onPost(LOGIN_URL).reply(({ data }) => {
