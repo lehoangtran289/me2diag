@@ -4,12 +4,15 @@ import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 // import SVG from "react-inlinesvg";
 import { checkIsActive } from "../../../../_helpers";
+import {shallowEqual, useSelector} from "react-redux";
 
 export function HeaderMenu({ layoutProps }) {
     const location = useLocation();
     const getMenuItemActive = (url) => {
         return checkIsActive(location, url) ? "menu-item-active" : "";
     }
+
+    const roles = useSelector((state) => state.auth.payload.roles, shallowEqual);
 
     return <div
         id="kt_header_menu"
