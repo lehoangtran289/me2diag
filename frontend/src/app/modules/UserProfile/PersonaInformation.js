@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { ModalProgressBar } from "../../../_metronic/_partials/controls";
 import { toAbsoluteUrl } from "../../../_metronic/_helpers";
 import * as auth from "../Auth";
+import {FEMALE, MALE} from "../../../constants";
 
 function PersonaInformation(props) {
   // Fields
@@ -41,13 +42,16 @@ function PersonaInformation(props) {
   };
   // UI Helpers
   const initialValues = {
-    pic: user.pic,
-    firstname: user.firstname,
-    lastname: user.lastname,
+    pic: user.avatarUrl,
+    firstname: user.firstName,
+    lastname: user.lastName,
     companyName: user.companyName,
-    phone: user.phone,
+    phone: user.phoneNo,
     email: user.email,
     website: user.website,
+    gender: user.gender,
+    description: user.description,
+    birthdate: user.birthDate
   };
   const Schema = Yup.object().shape({
     pic: Yup.string(),
@@ -59,6 +63,9 @@ function PersonaInformation(props) {
       .email("Wrong email format")
       .required("Email is required"),
     website: Yup.string(),
+    gender: Yup.mixed().oneOf([MALE, FEMALE]),
+    description: Yup.string(),
+    birthDate: Yup.date() //TODO: validate date
   });
   const getInputClasses = (fieldname) => {
     if (formik.touched[fieldname] && formik.errors[fieldname]) {
@@ -105,7 +112,7 @@ function PersonaInformation(props) {
             Personal Information
           </h3>
           <span className="text-muted font-weight-bold font-size-sm mt-1">
-            Update your personal informaiton
+            Update your personal information
           </span>
         </div>
         <div className="card-toolbar">
@@ -135,12 +142,13 @@ function PersonaInformation(props) {
           <div className="row">
             <label className="col-xl-3"></label>
             <div className="col-lg-9 col-xl-6">
-              <h5 className="font-weight-bold mb-6">Customer Info</h5>
+              <h5 className="font-weight-bold mb-6">Personal Info</h5>
             </div>
           </div>
           <div className="form-group row">
             <label className="col-xl-3 col-lg-3 col-form-label">Avatar</label>
             <div className="col-lg-9 col-xl-6">
+              {/*TODO: user's avatar*/}
               <div
                 className="image-input image-input-outline"
                 id="kt_profile_avatar"
@@ -235,24 +243,24 @@ function PersonaInformation(props) {
               ) : null}
             </div>
           </div>
-          <div className="form-group row">
-            <label className="col-xl-3 col-lg-3 col-form-label">
-              Company Name
-            </label>
-            <div className="col-lg-9 col-xl-6">
-              <input
-                type="text"
-                placeholder="Company name"
-                className={`form-control form-control-lg form-control-solid`}
-                name="companyName"
-                {...formik.getFieldProps("companyName")}
-              />
-              <span className="form-text text-muted">
-                If you want your invoices addressed to a company. Leave blank to
-                use your full name.
-              </span>
-            </div>
-          </div>
+          {/*<div className="form-group row">*/}
+          {/*  <label className="col-xl-3 col-lg-3 col-form-label">*/}
+          {/*    Company Name*/}
+          {/*  </label>*/}
+          {/*  <div className="col-lg-9 col-xl-6">*/}
+          {/*    <input*/}
+          {/*      type="text"*/}
+          {/*      placeholder="Company name"*/}
+          {/*      className={`form-control form-control-lg form-control-solid`}*/}
+          {/*      name="companyName"*/}
+          {/*      {...formik.getFieldProps("companyName")}*/}
+          {/*    />*/}
+          {/*    <span className="form-text text-muted">*/}
+          {/*      If you want your invoices addressed to a company. Leave blank to*/}
+          {/*      use your full name.*/}
+          {/*    </span>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
           <div className="row">
             <label className="col-xl-3"></label>
             <div className="col-lg-9 col-xl-6">
@@ -286,7 +294,7 @@ function PersonaInformation(props) {
                 </div>
               ) : null}
               <span className="form-text text-muted">
-                We'll never share your phone with anyone else.
+                The system never shares phone number with anyone.
               </span>
             </div>
           </div>
@@ -320,25 +328,46 @@ function PersonaInformation(props) {
           </div>
           <div className="form-group row">
             <label className="col-xl-3 col-lg-3 col-form-label">
-              Company Site
+              Description
             </label>
             <div className="col-lg-9 col-xl-6">
-              <div className="input-group input-group-lg input-group-solid">
-                <input
-                  type="text"
-                  placeholder="https://keenthemes.com"
-                  className={`form-control form-control-lg form-control-solid`}
-                  name="website"
-                  {...formik.getFieldProps("website")}
-                />
-              </div>
-              {formik.touched.website && formik.errors.website ? (
-                <div className="invalid-feedback display-block">
-                  {formik.errors.website}
+              <input
+                type="text"
+                placeholder="description"
+                className={`form-control form-control-lg form-control-solid ${getInputClasses(
+                  "description"
+                )}`}
+                name="description"
+                {...formik.getFieldProps("description")}
+              />
+              {formik.touched.description && formik.errors.description ? (
+                <div className="invalid-feedback">
+                  {formik.errors.description}
                 </div>
               ) : null}
             </div>
           </div>
+          {/*<div className="form-group row">*/}
+          {/*  <label className="col-xl-3 col-lg-3 col-form-label">*/}
+          {/*    Company Site*/}
+          {/*  </label>*/}
+          {/*  <div className="col-lg-9 col-xl-6">*/}
+          {/*    <div className="input-group input-group-lg input-group-solid">*/}
+          {/*      <input*/}
+          {/*        type="text"*/}
+          {/*        placeholder="https://keenthemes.com"*/}
+          {/*        className={`form-control form-control-lg form-control-solid`}*/}
+          {/*        name="website"*/}
+          {/*        {...formik.getFieldProps("website")}*/}
+          {/*      />*/}
+          {/*    </div>*/}
+          {/*    {formik.touched.website && formik.errors.website ? (*/}
+          {/*      <div className="invalid-feedback display-block">*/}
+          {/*        {formik.errors.website}*/}
+          {/*      </div>*/}
+          {/*    ) : null}*/}
+          {/*  </div>*/}
+          {/*</div>*/}
         </div>
         {/* end::Body */}
       </div>

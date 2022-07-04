@@ -50,7 +50,7 @@ export function ProfileCard() {
                 <div className="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
                   <div
                     className="symbol-label"
-                    style={{ backgroundImage: `url(${user.pic})` }}
+                    style={{ backgroundImage: `url(${user.avatarUrl})` }}
                   ></div>
                   {/* style="background-i
                   mage:url('/metronic/theme/html/demo1/dist/assets/media/users/300_21.jpg')" */}
@@ -61,7 +61,7 @@ export function ProfileCard() {
                     href="#"
                     className="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary"
                   >
-                    {user.firstname} {user.lastname}
+                    {user.firstName} {user.lastName}
                   </a>
                   <div className="text-muted">{roles[0]}</div>
                   {/*<div className="mt-2">*/}
