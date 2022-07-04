@@ -22,6 +22,7 @@ CREATE TABLE `user`
 
     `first_name`          VARCHAR(80),
     `last_name`           VARCHAR(80),
+    `phoneNo`             VARCHAR(20),
     `avatar`              VARCHAR(100),
     `birth_date`          DATE DEFAULT NULL       NULL,
     `gender`              VARCHAR(50),
@@ -51,10 +52,10 @@ CREATE TABLE `user_role`
 );
 
 INSERT INTO backend.user (id, username, email, password, password_token, is_enable, first_name, last_name,
-                          avatar, birth_date, gender, description, created_at, updated_at)
+                          avatar, birth_date, gender, description, created_at, updated_at, phoneNo)
 VALUES ('02FCZG2SXNZYGQXMPPBB8FV3ZV', 'hoangtl', 'hoangtl@gmail.com',
         '$2a$10$qbCJB7znYS/KD0sFR8f.C.o97a2PYFSGC8KyiKD.nYG7ZT2gaGm2y', null, 1, 'tran', 'hoang', null, null,
-        'MALE', null, '2022-01-28 10:23:08', '2022-01-28 10:23:08');
+        'MALE', null, '2022-01-28 10:23:08', '2022-01-28 10:23:08', '0327228298');
 INSERT INTO backend.role (id, name, description, created_at, updated_at)
 VALUES ('01FCZG2SXNZYGQXMPPBB8FV3ZV', 'ADMIN', 'role admin', '2022-01-28 10:21:34', '2022-01-28 10:21:36');
 INSERT INTO backend.role (id, name, description, created_at, updated_at)

@@ -56,6 +56,9 @@ public class UserEntity {
     @Column(name = "avatar")
     private String avatarUrl;
 
+    @Column(name = "phoneNo")
+    private String phoneNo;
+
     @Column(name = "birth_date")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date birthDate;

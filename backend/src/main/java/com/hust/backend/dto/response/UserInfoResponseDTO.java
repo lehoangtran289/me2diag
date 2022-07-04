@@ -16,6 +16,7 @@ public class UserInfoResponseDTO {
     private String email;
     private String firstName;
     private String lastName;
+    private String phoneNo;
     private String avatarUrl;
     private Date birthDate;
     private UserGenderEnum gender;
