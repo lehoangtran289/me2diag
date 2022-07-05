@@ -79,6 +79,13 @@ public class PatientServiceImpl implements PatientService {
         if (request.getAvatar() != null) {
             String relAvatarUrl = storageService.upload(ResourceType.PATIENT, request.getAvatar());
             String absAvatarUrl = appConfig.getDomain() + "/media/" + relAvatarUrl;
+            if (patientEntity.getAvatarUrl() != null) {
+                String folder = "/" + ResourceType.PATIENT.folderName + "/";
+                String avatarFileName = folder + patientEntity.getAvatarUrl().split(folder)[1];
+                if (storageService.isExist(avatarFileName)) {
+                    storageService.delete(avatarFileName);
+                }
+            }
             patientEntity.setAvatarUrl(absAvatarUrl);
         }
         patientRepository.save(patientEntity);

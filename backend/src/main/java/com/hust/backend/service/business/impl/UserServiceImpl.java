@@ -104,9 +104,15 @@ public class UserServiceImpl implements UserService {
         if (request.getAvatar() != null) {
             String relAvatarUrl = storageService.upload(ResourceType.USER, request.getAvatar());
             String absAvatarUrl = appConfig.getDomain() + "/media/" + relAvatarUrl;
+            if (user.getAvatarUrl() != null) {
+                String folder = "/" + ResourceType.USER.folderName + "/";
+                String avatarFileName = folder + user.getAvatarUrl().split(folder)[1];
+                if (storageService.isExist(avatarFileName)) {
+                    storageService.delete(avatarFileName);
+                }
+            }
             user.setAvatarUrl(absAvatarUrl);
         }
-
         userRepository.save(user);
         return Common.convertObject(user, UserInfoResponseDTO.class);
     }
