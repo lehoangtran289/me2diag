@@ -63,7 +63,7 @@ export function ProfileCard() {
                   >
                     {user.firstName} {user.lastName}
                   </a>
-                  <div className="text-muted">{roles[0]}</div>
+                  <div className="text-muted">{roles.join(', ')}</div>
                   {/*<div className="mt-2">*/}
                   {/*  <a*/}
                   {/*    href="#"*/}
