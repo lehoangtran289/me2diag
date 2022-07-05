@@ -13,33 +13,31 @@ public class LoggingService {
     private static final String REQUEST_ID = "request_id";
 
     public void logRequest(HttpServletRequest httpServletRequest, Object body) {
-        if (httpServletRequest.getRequestURI().contains("medias")) {
+        if (httpServletRequest.getRequestURI().contains("media")) {
             return;
         }
         Object requestId = httpServletRequest.getAttribute(REQUEST_ID);
-        StringBuilder data = new StringBuilder();
-        data.append("\nLOGGING REQUEST BODY-----------------------------------\n")
-                .append("[REQUEST-ID]: ").append(requestId).append("\n")
-                .append("[BODY REQUEST]: ").append("\n\n")
-                .append(Common.toJson(body))
-                .append("\n\n")
-                .append("LOGGING REQUEST BODY-----------------------------------");
+        String data = "\nLOGGING REQUEST BODY-----------------------------------\n" +
+                "[REQUEST-ID]: " + requestId + "\n" +
+                "[BODY REQUEST]: " + "\n\n" +
+                Common.toJson(body) +
+                "\n\n" +
+                "LOGGING REQUEST BODY-----------------------------------";
 
-        log.info(data.toString());
+        log.info(data);
     }
 
     public void logResponse(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object body) {
-        if (httpServletRequest.getRequestURI().contains("medias")) {
+        if (httpServletRequest.getRequestURI().contains("media")) {
             return;
         }
         Object requestId = httpServletRequest.getAttribute(REQUEST_ID);
-        StringBuilder data = new StringBuilder();
-        data.append("\nLOGGING RESPONSE-----------------------------------\n")
-                .append("[REQUEST-ID]: ").append(requestId).append("\n")
-                .append("[BODY RESPONSE]: ").append("\n\n")
-                .append(Common.toJson(body))
-                .append("\n\n")
-                .append("LOGGING RESPONSE-----------------------------------");
-        log.info(data.toString());
+        String data = "\nLOGGING RESPONSE-----------------------------------\n" +
+                "[REQUEST-ID]: " + requestId + "\n" +
+                "[BODY RESPONSE]: " + "\n\n" +
+                Common.toJson(body) +
+                "\n\n" +
+                "LOGGING RESPONSE-----------------------------------";
+        log.info(data);
     }
 }
