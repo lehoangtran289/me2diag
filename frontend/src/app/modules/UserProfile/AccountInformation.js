@@ -20,11 +20,11 @@ function AccountInformation(props) {
     const updatedUser = Object.assign(user, {
       username: values.username,
       email: values.email,
-      language: values.language,
-      timeZone: values.timeZone,
+      // language: values.language,
+      // timeZone: values.timeZone,
       communication: {
         email: values.communicationEmail,
-        sms: values.communicationSMS,
+        // sms: values.communicationSMS,
         phone: values.communicationPhone,
       },
     });
@@ -49,21 +49,21 @@ function AccountInformation(props) {
   const initialValues = {
     username: user.username,
     email: user.email,
-    language: user.language,
-    timeZone: user.timeZone,
-    communicationEmail: user.communication.email,
-    communicationSMS: user.communication.sms,
-    communicationPhone: user.communication.phone,
+    // language: user.language,
+    // timeZone: user.timeZone,
+    communicationEmail: user.email,
+    // communicationSMS: user.communication.sms,
+    communicationPhone: user.phoneNo,
   };
   const Schema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     email: Yup.string()
       .email("Wrong email format")
       .required("Email is required"),
-    language: Yup.string(),
-    timeZone: Yup.string(),
+    // language: Yup.string(),
+    // timeZone: Yup.string(),
     communicationEmail: Yup.bool(),
-    communicationSMS: Yup.bool(),
+    // communicationSMS: Yup.bool(),
     communicationPhone: Yup.bool(),
   });
   const getInputClasses = (fieldname) => {
@@ -188,88 +188,88 @@ function AccountInformation(props) {
             </div>
           </div>
           {/* begin::Form Group */}
-          <div className="form-group row">
-            <label className="col-xl-3 col-lg-3 col-form-label">Language</label>
-            <div className="col-lg-9 col-xl-6">
-              <select
-                className="form-control form-control-lg form-control-solid"
-                name="language"
-                {...formik.getFieldProps("language")}
-              >
-                <option>Select Language...</option>
-                <option value="id">Bahasa Indonesia - Indonesian</option>
-                <option value="msa">Bahasa Melayu - Malay</option>
-                <option value="ca">Català - Catalan</option>
-                <option value="cs">Čeština - Czech</option>
-                <option value="da">Dansk - Danish</option>
-                <option value="de">Deutsch - German</option>
-                <option value="en">English</option>
-                <option value="en-gb">English UK - British English</option>
-                <option value="es">Español - Spanish</option>
-                <option value="eu">Euskara - Basque (beta)</option>
-                <option value="fil">Filipino</option>
-                <option value="fr">Français - French</option>
-                <option value="pt">Português - Portuguese</option>
-                <option value="ro">Română - Romanian</option>
-                <option value="ru">Русский - Russian</option>
-                <option value="sr">Српски - Serbian</option>
-                <option value="uk">Українська мова - Ukrainian</option>
-              </select>
-            </div>
-          </div>
+          {/*<div className="form-group row">*/}
+          {/*  <label className="col-xl-3 col-lg-3 col-form-label">Language</label>*/}
+          {/*  <div className="col-lg-9 col-xl-6">*/}
+          {/*    <select*/}
+          {/*      className="form-control form-control-lg form-control-solid"*/}
+          {/*      name="language"*/}
+          {/*      {...formik.getFieldProps("language")}*/}
+          {/*    >*/}
+          {/*      <option>Select Language...</option>*/}
+          {/*      <option value="id">Bahasa Indonesia - Indonesian</option>*/}
+          {/*      <option value="msa">Bahasa Melayu - Malay</option>*/}
+          {/*      <option value="ca">Català - Catalan</option>*/}
+          {/*      <option value="cs">Čeština - Czech</option>*/}
+          {/*      <option value="da">Dansk - Danish</option>*/}
+          {/*      <option value="de">Deutsch - German</option>*/}
+          {/*      <option value="en">English</option>*/}
+          {/*      <option value="en-gb">English UK - British English</option>*/}
+          {/*      <option value="es">Español - Spanish</option>*/}
+          {/*      <option value="eu">Euskara - Basque (beta)</option>*/}
+          {/*      <option value="fil">Filipino</option>*/}
+          {/*      <option value="fr">Français - French</option>*/}
+          {/*      <option value="pt">Português - Portuguese</option>*/}
+          {/*      <option value="ro">Română - Romanian</option>*/}
+          {/*      <option value="ru">Русский - Russian</option>*/}
+          {/*      <option value="sr">Српски - Serbian</option>*/}
+          {/*      <option value="uk">Українська мова - Ukrainian</option>*/}
+          {/*    </select>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
           {/* begin::Form Group */}
-          <div className="form-group row">
-            <label className="col-xl-3 col-lg-3 col-form-label">
-              Time Zone
-            </label>
-            <div className="col-lg-9 col-xl-6">
-              <select
-                className="form-control form-control-lg form-control-solid"
-                name="timeZone"
-                {...formik.getFieldProps("timeZone")}
-              >
-                <option value="International Date Line West">
-                  (GMT-11:00) International Date Line West
-                </option>
-                <option value="Midway Island">(GMT-11:00) Midway Island</option>
+          {/*<div className="form-group row">*/}
+          {/*  <label className="col-xl-3 col-lg-3 col-form-label">*/}
+          {/*    Time Zone*/}
+          {/*  </label>*/}
+          {/*  <div className="col-lg-9 col-xl-6">*/}
+          {/*    <select*/}
+          {/*      className="form-control form-control-lg form-control-solid"*/}
+          {/*      name="timeZone"*/}
+          {/*      {...formik.getFieldProps("timeZone")}*/}
+          {/*    >*/}
+          {/*      <option value="International Date Line West">*/}
+          {/*        (GMT-11:00) International Date Line West*/}
+          {/*      </option>*/}
+          {/*      <option value="Midway Island">(GMT-11:00) Midway Island</option>*/}
 
-                <option value="Central America">
-                  (GMT-06:00) Central America
-                </option>
-                <option value="Central Time (US &amp; Canada)">
-                  (GMT-05:00) Central Time (US &amp; Canada)
-                </option>
-                <option value="Eastern Time (US &amp; Canada)">
-                  (GMT-04:00) Eastern Time (US &amp; Canada)
-                </option>
-                <option value="Indiana (East)">
-                  (GMT-04:00) Indiana (East)
-                </option>
+          {/*      <option value="Central America">*/}
+          {/*        (GMT-06:00) Central America*/}
+          {/*      </option>*/}
+          {/*      <option value="Central Time (US &amp; Canada)">*/}
+          {/*        (GMT-05:00) Central Time (US &amp; Canada)*/}
+          {/*      </option>*/}
+          {/*      <option value="Eastern Time (US &amp; Canada)">*/}
+          {/*        (GMT-04:00) Eastern Time (US &amp; Canada)*/}
+          {/*      </option>*/}
+          {/*      <option value="Indiana (East)">*/}
+          {/*        (GMT-04:00) Indiana (East)*/}
+          {/*      </option>*/}
 
-                <option value="Georgetown">(GMT-04:00) Georgetown</option>
+          {/*      <option value="Georgetown">(GMT-04:00) Georgetown</option>*/}
 
-                <option value="Buenos Aires">(GMT-03:00) Buenos Aires</option>
-                <option value="Newfoundland">(GMT-02:30) Newfoundland</option>
-                <option value="Mid-Atlantic">(GMT-02:00) Mid-Atlantic</option>
-                <option value="Cape Verde Is.">
-                  (GMT-01:00) Cape Verde Is.
-                </option>
-                <option value="UTC">(GMT) UTC</option>
-                <option value="Dublin">(GMT+01:00) Dublin</option>
-                <option value="Edinburgh">(GMT+01:00) Edinburgh</option>
-                <option value="London">(GMT+01:00) London</option>
-                <option value="Prague">(GMT+02:00) Prague</option>
-                <option value="Helsinki">(GMT+03:00) Helsinki</option>
-                <option value="Abu Dhabi">(GMT+04:00) Abu Dhabi</option>
-                <option value="Tehran">(GMT+04:30) Tehran</option>
-                <option value="Islamabad">(GMT+05:00) Islamabad</option>
-                <option value="Karachi">(GMT+05:00) Karachi</option>
-                <option value="Tashkent">(GMT+05:00) Tashkent</option>
-                <option value="Kathmandu">(GMT+05:45) Kathmandu</option>
-                <option value="Astana">(GMT+06:00) Astana</option>
-              </select>
-            </div>
-          </div>
+          {/*      <option value="Buenos Aires">(GMT-03:00) Buenos Aires</option>*/}
+          {/*      <option value="Newfoundland">(GMT-02:30) Newfoundland</option>*/}
+          {/*      <option value="Mid-Atlantic">(GMT-02:00) Mid-Atlantic</option>*/}
+          {/*      <option value="Cape Verde Is.">*/}
+          {/*        (GMT-01:00) Cape Verde Is.*/}
+          {/*      </option>*/}
+          {/*      <option value="UTC">(GMT) UTC</option>*/}
+          {/*      <option value="Dublin">(GMT+01:00) Dublin</option>*/}
+          {/*      <option value="Edinburgh">(GMT+01:00) Edinburgh</option>*/}
+          {/*      <option value="London">(GMT+01:00) London</option>*/}
+          {/*      <option value="Prague">(GMT+02:00) Prague</option>*/}
+          {/*      <option value="Helsinki">(GMT+03:00) Helsinki</option>*/}
+          {/*      <option value="Abu Dhabi">(GMT+04:00) Abu Dhabi</option>*/}
+          {/*      <option value="Tehran">(GMT+04:30) Tehran</option>*/}
+          {/*      <option value="Islamabad">(GMT+05:00) Islamabad</option>*/}
+          {/*      <option value="Karachi">(GMT+05:00) Karachi</option>*/}
+          {/*      <option value="Tashkent">(GMT+05:00) Tashkent</option>*/}
+          {/*      <option value="Kathmandu">(GMT+05:45) Kathmandu</option>*/}
+          {/*      <option value="Astana">(GMT+06:00) Astana</option>*/}
+          {/*    </select>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
           {/* begin::Form Group */}
           <div className="form-group row align-items-center">
             <label className="col-xl-3 col-lg-3 col-form-label">
@@ -286,16 +286,16 @@ function AccountInformation(props) {
                   />
                   <span></span>Email
                 </label>
-                <label className="checkbox">
-                  <input
-                    type="checkbox"
-                    name="communicationSMS"
-                    checked={formik.values.communicationSMS}
-                    {...formik.getFieldProps("communicationSMS")}
-                    onChange={formik.handleChange}
-                  />
-                  <span></span>SMS
-                </label>
+                {/*<label className="checkbox">*/}
+                {/*  <input*/}
+                {/*    type="checkbox"*/}
+                {/*    name="communicationSMS"*/}
+                {/*    checked={formik.values.communicationSMS}*/}
+                {/*    {...formik.getFieldProps("communicationSMS")}*/}
+                {/*    onChange={formik.handleChange}*/}
+                {/*  />*/}
+                {/*  <span></span>SMS*/}
+                {/*</label>*/}
                 <label className="checkbox">
                   <input
                     type="checkbox"
@@ -319,28 +319,28 @@ function AccountInformation(props) {
             </div>
           </div>
           {/* begin::Form Group */}
-          <div className="form-group row">
-            <label className="col-xl-3 col-lg-3 col-form-label">
-              Login verification
-            </label>
-            <div className="col-lg-9 col-xl-6">
-              <button
-                type="button"
-                className="btn btn-light-primary font-weight-bold btn-sm"
-              >
-                Setup login verification
-              </button>
-              <p className="form-text text-muted pt-2">
-                After you log in, you will be asked for additional information
-                to confirm your identity and protect your account from being
-                compromised. {` `}
-                <a href="#" className="font-weight-bold">
-                  Learn more
-                </a>
-                .
-              </p>
-            </div>
-          </div>
+          {/*<div className="form-group row">*/}
+          {/*  <label className="col-xl-3 col-lg-3 col-form-label">*/}
+          {/*    Login verification*/}
+          {/*  </label>*/}
+          {/*  <div className="col-lg-9 col-xl-6">*/}
+          {/*    <button*/}
+          {/*      type="button"*/}
+          {/*      className="btn btn-light-primary font-weight-bold btn-sm"*/}
+          {/*    >*/}
+          {/*      Setup login verification*/}
+          {/*    </button>*/}
+          {/*    <p className="form-text text-muted pt-2">*/}
+          {/*      After you log in, you will be asked for additional information*/}
+          {/*      to confirm your identity and protect your account from being*/}
+          {/*      compromised. {` `}*/}
+          {/*      <a href="#" className="font-weight-bold">*/}
+          {/*        Learn more*/}
+          {/*      </a>*/}
+          {/*      .*/}
+          {/*    </p>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
           {/* begin::Form Group */}
           <div className="form-group row">
             <label className="col-xl-3 col-lg-3 col-form-label">
@@ -366,6 +366,7 @@ function AccountInformation(props) {
                 type="button"
                 className="btn btn-light-danger font-weight-bold btn-sm"
               >
+                {/*TODO*/}
                 Deactivate your account ?
               </button>
             </div>

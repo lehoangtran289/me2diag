@@ -92,7 +92,7 @@ export function ProfileCard() {
                 </div>
                 <div className="d-flex align-items-center justify-content-between mb-2">
                   <span className="font-weight-bold mr-2">Phone:</span>
-                  <span className="text-muted">{user.phone}</span>
+                  <span className="text-muted">{user.phoneNo}</span>
                 </div>
                 {/*<div className="d-flex align-items-center justify-content-between">*/}
                 {/*  <span className="font-weight-bold mr-2">Location:</span>*/}
