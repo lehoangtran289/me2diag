@@ -1,19 +1,19 @@
 /* eslint-disable jsx-a11y/role-supports-aria-props */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid */
 import React from "react";
-import { useLocation } from "react-router";
-import { NavLink } from "react-router-dom";
+import {useLocation} from "react-router";
+import {NavLink} from "react-router-dom";
 import SVG from "react-inlinesvg";
-import { toAbsoluteUrl, checkIsActive } from "../../../../_helpers";
+import {toAbsoluteUrl, checkIsActive} from "../../../../_helpers";
 import {shallowEqual, useSelector} from "react-redux";
-import {ROLE_EXPERT} from "../../../../../constants";
+import {ROLE_EXPERT, ROLE_USER} from "../../../../../constants";
 
-export function AsideMenuList({ layoutProps }) {
+export function AsideMenuList({layoutProps}) {
   const location = useLocation();
   const getMenuItemActive = (url, hasSubmenu = false) => {
     return checkIsActive(location, url)
       ? ` ${!hasSubmenu &&
-          "menu-item-active"} menu-item-open menu-item-not-hightlighted`
+      "menu-item-active"} menu-item-open menu-item-not-hightlighted`
       : "";
   };
 
@@ -30,7 +30,7 @@ export function AsideMenuList({ layoutProps }) {
         >
           <NavLink className="menu-link" to="/dashboard">
             <span className="svg-icon menu-icon">
-              <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Layers.svg")} />
+              <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Layers.svg")}/>
             </span>
             <span className="menu-text">Dashboard</span>
           </NavLink>
@@ -38,17 +38,48 @@ export function AsideMenuList({ layoutProps }) {
         {/*end::1 Level*/}
 
         {/*begin::1 Level*/}
-        <li
-          className={`menu-item ${getMenuItemActive("/my-page", false)}`}
-          aria-haspopup="true"
-        >
-          <NavLink className="menu-link" to="/my-page">
-            <span className="svg-icon menu-icon">
-              <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Layers.svg")} />
-            </span>
-            <span className="menu-text">My Page</span>
-          </NavLink>
-        </li>
+        {/*<li*/}
+        {/*  className={`menu-item ${getMenuItemActive("/my-page", false)}`}*/}
+        {/*  aria-haspopup="true"*/}
+        {/*>*/}
+        {/*  <NavLink className="menu-link" to="/my-page">*/}
+        {/*    <span className="svg-icon menu-icon">*/}
+        {/*      <SVG src={toAbsoluteUrl("/media/svg/icons/Design/Layers.svg")}/>*/}
+        {/*    </span>*/}
+        {/*    <span className="menu-text">My Page</span>*/}
+        {/*  </NavLink>*/}
+        {/*</li>*/}
+        {/*end::1 Level*/}
+
+        {/*begin::1 Level*/}
+        {
+          roles && roles.includes(ROLE_USER) ?
+            <>
+              <li
+                className={`menu-item ${getMenuItemActive("/patients", false)}`}
+                aria-haspopup="true"
+              >
+                <NavLink className="menu-link" to="/patients">
+                  <span className="svg-icon menu-icon">
+                    <SVG src={toAbsoluteUrl("/media/svg/icons/Communication/Group.svg")}/>
+                  </span>
+                  <span className="menu-text">Patient list</span>
+                </NavLink>
+              </li>
+              <li
+                className={`menu-item ${getMenuItemActive("/examinations", false)}`}
+                aria-haspopup="true"
+              >
+                <NavLink className="menu-link" to="/examinations">
+                  <span className="svg-icon menu-icon">
+                    <SVG src={toAbsoluteUrl("/media/svg/icons/Communication/Clipboard-list.svg")}/>
+                  </span>
+                  <span className="menu-text">Examination list</span>
+                </NavLink>
+              </li>
+            </>
+            : ""
+        }
         {/*end::1 Level*/}
 
         {/*begin::1 Level*/}

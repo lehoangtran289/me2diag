@@ -6,6 +6,8 @@ import {MyPage} from "./pages/MyPage";
 import {DashboardPage} from "./pages/DashboardPage";
 import {shallowEqual, useSelector} from "react-redux";
 import {ROLE_ADMIN, ROLE_EXPERT, ROLE_USER} from "../constants";
+import PatientPage from "./modules/Patient/PatientPage";
+import ExaminationPage from "./modules/Examination/ExaminationPage";
 
 // const GoogleMaterialPage = lazy(() =>
 //   import("./modules/GoogleMaterialExamples/GoogleMaterialPage")
@@ -42,8 +44,17 @@ export default function BasePage() {
 
         {/* CONTENT ROUTE */}
         <ContentRoute path="/dashboard" component={DashboardPage}/>
-        <ContentRoute path="/builder" component={BuilderPage}/>
-        <ContentRoute path="/my-page" component={MyPage}/>
+        {
+          roles.includes(ROLE_USER) ?
+            <>
+              <ContentRoute path="/examinations" component={ExaminationPage}/>
+              <ContentRoute path="/patients" component={PatientPage}/>
+            </>
+            : ""
+        }
+
+        {/*<ContentRoute path="/my-page" component={MyPage}/>*/}
+        {/*<ContentRoute path="/builder" component={BuilderPage}/>*/}
         {/*<Route path="/google-material" component={GoogleMaterialPage} />*/}
         {/*<Route path="/react-bootstrap" component={ReactBootstrapPage} />*/}
         {/*<Route path="/e-commerce" component={ECommercePage} />*/}
