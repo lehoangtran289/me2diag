@@ -15,8 +15,8 @@ function PersonaInformation(props) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user, shallowEqual);
   useEffect(() => {
-    if (user.pic) {
-      setPic(user.pic);
+    if (user.avatarUrl) {
+      setPic(user.avatarUrl);
     }
   }, [user]);
   // Methods
