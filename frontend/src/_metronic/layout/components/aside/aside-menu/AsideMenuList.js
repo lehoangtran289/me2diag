@@ -52,9 +52,14 @@ export function AsideMenuList({layoutProps}) {
         {/*end::1 Level*/}
 
         {/*begin::1 Level*/}
+        {/* end:: section */}
         {
           roles && roles.includes(ROLE_USER) ?
             <>
+              <li className="menu-section ">
+                <h4 className="menu-text">Functionalities</h4>
+                <i className="menu-icon flaticon-more-v2"></i>
+              </li>
               <li
                 className={`menu-item ${getMenuItemActive("/patients", false)}`}
                 aria-haspopup="true"
@@ -83,6 +88,10 @@ export function AsideMenuList({layoutProps}) {
         {/*end::1 Level*/}
 
         {/*begin::1 Level*/}
+        <li className="menu-section ">
+          <h4 className="menu-text">Profiles</h4>
+          <i className="menu-icon flaticon-more-v2"></i>
+        </li>
         <li
           className={`menu-item ${getMenuItemActive("/user-profile", false)}`}
           aria-haspopup="true"
