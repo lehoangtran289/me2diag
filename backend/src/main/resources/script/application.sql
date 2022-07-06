@@ -24,6 +24,8 @@ CREATE TABLE `patient`
     `id`         VARCHAR(50) PRIMARY KEY NOT NULL,
     `name`       varchar(100)            NOT NULL,
     `birth_date` DATE DEFAULT NULL       NULL,
+    `email`      VARCHAR(100),
+    `phoneNo`    VARCHAR(20),
     `gender`     VARCHAR(50),
     `avatar`     VARCHAR(100),
     `created_at` DATETIME,
@@ -254,16 +256,29 @@ VALUES ('PFS', 'diagnose disease using picture fuzzy relations', '2022-04-27 15:
 INSERT INTO backend.application (id, description, created_at, updated_at)
 VALUES ('KDC', 'classify various kidney diseases', '2022-04-27 15:56:15', null);
 
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('ALBUMIN', 141.7, -1);
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('CREATININ', 2981, 4.26);
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('HCT', 126, 11.3);
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('HGB', 186, 3.87);
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('K', 172.1, 5.3);
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('LY', 98, 0.5);
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('NA', 172.1, 5.3);
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('NE', 98, 0.01);
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('PLT', 1546, 13);
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('RBC', 42, 1.33);
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('TOTAL_PROTEIN', 121, 29);
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('URE', 107, 0.5);
-INSERT INTO backend.kdc_domain (name, max, min) VALUES ('WBC', 71.48, 1.11);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('ALBUMIN', 141.7, -1);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('CREATININ', 2981, 4.26);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('HCT', 126, 11.3);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('HGB', 186, 3.87);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('K', 172.1, 5.3);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('LY', 98, 0.5);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('NA', 172.1, 5.3);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('NE', 98, 0.01);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('PLT', 1546, 13);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('RBC', 42, 1.33);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('TOTAL_PROTEIN', 121, 29);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('URE', 107, 0.5);
+INSERT INTO backend.kdc_domain (name, max, min)
+VALUES ('WBC', 71.48, 1.11);

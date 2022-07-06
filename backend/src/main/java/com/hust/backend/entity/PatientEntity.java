@@ -32,6 +32,12 @@ public class PatientEntity {
     @Column(name = "avatar")
     private String avatarUrl;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "phoneNo")
+    private String phoneNo;
+
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private UserGenderEnum gender;

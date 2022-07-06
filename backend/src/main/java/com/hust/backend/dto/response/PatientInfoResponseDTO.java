@@ -16,7 +16,10 @@ public class PatientInfoResponseDTO {
     private String name;
     @JsonFormat(pattern="dd/MM/yyyy")
     private Date birthDate;
+    private String email;
+    private String phoneNo;
     private String avatarUrl;
     private UserGenderEnum gender;
+    private Date createdAt;
     private Date updatedAt;
 }
