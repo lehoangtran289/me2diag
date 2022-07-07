@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import {getAllPatients} from "./_redux/patientCrud";
 import {Button} from "react-bootstrap";
 import {Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
+import { toast } from "react-toastify";
 
 function PatientListPage(props) {
   const history = useHistory();
@@ -19,13 +20,19 @@ function PatientListPage(props) {
     getAllPatients()
       .then(r => {
         console.log(r);
-        setPatients(r.data['items']);
-        setTotalPages(r.data['total_pages']);
-        setTotalItems(r.data['total_items']);
-        setCurrentPage(r.data['current_page']);
+        setPatients(r.data.data['items']);
+        setTotalPages(r.data.data['total_pages']);
+        setTotalItems(r.data.data['total_items']);
+        setCurrentPage(r.data.data['current_page']);
       })
       .catch(error => {
         console.log('Error get all patients: ' + error);
+        toast.error('Cannot get patients', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true
+        })
       });
   }, [update]);
 
@@ -51,7 +58,7 @@ function PatientListPage(props) {
   ];
 
   const handleDiagnoseButtonClick = (patientId) => {
-    let path = `/user-profile/patient/${patientId}/diagnose`;
+    let path = `/patient/${patientId}/diagnose`;
     history.push({
       pathname: path,
       state: {
