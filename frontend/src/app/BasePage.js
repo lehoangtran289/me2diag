@@ -32,7 +32,7 @@ export default function BasePage() {
   //   console.log('Base page');
   // }, [])
 
-  const roles = useSelector((state) => state.auth.payload.roles, shallowEqual);
+  const roles = useSelector(({ auth }) => auth.payload.roles, shallowEqual);
 
   return (
     <Suspense fallback={<LayoutSplashScreen/>}>
@@ -45,12 +45,12 @@ export default function BasePage() {
         {/* CONTENT ROUTE */}
         <ContentRoute path="/dashboard" component={DashboardPage}/>
         {
-          roles.includes(ROLE_USER) ?
-            <>
-              <ContentRoute path="/examinations" component={ExaminationPage}/>
-              <ContentRoute path="/patients" component={PatientPage}/>
-            </>
-            : ""
+          roles && roles.includes(ROLE_USER) &&
+          <ContentRoute path="/examinations" component={ExaminationPage}/>
+        }
+        {
+          roles && roles.includes(ROLE_USER) &&
+          <ContentRoute path="/patients" component={PatientPage}/>
         }
 
         {/*<ContentRoute path="/my-page" component={MyPage}/>*/}
