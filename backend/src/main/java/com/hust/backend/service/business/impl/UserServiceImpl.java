@@ -106,9 +106,13 @@ public class UserServiceImpl implements UserService {
             String absAvatarUrl = appConfig.getDomain() + "/media/" + relAvatarUrl;
             if (user.getAvatarUrl() != null) {
                 String folder = "/" + ResourceType.USER.folderName + "/";
-                String avatarFileName = folder + user.getAvatarUrl().split(folder)[1];
-                if (storageService.isExist(avatarFileName)) {
-                    storageService.delete(avatarFileName);
+                try {
+                    String avatarFileName = folder + user.getAvatarUrl().split(folder)[1];
+                    if (storageService.isExist(avatarFileName)) {
+                        storageService.delete(avatarFileName);
+                    }
+                } catch (Exception ex) {
+                    log.error("Error in getting avatarFilename", ex);
                 }
             }
             user.setAvatarUrl(absAvatarUrl);
