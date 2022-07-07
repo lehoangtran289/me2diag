@@ -12,4 +12,6 @@ public interface PatientRepository extends JpaRepository<PatientEntity, String> 
 
     Page<PatientEntity> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
+    Page<PatientEntity> findByNameContainingOrEmailContainingOrPhoneNoContaining(String query, String query1, String query2, Pageable pageable);
+
 }

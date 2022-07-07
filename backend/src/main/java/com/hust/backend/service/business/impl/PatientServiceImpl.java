@@ -42,7 +42,7 @@ public class PatientServiceImpl implements PatientService {
     public PagingInfo<PatientInfoResponseDTO> getALlPatients(String query, Pageable pageable) {
         Page<PatientEntity> patientEntityPage = StringUtils.isBlank(query) ?
                 patientRepository.findAllByOrderByCreatedAtDesc(pageable) :
-                getAllPatientsByNameLike(query, pageable);
+                getAllPatientsByQuery(query, pageable);
         List<PatientInfoResponseDTO> results = Transformer.listToList(
                 patientEntityPage.getContent(),
                 patientEntity -> Common.convertObject(patientEntity, PatientInfoResponseDTO.class));
@@ -53,6 +53,10 @@ public class PatientServiceImpl implements PatientService {
                 .totalItems(patientEntityPage.getTotalElements())
                 .totalPages(patientEntityPage.getTotalPages())
                 .build();
+    }
+
+    private Page<PatientEntity> getAllPatientsByQuery(String query, Pageable pageable) {
+        return patientRepository.findByNameContainingOrEmailContainingOrPhoneNoContaining(query, query, query, pageable);
     }
 
     @Override
@@ -92,7 +96,4 @@ public class PatientServiceImpl implements PatientService {
         log.info("New patient registered successfully {}", patientEntity);
     }
 
-    private Page<PatientEntity> getAllPatientsByNameLike(String query, Pageable pageable) {
-        return patientRepository.findByNameContaining(query, pageable);
-    }
 }
