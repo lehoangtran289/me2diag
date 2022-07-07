@@ -5,7 +5,7 @@ import {NavLink} from "react-router-dom";
 // import SVG from "react-inlinesvg";
 import {checkIsActive} from "../../../../_helpers";
 import {shallowEqual, useSelector} from "react-redux";
-import {ROLE_USER} from "../../../../../constants";
+import { ROLE_ADMIN, ROLE_EXPERT, ROLE_USER } from "../../../../../constants";
 
 export function HeaderMenu({layoutProps}) {
   const location = useLocation();
@@ -42,7 +42,7 @@ export function HeaderMenu({layoutProps}) {
 
       {/*begin::1 Level*/}
       {
-        roles && roles.includes(ROLE_USER) ?
+        roles && roles.includes(ROLE_USER) &&
           <>
             <li className={`menu-item menu-item-rel ${getMenuItemActive('/patients')}`}>
               <NavLink className="menu-link" to="/patients">
@@ -57,9 +57,35 @@ export function HeaderMenu({layoutProps}) {
               </NavLink>
             </li>
           </>
-           : ""
       }
-      {/*end::1 Level*/}
+      {
+        roles && roles.includes(ROLE_ADMIN) &&
+        <>
+          <li className={`menu-item menu-item-rel ${getMenuItemActive('/accounts')}`}>
+            <NavLink className="menu-link" to="/accounts">
+              <span className="menu-text">Account management</span>
+              {layoutProps.rootArrowEnabled && (<i className="menu-arrow"/>)}
+            </NavLink>
+          </li>
+        </>
+      }
+      {
+        roles && roles.includes(ROLE_EXPERT) &&
+        <>
+          <li className={`menu-item menu-item-rel ${getMenuItemActive('/config/pfs')}`}>
+            <NavLink className="menu-link" to="/config/pfs">
+              <span className="menu-text">PFS Configs</span>
+              {layoutProps.rootArrowEnabled && (<i className="menu-arrow"/>)}
+            </NavLink>
+          </li>
+          <li className={`menu-item menu-item-rel ${getMenuItemActive('/config/kdc')}`}>
+            <NavLink className="menu-link" to="/config/kdc">
+              <span className="menu-text">KDC Configs</span>
+              {layoutProps.rootArrowEnabled && (<i className="menu-arrow"/>)}
+            </NavLink>
+          </li>
+        </>
+      }
 
       {/*begin::1 Level*/}
       <li className={`menu-item menu-item-rel ${getMenuItemActive('/user-profile')}`}>

@@ -6,7 +6,7 @@ import {NavLink} from "react-router-dom";
 import SVG from "react-inlinesvg";
 import {toAbsoluteUrl, checkIsActive} from "../../../../_helpers";
 import {shallowEqual, useSelector} from "react-redux";
-import {ROLE_EXPERT, ROLE_USER} from "../../../../../constants";
+import { ROLE_ADMIN, ROLE_EXPERT, ROLE_USER } from "../../../../../constants";
 
 export function AsideMenuList({layoutProps}) {
   const location = useLocation();
@@ -54,7 +54,7 @@ export function AsideMenuList({layoutProps}) {
         {/*begin::1 Level*/}
         {/* end:: section */}
         {
-          roles && roles.includes(ROLE_USER) ?
+          roles && roles.includes(ROLE_USER) &&
             <>
               <li className="menu-section ">
                 <h4 className="menu-text">Functionalities</h4>
@@ -83,9 +83,58 @@ export function AsideMenuList({layoutProps}) {
                 </NavLink>
               </li>
             </>
-            : ""
         }
-        {/*end::1 Level*/}
+        {
+          roles && roles.includes(ROLE_ADMIN) &&
+          <>
+            <li className="menu-section ">
+              <h4 className="menu-text">System management</h4>
+              <i className="menu-icon flaticon-more-v2"></i>
+            </li>
+            <li
+              className={`menu-item ${getMenuItemActive("/accounts", false)}`}
+              aria-haspopup="true"
+            >
+              <NavLink className="menu-link" to="/accounts">
+                  <span className="svg-icon menu-icon">
+                    <SVG src={toAbsoluteUrl("/media/svg/icons/Communication/Group.svg")}/>
+                  </span>
+                <span className="menu-text">Account management</span>
+              </NavLink>
+            </li>
+          </>
+        }
+        {
+          roles && roles.includes(ROLE_EXPERT) &&
+          <>
+            <li className="menu-section ">
+              <h4 className="menu-text">Medical configurations</h4>
+              <i className="menu-icon flaticon-more-v2"></i>
+            </li>
+            <li
+              className={`menu-item ${getMenuItemActive("/config/fps", false)}`}
+              aria-haspopup="true"
+            >
+              <NavLink className="menu-link" to="/config/fps">
+                  <span className="svg-icon menu-icon">
+                    <SVG src={toAbsoluteUrl("/media/svg/icons/General/Settings-1.svg")}/>
+                  </span>
+                <span className="menu-text">PFS Configs</span>
+              </NavLink>
+            </li>
+            <li
+              className={`menu-item ${getMenuItemActive("/config/kdc", false)}`}
+              aria-haspopup="true"
+            >
+              <NavLink className="menu-link" to="/config/kdc">
+                  <span className="svg-icon menu-icon">
+                    <SVG src={toAbsoluteUrl("/media/svg/icons/General/Settings-2.svg")}/>
+                  </span>
+                <span className="menu-text">KDC Configs</span>
+              </NavLink>
+            </li>
+          </>
+        }
 
         {/*begin::1 Level*/}
         <li className="menu-section ">
