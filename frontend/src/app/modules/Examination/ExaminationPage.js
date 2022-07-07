@@ -19,8 +19,6 @@ function ExaminationPage(props) {
             <div></div>
           );
         }} />
-
-        {/*<Redirect to={"/error/error-v1"}/>*/}
       </Switch>
     </Suspense>
   );

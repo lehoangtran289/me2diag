@@ -76,8 +76,8 @@ export default function BasePage() {
 
         {/* ROUTE */}
         <Route path="/user-profile" component={UserProfilePage}/>
+
         {
-          /* Redirect from root URL to /dashboard. */
           <Redirect from="/*" to="/error/error-v1"/>
         }
       </Switch>
