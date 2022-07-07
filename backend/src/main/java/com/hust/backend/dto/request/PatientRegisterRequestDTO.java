@@ -24,10 +24,9 @@ import java.util.Date;
 public class PatientRegisterRequestDTO {
     @Size(max = 255, message = "Invalid string length")
     @NotBlank(message = "name is required")
-    private String id;
-    @Size(max = 255, message = "Invalid string length")
-    @NotBlank(message = "name is required")
     private String name;
+    private String phoneNo;
+    private String email;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
     private UserGenderEnum gender;

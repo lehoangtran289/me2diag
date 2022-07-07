@@ -14,6 +14,7 @@ import com.hust.backend.service.business.PatientService;
 import com.hust.backend.service.storage.StorageService;
 import com.hust.backend.utils.Common;
 import com.hust.backend.utils.Transformer;
+import com.hust.backend.utils.ULID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -69,15 +71,13 @@ public class PatientServiceImpl implements PatientService {
     @Override
     @Transactional(rollbackOn = Exception.class)
     public void registerPatient(PatientRegisterRequestDTO request) {
-        if (patientRepository.existsById(request.getId())) {
-            throw new BusinessException(ResponseStatusEnum.ENTITY_DUPLICATED, "Patient already existed!",
-                    request.getId());
-        }
         PatientEntity patientEntity = PatientEntity.builder()
-                .id(request.getId())
+                .id(ULID.nextULID())
                 .name(request.getName())
                 .birthDate(request.getBirthDate())
                 .gender(request.getGender())
+                .phoneNo(request.getPhoneNo())
+                .email(request.getEmail())
                 .build();
 
         if (request.getAvatar() != null) {

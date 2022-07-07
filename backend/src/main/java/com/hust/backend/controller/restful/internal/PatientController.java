@@ -48,6 +48,7 @@ public class PatientController {
     @PostMapping(consumes = "multipart/form-data")
     @AuthRequired(roles = UserRoleEnum.USER)
     public ResponseEntity<GeneralResponse<String>> registerPatient(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @Valid @ModelAttribute PatientRegisterRequestDTO request
     ) {
         patientService.registerPatient(request);
