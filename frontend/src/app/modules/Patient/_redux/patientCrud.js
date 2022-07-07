@@ -1,9 +1,13 @@
-import React from 'react';
+import {BACKEND_ORIGIN} from "../../../../config";
 
-function PatientCrud(props) {
-  return (
-    <div></div>
-  );
+export const getAllPatients = () => {
+  const GET_PATIENTS_INFO = BACKEND_ORIGIN + `patient`;
+  return fetch(GET_PATIENTS_INFO, {
+    method: "GET",
+  }).then(res => {
+    if (!res.ok) {
+      return null;
+    }
+    return res.json()
+  });
 }
-
-export default PatientCrud;
