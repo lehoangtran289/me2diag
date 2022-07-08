@@ -33,8 +33,7 @@ export function PaginationToolbar(props) {
       )}
       <select
         disabled={totalSize === 0}
-        className={`form-control form-control-sm font-weight-bold mr-4 border-0 bg-light ${totalSize ===
-          0 && "disabled"}`}
+        className={`form-control form-control-sm font-weight-bold mr-4 border-0 bg-light ${totalSize === 0 && "disabled"}`}
         onChange={onSizeChange}
         value={sizePerPage}
         style={style}

@@ -1,7 +1,9 @@
 import { BACKEND_ORIGIN } from "../../../../config";
 import axios from "axios";
 
-export const getAllPatients = () => {
+export const getAllPatients = (params) => {
   const GET_PATIENTS_INFO = BACKEND_ORIGIN + `patient`;
-  return axios.get(GET_PATIENTS_INFO);
+  return axios.get(GET_PATIENTS_INFO, {
+    params: params
+  });
 };

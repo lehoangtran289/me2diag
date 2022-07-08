@@ -13,14 +13,7 @@ import paginationFactory, {
 } from "react-bootstrap-table2-paginator";
 import { Pagination } from "../../../../_metronic/_partials/controls";
 
-function PatientsTable({ patients, currentPage, rowsPerPage, totalPages, totalItems }) {
-
-  const [listLoading, setListLoading] = useState(false);
-
-  useEffect(() => {
-    // server call by queryParams
-
-  }, []);
+function PatientsTable({ patients, paging, query, setQuery, listLoading, setListLoading }) {
 
   // Table columns
   const columns = [
@@ -53,6 +46,11 @@ function PatientsTable({ patients, currentPage, rowsPerPage, totalPages, totalIt
       sort: false,
     },
     {
+      dataField: "email",
+      text: "email",
+      sort: false,
+    },
+    {
       dataField: "gender",
       text: "Gender",
       sort: false,
@@ -65,6 +63,7 @@ function PatientsTable({ patients, currentPage, rowsPerPage, totalPages, totalIt
     {
       dataField: "action",
       text: "Actions",
+      // TODO
       // formatter: columnFormatters.ActionsColumnFormatter,
       // formatExtraData: {
       //   openEditCustomerDialog: customersUIProps.openEditCustomerDialog,
@@ -77,17 +76,28 @@ function PatientsTable({ patients, currentPage, rowsPerPage, totalPages, totalIt
       }
     }
   ];
+
   // Table pagination properties
   const paginationOptions = {
     custom: true,
-    totalSize: totalItems,
+    page: paging.currentPage,
+    sizePerPage: paging.rowsPerPage,
+    totalSize: paging.totalItems,
     sizePerPageList: [
-      { text: "3", value: 3 },
-      { text: "5", value: 5 },
-      { text: "10", value: 10 }
+      { text: "10", value: 10 },
+      { text: "15", value: 15 },
+      { text: "20", value: 20 },
     ],
-    sizePerPage: rowsPerPage,
-    page: currentPage
+  };
+  console.log(paginationOptions);
+
+  const handleTableChange = (type, { page, sizePerPage, sortField, sortOrder, data }) => {
+    const pageNumber = page || 1;
+    setQuery({
+      ...query,
+      page: pageNumber,
+      size: sizePerPage
+    })
   };
 
   return (
@@ -109,7 +119,7 @@ function PatientsTable({ patients, currentPage, rowsPerPage, totalPages, totalIt
                 data={patients === null ? [] : patients}
                 columns={columns}
                 // defaultSorted={uiHelpers.defaultSorted}
-                onTableChange={() => {}}
+                onTableChange={handleTableChange}
                 {...paginationTableProps}
               >
                 <PleaseWaitMessage entities={patients} />

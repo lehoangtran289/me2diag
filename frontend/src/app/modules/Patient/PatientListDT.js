@@ -10,24 +10,40 @@ import PatientsTable from "./components/PatientsTable";
 function PatientListDt(props) {
   const history = useHistory();
 
-  const [update, setUpdate] = useState(false);
-
   const [patients, setPatients] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
-  const [totalItems, setTotalItems] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [listLoading, setListLoading] = useState(false);
+
+  const [paging, setPaging] = useState({
+    totalPages: 0,
+    currentPage: 1,
+    totalItems: 0,
+    rowsPerPage: 0,
+  });
+  const [query, setQuery] = useState({
+    query: "",
+    page: 1,
+    gen: null,
+    size: 10,
+    sort: ""
+  });
 
   useEffect(() => {
-    getAllPatients()
+    console.log(query);
+    setListLoading(true);
+    getAllPatients(query)
       .then(r => {
-        console.log(r);
         setPatients(r.data.data["items"]);
-        setTotalPages(r.data.data["total_pages"]);
-        setTotalItems(r.data.data["total_items"]);
-        setCurrentPage(r.data.data["current_page"]);
+        setPaging({
+          ...paging,
+          totalPages: r.data.data["total_pages"],
+          totalItems: r.data.data["total_items"],
+          currentPage: r.data.data["current_page"],
+          rowsPerPage: r.data.data["page_size"]
+        });
+        setListLoading(false);
       })
       .catch(error => {
+        setListLoading(false);
         console.log("Error get all patients: " + error);
         toast.error("Cannot get patients", {
           position: "top-right",
@@ -36,7 +52,12 @@ function PatientListDt(props) {
           closeOnClick: true
         });
       });
-  }, [update]);
+  }, [query]);
+
+  const newCustomerButtonClick = () => {
+  //  history.push("/patients/new");
+    console.log("newCustomerButtonClick")
+  }
 
   return (
     <Card>
@@ -45,21 +66,21 @@ function PatientListDt(props) {
           <button
             type="button"
             className="btn btn-primary"
-            onClick={() => {
-            }}
+            onClick={newCustomerButtonClick} // TODO
           >
             New Customer
           </button>
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-        <PatientsFilter />
+        <PatientsFilter query={query} setQuery={setQuery}/>
         <PatientsTable
           patients={patients}
-          totalPages={totalPages}
-          totalItems={totalItems}
-          currentPage={currentPage}
-          rowsPerPage={rowsPerPage}
+          query={query}
+          paging={paging}
+          setQuery={setQuery}
+          listLoading={listLoading}
+          setListLoading={setListLoading}
         />
       </CardBody>
     </Card>
