@@ -43,7 +43,7 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PagingInfo<PatientInfoResponseDTO> getALlPatients(String query, Pageable pageable) {
         Page<PatientEntity> patientEntityPage = StringUtils.isBlank(query) ?
-                patientRepository.findAllByOrderByCreatedAtDesc(pageable) :
+                patientRepository.findAll(pageable) :
                 getAllPatientsByQuery(query, pageable);
         List<PatientInfoResponseDTO> results = Transformer.listToList(
                 patientEntityPage.getContent(),
@@ -54,6 +54,7 @@ public class PatientServiceImpl implements PatientService {
                 .currentPage(patientEntityPage.getNumber())
                 .totalItems(patientEntityPage.getTotalElements())
                 .totalPages(patientEntityPage.getTotalPages())
+                .pageSize(patientEntityPage.getSize())
                 .build();
     }
 

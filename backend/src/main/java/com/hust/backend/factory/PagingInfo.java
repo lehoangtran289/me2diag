@@ -21,6 +21,7 @@ public class PagingInfo<T> {
     private long totalPages;
     private long totalItems;
     private long currentPage;
+    private long pageSize;
 
     @JsonProperty("items")
     private List<T> items;
