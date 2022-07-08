@@ -18,6 +18,7 @@ public class PatientInfoResponseDTO {
     private Date birthDate;
     private String email;
     private String phoneNo;
+    private String address;
     private String avatarUrl;
     private UserGenderEnum gender;
     private Date createdAt;

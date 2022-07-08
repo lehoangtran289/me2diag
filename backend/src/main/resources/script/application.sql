@@ -25,6 +25,7 @@ CREATE TABLE `patient`
     `name`       varchar(100)            NOT NULL,
     `birth_date` DATE DEFAULT NULL       NULL,
     `email`      VARCHAR(100),
+    `address`    VARCHAR(250),
     `phoneNo`    VARCHAR(20),
     `gender`     VARCHAR(50),
     `avatar`     VARCHAR(100),

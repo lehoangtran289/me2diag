@@ -38,6 +38,9 @@ public class PatientEntity {
     @Column(name = "phoneNo")
     private String phoneNo;
 
+    @Column(name = "address")
+    private String address;
+
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private UserGenderEnum gender;
