@@ -6,7 +6,7 @@ import com.hust.backend.factory.PagingInfo;
 import org.springframework.data.domain.Pageable;
 
 public interface PatientService {
-    PagingInfo<PatientInfoResponseDTO> getALlPatients(String query, Pageable pageable);
+    PagingInfo<PatientInfoResponseDTO> getALlPatients(String query, String gender, Pageable pageable);
 
     PatientInfoResponseDTO getPatient(String patientId);
 

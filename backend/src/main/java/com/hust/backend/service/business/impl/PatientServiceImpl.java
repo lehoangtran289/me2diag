@@ -2,11 +2,9 @@ package com.hust.backend.service.business.impl;
 
 import com.hust.backend.config.AppConfig;
 import com.hust.backend.constant.ResourceType;
-import com.hust.backend.constant.ResponseStatusEnum;
 import com.hust.backend.dto.request.PatientRegisterRequestDTO;
 import com.hust.backend.dto.response.PatientInfoResponseDTO;
 import com.hust.backend.entity.PatientEntity;
-import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.factory.PagingInfo;
 import com.hust.backend.repository.PatientRepository;
@@ -16,14 +14,12 @@ import com.hust.backend.utils.Common;
 import com.hust.backend.utils.Transformer;
 import com.hust.backend.utils.ULID;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -41,10 +37,11 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public PagingInfo<PatientInfoResponseDTO> getALlPatients(String query, Pageable pageable) {
-        Page<PatientEntity> patientEntityPage = StringUtils.isBlank(query) ?
-                patientRepository.findAll(pageable) :
-                getAllPatientsByQuery(query, pageable);
+    public PagingInfo<PatientInfoResponseDTO> getALlPatients(String query, String gender, Pageable pageable) {
+//        Page<PatientEntity> patientEntityPage = StringUtils.isBlank(query) ?
+//                patientRepository.findAll(pageable) :
+//                getAllPatientsByQuery(query, pageable);
+        Page<PatientEntity> patientEntityPage = patientRepository.findAllPatients(query, gender, pageable);
         List<PatientInfoResponseDTO> results = Transformer.listToList(
                 patientEntityPage.getContent(),
                 patientEntity -> Common.convertObject(patientEntity, PatientInfoResponseDTO.class));

@@ -60,12 +60,14 @@ public class PatientController {
     public ResponseEntity<GeneralResponse<PagingInfo<PatientInfoResponseDTO>>> getAllPatient(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @RequestParam(required = false) String query,
+            // TODO: cannot set to 'gender'. dont know why :<
+            @RequestParam(value = "gen", required = false, defaultValue = "") String gender,
             @RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNo,
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize,
             @RequestParam(required = false) String[] sort
     ) {
         Pageable pageable = PageRequest.of(pageNo, pageSize, pageService.from(sort));
-        return responseFactory.success(patientService.getALlPatients(query, pageable));
+        return responseFactory.success(patientService.getALlPatients(query, gender, pageable));
     }
 
     @GetMapping("/{patientId}")
