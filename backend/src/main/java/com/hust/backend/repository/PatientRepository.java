@@ -14,6 +14,7 @@ public interface PatientRepository extends JpaRepository<PatientEntity, String> 
 
     Page<PatientEntity> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
+    // find all patients, query by name, email, phoneNo and gender
     @Query("SELECT p FROM PatientEntity p " +
             "WHERE (:query is null " +
             "or (p.name LIKE CONCAT('%',:query,'%') " +

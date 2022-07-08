@@ -48,7 +48,7 @@ public class PatientServiceImpl implements PatientService {
 
         return PagingInfo.<PatientInfoResponseDTO>builder()
                 .items(results)
-                .currentPage(patientEntityPage.getNumber())
+                .currentPage(patientEntityPage.getNumber() + 1)
                 .totalItems(patientEntityPage.getTotalElements())
                 .totalPages(patientEntityPage.getTotalPages())
                 .pageSize(patientEntityPage.getSize())
