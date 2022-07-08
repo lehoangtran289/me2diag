@@ -19,6 +19,8 @@ function PatientListDt(props) {
     totalItems: 0,
     rowsPerPage: 0,
   });
+
+  // TODO: add sorting
   const [query, setQuery] = useState({
     query: "",
     page: 1,
@@ -45,12 +47,7 @@ function PatientListDt(props) {
       .catch(error => {
         setListLoading(false);
         console.log("Error get all patients: " + error);
-        toast.error("Cannot get patients", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true
-        });
+        alert("Cannot get patients");
       });
   }, [query]);
 
@@ -66,7 +63,7 @@ function PatientListDt(props) {
           <button
             type="button"
             className="btn btn-primary"
-            onClick={newCustomerButtonClick} // TODO
+            onClick={newCustomerButtonClick} // TODO: add create new patient modal
           >
             New Customer
           </button>

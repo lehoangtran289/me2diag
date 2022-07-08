@@ -1,5 +1,6 @@
-import React, {useEffect} from "react";
+import React, { useCallback, useEffect } from "react";
 import {Formik} from "formik";
+import _debounce from "lodash/debounce";
 
 const prepareFilter = (queryParams, values) => {
   const { status, type, searchText } = values;
@@ -20,7 +21,7 @@ const prepareFilter = (queryParams, values) => {
   return newQueryParams;
 };
 
-// TODO
+// TODO: add debounce
 function PatientsFilter({ query, setQuery }) {
 
   // on filter submit

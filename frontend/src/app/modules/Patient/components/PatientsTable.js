@@ -63,7 +63,7 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
     {
       dataField: "action",
       text: "Actions",
-      // TODO
+      // TODO: add patient detail page
       // formatter: columnFormatters.ActionsColumnFormatter,
       // formatExtraData: {
       //   openEditCustomerDialog: customersUIProps.openEditCustomerDialog,
@@ -89,9 +89,9 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
       { text: "20", value: 20 },
     ],
   };
-  console.log(paginationOptions);
 
   const handleTableChange = (type, { page, sizePerPage, sortField, sortOrder, data }) => {
+    console.log(sortField, sortOrder);
     const pageNumber = page || 1;
     setQuery({
       ...query,
