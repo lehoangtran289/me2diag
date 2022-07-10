@@ -1,8 +1,7 @@
 import React,  { Suspense } from 'react';
 import { Redirect, Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
-import PatientListPage from "./PatientListPage";
 import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
-import PatientListDT from "./PatientListDT";
+import PatientListDT from "./PatientListPage";
 
 function PatientPage(props) {
   const {url} = useRouteMatch();
