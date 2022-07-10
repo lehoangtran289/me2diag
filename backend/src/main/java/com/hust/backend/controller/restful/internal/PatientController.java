@@ -26,7 +26,7 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin(origins = "localhost:3000", maxAge = 3600)
 @RequestMapping("${app.application-context-name}/api/v1/patient")
 public class PatientController {
     private final ResponseFactory responseFactory;
