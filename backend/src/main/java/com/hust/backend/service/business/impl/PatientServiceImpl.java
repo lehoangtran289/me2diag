@@ -14,6 +14,7 @@ import com.hust.backend.utils.Common;
 import com.hust.backend.utils.Transformer;
 import com.hust.backend.utils.ULID;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -70,7 +71,7 @@ public class PatientServiceImpl implements PatientService {
     @Transactional(rollbackOn = Exception.class)
     public void registerPatient(PatientRegisterRequestDTO request) {
         PatientEntity patientEntity = PatientEntity.builder()
-                .id(ULID.nextULID())
+                .id(StringUtils.isBlank(request.getId()) ? ULID.nextULID() : request.getId())
                 .name(request.getName())
                 .birthDate(request.getBirthDate())
                 .gender(request.getGender())
