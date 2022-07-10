@@ -20,9 +20,12 @@ export function DatePickerField({ ...props }) {
   const [field] = useField(props);
   return (
     <>
-      {props.label && <label>{props.label}</label>}
+      <div>
+        {props.label && <label>{props.label}</label>}
+      </div>
       <DatePicker
         className={getFieldCSSClasses(touched[field.name], errors[field.name])}
+        dateFormat="dd/MM/yyyy"
         style={{ width: "100%" }}
         {...field}
         {...props}
@@ -37,7 +40,7 @@ export function DatePickerField({ ...props }) {
         </div>
       ) : (
         <div className="feedback">
-          Please enter <b>{props.label}</b> in 'mm/dd/yyyy' format
+          Please enter <b>{props.label}</b> in 'dd/MM/yyyy' format
         </div>
       )}
     </>

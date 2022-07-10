@@ -52,8 +52,8 @@ function PatientListPage(props) {
   }, [query]);
 
   const newCustomerButtonClick = () => {
-  //  history.push("/patients/new");
     console.log("newCustomerButtonClick")
+    history.push("/patients/new");
   }
 
   return (
