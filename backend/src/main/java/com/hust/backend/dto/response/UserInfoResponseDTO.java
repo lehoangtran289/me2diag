@@ -1,9 +1,11 @@
 package com.hust.backend.dto.response;
 
 import com.hust.backend.constant.UserGenderEnum;
+import com.hust.backend.constant.UserRoleEnum;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,11 +19,9 @@ public class UserInfoResponseDTO {
     private String firstName;
     private String lastName;
     private String phoneNo;
-    private String avatarUrl;
-    private Date birthDate;
     private UserGenderEnum gender;
     private Boolean isEnable;
-    private String description;
     private Date updatedAt;
+    private List<UserRoleEnum> roles;
 }
 

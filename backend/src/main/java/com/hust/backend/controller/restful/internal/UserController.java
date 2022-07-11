@@ -27,6 +27,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 @Slf4j
 @Validated
@@ -94,13 +95,14 @@ public class UserController {
     public ResponseEntity<GeneralResponse<PagingInfo<UserInfoResponseDTO>>> getAllUsers(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @RequestParam(required = false) String query,
+            @RequestParam(value = "roles", required = false) List<String> roles,
             @RequestParam(value = "isEnable", required = false) Boolean isEnable,
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize,
             @RequestParam(required = false) String[] sort
     ) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, pageService.from(sort));
-        return responseFactory.success(userService.getAllUsers(query, isEnable, pageable));
+        return responseFactory.success(userService.getAllUsers(query, roles, isEnable, pageable));
     }
 
     @PatchMapping(value = "/{userId}", consumes = "multipart/form-data")

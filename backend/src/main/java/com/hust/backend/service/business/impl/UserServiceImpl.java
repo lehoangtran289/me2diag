@@ -29,9 +29,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -42,6 +45,7 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final StorageService storageService;
     private final AppConfig appConfig;
+    private final Map<String, UserRoleEnum> map = new HashMap<>();
 
     public UserServiceImpl(UserRepository userRepository,
                            UserRoleRepository userRoleRepository,
@@ -55,6 +59,15 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
         this.storageService = storageService;
         this.appConfig = appConfig;
+    }
+
+    @PostConstruct
+    private void postConstruct() {
+        for (UserRoleEnum role : UserRoleEnum.values()) {
+            RoleEntity roleEntity = roleRepository.findByRoleEnum(role)
+                    .orElseThrow(() -> new NotFoundException(UserRoleEnum.class, role.getRole()));
+            map.put(roleEntity.getId(), roleEntity.getRoleEnum());
+        }
     }
 
     @Override
@@ -77,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
         // add user roles
         List<UserRoleEntity> lst = new ArrayList<>();
-        for (UserRoleEnum role: request.getRoles()) {
+        for (UserRoleEnum role : request.getRoles()) {
             RoleEntity roleEntity = roleRepository.findByRoleEnum(role)
                     .orElseThrow(() -> new BusinessException(
                             ResponseStatusEnum.INTERNAL_SERVER_ERROR, "Role " + role.name() + " not existed"));
@@ -123,14 +136,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PagingInfo<UserInfoResponseDTO> getAllUsers(String usernameQuery, Boolean isEnable, Pageable pageable) {
-//        Page<UserEntity> userEntityPage = StringUtils.isBlank(usernameQuery) ?
-//                userRepository.findAll(pageable) :
-//                getAllUsersByNameOrEmailLike(usernameQuery, pageable);
-        Page<UserEntity> userEntityPage = userRepository.findAllUsers(usernameQuery, isEnable, pageable);
+    public PagingInfo<UserInfoResponseDTO> getAllUsers(
+            String usernameQuery,
+            List<String> roleStrs,
+            Boolean isEnable,
+            Pageable pageable
+    ) {
+        // query to get UserInfoResponseDto without roles
+        List<UserRoleEnum> roles = Transformer.listToList(roleStrs, UserRoleEnum::from);
+        Page<UserEntity> userEntityPage = userRepository.findAllUsers(usernameQuery, roles, isEnable, pageable);
         List<UserInfoResponseDTO> results = Transformer.listToList(
                 userEntityPage.getContent(),
                 userEntity -> Common.convertObject(userEntity, UserInfoResponseDTO.class));
+
+        // set corresponding roles to response
+        for (UserInfoResponseDTO user : results) {
+            List<UserRoleEntity> userRoleEntities = userRoleRepository.findAllByUserId(user.getId());
+            user.setRoles(Transformer.listToList(
+                    userRoleEntities,
+                    urEntity -> map.get(urEntity.getRoleId())
+            ));
+        }
         return PagingInfo.<UserInfoResponseDTO>builder()
                 .items(results)
                 .currentPage(userEntityPage.getNumber() + 1)
