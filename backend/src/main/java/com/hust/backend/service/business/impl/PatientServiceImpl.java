@@ -94,6 +94,7 @@ public class PatientServiceImpl implements PatientService {
                 .birthDate(request.getBirthDate())
                 .gender(request.getGender())
                 .phoneNo(request.getPhoneNo())
+                .address(request.getAddress())
                 .email(request.getEmail())
                 .build();
 

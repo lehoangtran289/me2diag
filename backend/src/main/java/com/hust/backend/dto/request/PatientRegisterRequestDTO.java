@@ -28,6 +28,7 @@ public class PatientRegisterRequestDTO {
     @NotBlank(message = "name is required")
     private String name;
     private String phoneNo;
+    private String address;
     private String email;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
