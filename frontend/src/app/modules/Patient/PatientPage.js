@@ -1,10 +1,10 @@
-import React, {Suspense, useState} from 'react';
-import {Redirect, Route, Switch, useHistory, useLocation, useRouteMatch} from "react-router-dom";
-import {ContentRoute, LayoutSplashScreen} from "../../../_metronic/layout";
+import React, {useState} from 'react';
+import {Switch, useHistory, useLocation, useRouteMatch} from "react-router-dom";
+import {ContentRoute} from "../../../_metronic/layout";
 import PatientCreateDialog from "./components/PatientCreateDialog";
 import PatientListPage from "./PatientListPage";
 import PatientDeleteDialog from "./components/PatientDeleteDialog";
-import {matchPath} from "react-router";
+import PatientDetailPage from "./PatientDetailPage";
 
 function PatientPage(props) {
   const {url} = useRouteMatch();
@@ -22,7 +22,7 @@ function PatientPage(props) {
   return (
     <>
       <Switch>
-        <Route path={`${url}/new`} children={({match}) => {
+        <ContentRoute path={`${url}/new`} children={({match}) => {
           return (
             match &&
             <PatientCreateDialog
@@ -31,7 +31,7 @@ function PatientPage(props) {
             />
           )
         }}/>
-        <Route path={`${url}/:patientId/delete`} children={({match}) => {
+        <ContentRoute path={`${url}/:patientId/delete`} children={({match}) => {
           return (
             match &&
             <PatientDeleteDialog
@@ -44,12 +44,12 @@ function PatientPage(props) {
 
       {/*TODO: workaround this routing since url/:patientId ~ url/new :<*/}
       <Switch>
-        <Route exact path={`${url}/:patientId`} render={() => {
+        <ContentRoute exact path={`${url}/:patientId`} render={() => {
           return location.pathname === `${url}/new` ?
             <PatientListPage rerenderFlag={rerenderFlag} setRerenderFlag={setRerenderFlag}/> :
-            <div>Patient detail</div>
+            <PatientDetailPage/>
         }}/>
-        <Route path={`${url}`} children={({match}) => {
+        <ContentRoute path={`${url}`} children={({match}) => {
           return (
             <PatientListPage rerenderFlag={rerenderFlag} setRerenderFlag={setRerenderFlag}/>
           )
