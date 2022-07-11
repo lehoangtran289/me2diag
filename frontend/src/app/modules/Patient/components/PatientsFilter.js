@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import {Formik} from "formik";
 import _debounce from "lodash/debounce";
+import {debounce} from "../../../utils/debounce";
 
 const prepareFilter = (queryParams, values) => {
   const { status, type, searchText } = values;
@@ -41,9 +42,9 @@ function PatientsFilter({ query, setQuery }) {
           gender: "",
           searchText: "",
         }}
-        onSubmit={(values) => {
+        onSubmit={debounce((values) => {
           applyFilter(values);
-        }}
+        }, 500)}
       >
         {({
             values,
