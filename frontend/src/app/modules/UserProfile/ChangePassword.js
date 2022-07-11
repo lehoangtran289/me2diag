@@ -108,7 +108,7 @@ function ChangePassword(props) {
             {formik.isSubmitting}
           </button>
           <Link
-            to="/user-profile/profile-overview"
+            to="/user-profile/"
             className="btn btn-secondary"
           >
             Cancel

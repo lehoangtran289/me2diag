@@ -6,7 +6,8 @@ import * as Yup from "yup";
 import { ModalProgressBar } from "../../../_metronic/_partials/controls";
 import { toAbsoluteUrl } from "../../../_metronic/_helpers";
 import * as auth from "../Auth";
-import {FEMALE, MALE} from "../../../constants";
+import {updateUser} from "./axios/UserCrud";
+import {toastify} from "../../utils/toastUtils";
 
 function PersonaInformation(props) {
   // Fields
@@ -14,58 +15,54 @@ function PersonaInformation(props) {
   const [pic, setPic] = useState("");
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user, shallowEqual);
+
   useEffect(() => {
     if (user.avatarUrl) {
       setPic(user.avatarUrl);
     }
   }, [user]);
+
   // Methods
   const saveUser = (values, setStatus, setSubmitting) => {
+    console.log(values);
     setloading(true);
     const updatedUser = Object.assign(user, values);
-    // user for update preparation
-    dispatch(props.setUser(updatedUser));
-    setTimeout(() => {
+
+    // update then setState -> user for update preparation
+    updateUser({
+      id: user.id,
+      updatedUser: updatedUser
+    }).then(r => {
+      console.log(r);
       setloading(false);
       setSubmitting(false);
-      // Do request to your server for user update, we just imitate user update there, For example:
-      // update(updatedUser)
-      //  .then(()) => {
-      //    setloading(false);
-      //  })
-      //  .catch((error) => {
-      //    setloading(false);
-      //    setSubmitting(false);
-      //    setStatus(error);
-      // });
-    }, 1000);
+      dispatch(props.setUser(r.data.data));
+      toastify.success('Update user success');
+    }).catch(err => {
+      console.log(err);
+      setloading(false);
+      setSubmitting(false);
+      toastify.error('Update user failed');
+    })
   };
   // UI Helpers
   const initialValues = {
-    pic: user.avatarUrl,
-    firstname: user.firstName,
-    lastname: user.lastName,
-    companyName: user.companyName,
-    phone: user.phoneNo,
+    avatarUrl: user.avatarUrl ? user.avatarUrl : null,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    phoneNo: user.phoneNo,
     email: user.email,
-    website: user.website,
-    gender: user.gender,
     description: user.description,
-    birthdate: user.birthDate
   };
   const Schema = Yup.object().shape({
-    pic: Yup.string(),
-    firstname: Yup.string().required("First name is required"),
-    lastname: Yup.string().required("Last name is required"),
-    companyName: Yup.string(),
-    phone: Yup.string().required("Phone is required"),
+    avatarUrl: Yup.mixed(),
+    firstName: Yup.string().required("First name is required"),
+    lastName: Yup.string().required("Last name is required"),
+    phoneNo: Yup.string().required("Phone is required"),
     email: Yup.string()
       .email("Wrong email format")
       .required("Email is required"),
-    website: Yup.string(),
-    gender: Yup.mixed().oneOf([MALE, FEMALE]),
     description: Yup.string(),
-    birthDate: Yup.date() //TODO: validate date
   });
   const getInputClasses = (fieldname) => {
     if (formik.touched[fieldname] && formik.errors[fieldname]) {
@@ -82,6 +79,7 @@ function PersonaInformation(props) {
     initialValues,
     validationSchema: Schema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
+      console.log("submit update user info")
       saveUser(values, setStatus, setSubmitting);
     },
     onReset: (values, { resetForm }) => {
@@ -92,7 +90,6 @@ function PersonaInformation(props) {
     if (!pic) {
       return "none";
     }
-
     return `url(${pic})`;
   };
   const removePic = () => {
@@ -127,7 +124,7 @@ function PersonaInformation(props) {
             {formik.isSubmitting}
           </button>
           <Link
-            to="/user-profile/profile-overview"
+            to="/user-profile/"
             className="btn btn-secondary"
           >
             Cancel
@@ -172,9 +169,12 @@ function PersonaInformation(props) {
                   <i className="fa fa-pen icon-sm text-muted"></i>
                   <input
                     type="file"
-                    // name="pic"
+                    name="pic"
                     accept=".png, .jpg, .jpeg"
-                    // {...formik.getFieldProps("pic")}
+                    onChange={(e) => {
+                      setPic(URL.createObjectURL(e.currentTarget.files[0]))
+                      formik.setFieldValue('avatarUrl', e.currentTarget.files[0]);
+                    }}
                   />
                   <input type="hidden" name="profile_avatar_remove" />
                 </label>
@@ -212,14 +212,14 @@ function PersonaInformation(props) {
                 type="text"
                 placeholder="First name"
                 className={`form-control form-control-lg form-control-solid ${getInputClasses(
-                  "firstname"
+                  "firstName"
                 )}`}
-                name="firstname"
-                {...formik.getFieldProps("firstname")}
+                name="firstName"
+                {...formik.getFieldProps("firstName")}
               />
-              {formik.touched.firstname && formik.errors.firstname ? (
+              {formik.touched.firstName && formik.errors.firstName ? (
                 <div className="invalid-feedback">
-                  {formik.errors.firstname}
+                  {formik.errors.firstName}
                 </div>
               ) : null}
             </div>
@@ -233,13 +233,13 @@ function PersonaInformation(props) {
                 type="text"
                 placeholder="Last name"
                 className={`form-control form-control-lg form-control-solid ${getInputClasses(
-                  "lastname"
+                  "lastName"
                 )}`}
-                name="lastname"
-                {...formik.getFieldProps("lastname")}
+                name="lastName"
+                {...formik.getFieldProps("lastName")}
               />
-              {formik.touched.lastname && formik.errors.lastname ? (
-                <div className="invalid-feedback">{formik.errors.lastname}</div>
+              {formik.touched.lastName && formik.errors.lastName ? (
+                <div className="invalid-feedback">{formik.errors.lastName}</div>
               ) : null}
             </div>
           </div>
@@ -282,15 +282,15 @@ function PersonaInformation(props) {
                   type="text"
                   placeholder="+1(123)112-11-11"
                   className={`form-control form-control-lg form-control-solid ${getInputClasses(
-                    "phone"
+                    "phoneNo"
                   )}`}
-                  name="phone"
-                  {...formik.getFieldProps("phone")}
+                  name="phoneNo"
+                  {...formik.getFieldProps("phoneNo")}
                 />
               </div>
-              {formik.touched.phone && formik.errors.phone ? (
+              {formik.touched.phoneNo && formik.errors.phoneNo ? (
                 <div className="invalid-feedback display-block">
-                  {formik.errors.phone}
+                  {formik.errors.phoneNo}
                 </div>
               ) : null}
               <span className="form-text text-muted">

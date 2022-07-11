@@ -128,7 +128,7 @@ export function getInitLayoutConfig() {
         fixed: true,
         minimize: {
           toggle: true, // allow toggle
-          default: true, // default state
+          default: false, // default state
           hoverable: true, // allow hover
         },
       },
