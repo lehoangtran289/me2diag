@@ -53,7 +53,7 @@ function PatientCreateDialog({ show, onHide }) {
       .required("Email is required"),
     address: Yup.string()
       .max(150, "Maximum 150 chars"),
-    // gender: Yup.string().require(),
+    gender: Yup.string(),
     birthDate: Yup.mixed()
       .nullable(false)
       .required("Date of Birth is required"),
@@ -81,7 +81,7 @@ function PatientCreateDialog({ show, onHide }) {
           email: "",
           address: "",
           birthDate: '01/01/1970',
-          gender: "female",
+          gender: "",
           avatar: null
         }}
         enableReinitialize={true}
@@ -146,7 +146,7 @@ function PatientCreateDialog({ show, onHide }) {
                 <div className="form-group row">
                   {/* Gender */}
                   <div className="col-lg-6">
-                    <Select name="Gender" label="Gender">
+                    <Select name="gender" label="Gender">
                       <option value="Female">Female</option>
                       <option value="Male">Male</option>
                     </Select>
