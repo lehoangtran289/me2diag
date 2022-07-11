@@ -49,11 +49,20 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    @AuthRequired(roles = UserRoleEnum.ADMIN)
+    @AuthRequired(roles = {UserRoleEnum.ADMIN, UserRoleEnum.USER})
     public ResponseEntity<GeneralResponse<UserInfoResponseDTO>> deactivateUser(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @PathVariable @NotBlank(message = "userId must not be blank") String userId
-    ) {
+    ) throws InvalidKeySpecException, NoSuchAlgorithmException, JsonProcessingException {
+        // validate userId
+        AccessTokenPayload payload = jwtService.parse(authToken, AccessTokenPayload.class);
+        if (
+                !payload.getRoles().contains(UserRoleEnum.ADMIN) && // ADMIN can update all user info
+                        !StringUtils.equals(userId, payload.getSubject())
+        ) {
+            log.error("Invalid token, user id {} mismatched with token, id = {}", userId, payload.getSubject());
+            throw new NotValidException("invalid token, id mismatched");
+        }
         userService.deactivateUser(userId);
         return responseFactory.success();
     }
@@ -77,6 +86,8 @@ public class UserController {
         AccessTokenPayload payload = jwtService.parse(authToken, AccessTokenPayload.class);
         return responseFactory.success(userService.getUserInfo(payload.getSubject()));
     }
+
+    // TODO: admin check user profile
 
     @GetMapping
     @AuthRequired(roles = UserRoleEnum.ADMIN)
