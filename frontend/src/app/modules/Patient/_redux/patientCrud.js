@@ -8,6 +8,11 @@ export const getAllPatients = (params) => {
   });
 };
 
+export const deleteSelectedPatient = (id) => {
+  const DELETE_PATIENT = BACKEND_ORIGIN + `patient/` + id;
+  return axios.delete(DELETE_PATIENT);
+};
+
 export const createNewPatient = (patient) => {
   const CREATE_PATIENT = BACKEND_ORIGIN + `patient`;
 

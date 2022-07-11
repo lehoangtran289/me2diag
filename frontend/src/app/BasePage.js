@@ -46,26 +46,26 @@ export default function BasePage() {
         }
 
         {/* CONTENT ROUTE */}
-        <Route path="/dashboard" component={DashboardPage}/>
+        <ContentRoute path="/dashboard" component={DashboardPage}/>
         {
           roles && roles.includes(ROLE_USER) &&
-          <Route path="/examinations" component={ExaminationPage}/>
+          <ContentRoute path="/examinations" component={ExaminationPage}/>
         }
         {
           roles && roles.includes(ROLE_USER) &&
-          <Route path="/patients" component={PatientPage}/>
+          <ContentRoute path="/patients" component={PatientPage}/>
         }
         {
           roles && roles.includes(ROLE_ADMIN) &&
-          <Route path="/accounts" component={AccountMngPage}/>
+          <ContentRoute path="/accounts" component={AccountMngPage}/>
         }
         {
           roles && roles.includes(ROLE_EXPERT) &&
-          <Route path="/config/pfs" component={PFSConfigPage}/>
+          <ContentRoute path="/config/pfs" component={PFSConfigPage}/>
         }
         {
           roles && roles.includes(ROLE_EXPERT) &&
-          <Route path="/config/kdc" component={KDCConfigPage}/>
+          <ContentRoute path="/config/kdc" component={KDCConfigPage}/>
         }
 
         {/*<ContentRoute path="/my-page" component={MyPage}/>*/}

@@ -12,8 +12,21 @@ import paginationFactory, {
   PaginationProvider,
 } from "react-bootstrap-table2-paginator";
 import { Pagination } from "../../../../_metronic/_partials/controls";
+import {ActionsColumnFormatter} from "../column-formatters/ActionsColumnFormatter";
+import {useHistory} from "react-router-dom";
 
 function PatientsTable({ patients, paging, query, setQuery, listLoading, setListLoading }) {
+  const history = useHistory();
+
+  const openViewPatientDetail = (id) => {
+    console.log("openViewPatientDetail")
+    history.push(`/patients/${id}`);
+  }
+
+  const openDeletePatientDialog = (id) => {
+    console.log("openDeletePatientDialog")
+    history.push(`/patients/${id}/delete`)
+  }
 
   // Table columns
   const columns = [
@@ -63,14 +76,13 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
     {
       dataField: "action",
       text: "Actions",
-      // TODO: add patient detail page
-      // formatter: columnFormatters.ActionsColumnFormatter,
-      // formatExtraData: {
-      //   openEditCustomerDialog: customersUIProps.openEditCustomerDialog,
-      //   openDeleteCustomerDialog: customersUIProps.openDeleteCustomerDialog
-      // },
-      // classes: "text-right pr-0",
-      // headerClasses: "text-right pr-3",
+      formatter: ActionsColumnFormatter,
+      formatExtraData: {
+        openViewPatientDetails: openViewPatientDetail,
+        openDeletePatientDialog: openDeletePatientDialog
+      },
+      classes: "text-right pr-0",
+      headerClasses: "text-right pr-3",
       style: {
         minWidth: "100px"
       }

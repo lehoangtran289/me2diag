@@ -8,8 +8,8 @@ import {
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { createNewPatient } from "../_redux/patientCrud";
-import { toast } from "react-toastify";
 import ImageThumb from "../../../utils/ImageThumb";
+import {toastify} from "../../../utils/toastUtils";
 
 function PatientCreateDialog({ show, onHide }) {
 
@@ -27,12 +27,7 @@ function PatientCreateDialog({ show, onHide }) {
       .then(() => {
         console.log("create new patient ok");
         // setIsLoading(false);
-        toast.success('Create new patient success!', {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true
-        });
+        toastify.success('Create new patient success!');
         onHide();
       })
       .catch(error => {
