@@ -118,6 +118,7 @@ public class PatientServiceImpl implements PatientService {
     public void deletePatient(String patientId) {
         PatientEntity patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new NotFoundException(PatientEntity.class, patientId));
+        patientRepository.delete(patient);
 
         List<String> examIds = Transformer.listToList(
                 examRepo.findAllByPatientId(patientId),
