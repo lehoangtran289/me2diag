@@ -7,6 +7,7 @@ import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.request.UserInfoUpdateRequestDTO;
 import com.hust.backend.dto.request.UserRegisterRequestDTO;
 import com.hust.backend.dto.response.UserInfoResponseDTO;
+import com.hust.backend.entity.PatientEntity;
 import com.hust.backend.entity.RoleEntity;
 import com.hust.backend.entity.UserEntity;
 import com.hust.backend.entity.UserRoleEntity;
@@ -122,16 +123,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PagingInfo<UserInfoResponseDTO> getAllUsers(String usernameQuery, Pageable pageable) {
-        Page<UserEntity> userEntityPage = StringUtils.isBlank(usernameQuery) ?
-                userRepository.findAll(pageable) :
-                getAllUsersByNameOrEmailLike(usernameQuery, pageable);
+    public PagingInfo<UserInfoResponseDTO> getAllUsers(String usernameQuery, Boolean isEnable, Pageable pageable) {
+//        Page<UserEntity> userEntityPage = StringUtils.isBlank(usernameQuery) ?
+//                userRepository.findAll(pageable) :
+//                getAllUsersByNameOrEmailLike(usernameQuery, pageable);
+        Page<UserEntity> userEntityPage = userRepository.findAllUsers(usernameQuery, isEnable, pageable);
         List<UserInfoResponseDTO> results = Transformer.listToList(
                 userEntityPage.getContent(),
                 userEntity -> Common.convertObject(userEntity, UserInfoResponseDTO.class));
         return PagingInfo.<UserInfoResponseDTO>builder()
                 .items(results)
-                .currentPage(userEntityPage.getNumber())
+                .currentPage(userEntityPage.getNumber() + 1)
                 .totalItems(userEntityPage.getTotalElements())
                 .totalPages(userEntityPage.getTotalPages())
                 .build();
