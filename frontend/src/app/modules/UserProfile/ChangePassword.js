@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useSelector, shallowEqual, connect, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -8,44 +8,47 @@ import SVG from "react-inlinesvg";
 import { ModalProgressBar } from "../../../_metronic/_partials/controls";
 import { toAbsoluteUrl } from "../../../_metronic/_helpers";
 import * as auth from "../Auth";
+import { changeUserPassword, updateUser } from "./axios/UserCrud";
+import { toastify } from "../../utils/toastUtils";
 
 function ChangePassword(props) {
   // Fields
+  const history = useHistory();
   const [loading, setloading] = useState(false);
   const [isError, setisError] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user, shallowEqual);
-  useEffect(() => {}, [user]);
+  useEffect(() => {
+  }, [user]);
+
   // Methods
   const saveUser = (values, setStatus, setSubmitting) => {
+    console.log(values);
     setloading(true);
-    setisError(false);
-    const updatedUser = Object.assign(user, {
-      password: values.password,
-    });
-    // user for update preparation
-    dispatch(props.setUser(updatedUser));
-    setTimeout(() => {
-      setloading(false);
-      setSubmitting(false);
-      setisError(true);
-      // Do request to your server for user update, we just imitate user update there, For example:
-      // update(updatedUser)
-      //  .then(()) => {
-      //    setloading(false);
-      //  })
-      //  .catch((error) => {
-      //    setloading(false);
-      //    setSubmitting(false);
-      //    setStatus(error);
-      // });
-    }, 1000);
+
+    changeUserPassword({
+      id: user.id,
+      data: {
+        old_password: values.currentPassword,
+        new_password: values.password
+      }
+    })
+      .then(r => {
+        console.log(r);
+        toastify.success("change account password success");
+        history.push("/logout");
+      })
+      .catch(err => {
+        console.log(err);
+        toastify.error("change account password failed");
+      });
   };
+
   // UI Helpers
   const initialValues = {
     currentPassword: "",
     password: "",
-    cPassword: "",
+    cPassword: ""
   };
   const Schema = Yup.object().shape({
     currentPassword: Yup.string().required("Current password is required"),
@@ -57,8 +60,8 @@ function ChangePassword(props) {
         then: Yup.string().oneOf(
           [Yup.ref("password")],
           "Password and Confirm Password didn't match"
-        ),
-      }),
+        )
+      })
   });
   const getInputClasses = (fieldname) => {
     if (formik.touched[fieldname] && formik.errors[fieldname]) {
@@ -79,7 +82,7 @@ function ChangePassword(props) {
     },
     onReset: (values, { resetForm }) => {
       resetForm();
-    },
+    }
   });
 
   return (

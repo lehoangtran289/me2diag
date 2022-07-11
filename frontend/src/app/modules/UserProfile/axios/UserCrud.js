@@ -31,3 +31,8 @@ export const deactivateAccount = ({ id }) => {
   const DEACTIVATE_ACCOUNT = BACKEND_ORIGIN + `user/` + id;
   return axios.delete(DEACTIVATE_ACCOUNT);
 }
+
+export const changeUserPassword = ({ id, data }) => {
+  const POST_CHANGE_PASSWORD = BACKEND_ORIGIN + `user/` + id + `/change-password`;
+  return axios.post(POST_CHANGE_PASSWORD, data);
+}
