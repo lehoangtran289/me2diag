@@ -2,6 +2,7 @@ package com.hust.backend.service.auth.impl;
 
 import com.hust.backend.config.ResetPasswordConfig;
 import com.hust.backend.constant.ResponseStatusEnum;
+import com.hust.backend.dto.request.ChangePasswordRequestDTO;
 import com.hust.backend.dto.request.ResetPasswordRequestDTO;
 import com.hust.backend.dto.request.TokenRefreshRequestDTO;
 import com.hust.backend.dto.request.UserLoginRequestDTO;
@@ -126,6 +127,18 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
 
         // reset user password
         updatePassword(user, request.getNewPassword());
+    }
+
+    @Override
+    @Transactional(rollbackOn = {Exception.class})
+    public void changePassword(String userId, ChangePasswordRequestDTO request) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(UserEntity.class, userId));
+        if (bCryptPasswordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            updatePassword(user, request.getNewPassword());
+            return;
+        }
+        throw new UnauthorizedException("old password not match");
     }
 
     private void sendPasswordResetToken(String email, String token) {
