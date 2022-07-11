@@ -9,6 +9,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { createNewPatient } from "../_redux/patientCrud";
 import { toast } from "react-toastify";
+import ImageThumb from "../../../utils/ImageThumb";
 
 function PatientCreateDialog({ show, onHide }) {
 
@@ -55,6 +56,8 @@ function PatientCreateDialog({ show, onHide }) {
     email: Yup.string()
       .email("Invalid email")
       .required("Email is required"),
+    address: Yup.string()
+      .max(150, "Maximum 150 chars"),
     // gender: Yup.string().require(),
     birthDate: Yup.mixed()
       .nullable(false)
@@ -81,6 +84,7 @@ function PatientCreateDialog({ show, onHide }) {
           name: "",
           phoneNo: "",
           email: "",
+          address: "",
           birthDate: '01/01/1970',
           gender: "female",
           avatar: null
@@ -129,11 +133,10 @@ function PatientCreateDialog({ show, onHide }) {
                 <div className="form-group row">
                   <div className="col-lg-6">
                     <Field
-                      type="email"
-                      name="email"
+                      name="address"
                       component={Input}
-                      placeholder="Email"
-                      label="Email"
+                      placeholder="Address"
+                      label="Address"
                     />
                   </div>
                   <div className="col-lg-6">
@@ -159,6 +162,29 @@ function PatientCreateDialog({ show, onHide }) {
                       name="birthDate"
                       label="Date of Birth"
                     />
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <div className="col-lg-6">
+                    <Field
+                      type="email"
+                      name="email"
+                      component={Input}
+                      placeholder="Email"
+                      label="Email"
+                    />
+                  </div>
+                  <div className="col-lg-6">
+                    <label>Patient image</label>
+                    <input
+                      type="file"
+                      className="form-control"
+                      placeholder="Patient image"
+                      onChange={(e) => {
+                        setFieldValue('avatar', e.currentTarget.files[0])
+                      }}
+                    />
+                    <ImageThumb file={values.avatar}/>
                   </div>
                 </div>
               </Form>

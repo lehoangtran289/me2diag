@@ -44,7 +44,7 @@ function PatientsFilter({ query, setQuery }) {
         }}
         onSubmit={debounce((values) => {
           applyFilter(values);
-        }, 500)}
+        }, 250)}
       >
         {({
             values,

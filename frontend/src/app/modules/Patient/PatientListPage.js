@@ -30,6 +30,10 @@ function PatientListPage(props) {
   });
 
   useEffect(() => {
+    props.setRerenderFlag(false);
+  }, [props.rerenderFlag]);
+
+  useEffect(() => {
     console.log(query);
     setListLoading(true);
     getAllPatients(query)
@@ -49,7 +53,7 @@ function PatientListPage(props) {
         console.log("Error get all patients: " + error);
         alert("Cannot get patients");
       });
-  }, [query]);
+  }, [query, props.rerenderFlag]);
 
   const newCustomerButtonClick = () => {
     console.log("newCustomerButtonClick")

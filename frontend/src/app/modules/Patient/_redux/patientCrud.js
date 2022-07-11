@@ -16,7 +16,8 @@ export const createNewPatient = (patient) => {
   formData.append('name', patient.name);
   formData.append('phoneNo', patient.phoneNo);
   formData.append('email', patient.email);
-  formData.append('birthDate', patient.birthDate);
+  formData.append('address', patient.address)
+  formData.append('birthDate', patient.birthDate ? new Date(patient.birthDate).toLocaleDateString() : null);
   formData.append('gender', patient.gender);
 
   if (patient.avatar)
