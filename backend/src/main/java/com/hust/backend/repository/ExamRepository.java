@@ -21,4 +21,6 @@ public interface ExamRepository extends JpaRepository<ExaminationEntity, String>
     Optional<ExaminationEntity> findByIdAndAppId(String id, ApplicationEnum appId);
 
     List<ExaminationEntity> findAllByPatientId(String patientId);
+
+    void deleteByIdIn(List<String> examIds);
 }

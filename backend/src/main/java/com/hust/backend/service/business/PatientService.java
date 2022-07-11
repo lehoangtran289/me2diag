@@ -11,4 +11,6 @@ public interface PatientService {
     PatientInfoResponseDTO getPatient(String patientId);
 
     void registerPatient(PatientRegisterRequestDTO request);
+
+    void deletePatient(String patientId);
 }

@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface PatientSymptomRepository extends JpaRepository<PatientSymptomEntity, PatientSymptomEntityKey> {
     List<PatientSymptomEntity> findAllByExaminationId(String id);
+
+    void deleteByExaminationIdIn(List<String> examIds);
 }

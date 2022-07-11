@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface PFSExamResultRepository extends JpaRepository<PFSExamResultEntity, PFSExamResultEntityKey> {
     List<PFSExamResultEntity> findAllByExaminationId(String id);
+
+    void deleteByExaminationIdIn(List<String> examIds);
 }

@@ -88,4 +88,15 @@ public class PatientController {
         return responseFactory.success(examService.getPatientExaminations(patientId));
     }
 
+    // TODO: deactivate patient
+    @DeleteMapping("/{patientId}")
+    @AuthRequired(roles = UserRoleEnum.USER)
+    public ResponseEntity<GeneralResponse<String>> deletePatient(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
+            @PathVariable @NotBlank(message = "patient id must not be blank") String patientId
+    ) {
+        patientService.deletePatient(patientId);
+        return responseFactory.success();
+    }
+
 }

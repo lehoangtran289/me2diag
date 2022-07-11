@@ -1,12 +1,17 @@
 package com.hust.backend.service.business.impl;
 
+import com.hust.backend.application.KDclassification.repository.KDCExamResultRepository;
+import com.hust.backend.application.picturefuzzyset.repository.PFSExamResultRepository;
+import com.hust.backend.application.picturefuzzyset.repository.PatientSymptomRepository;
 import com.hust.backend.config.AppConfig;
 import com.hust.backend.constant.ResourceType;
 import com.hust.backend.dto.request.PatientRegisterRequestDTO;
 import com.hust.backend.dto.response.PatientInfoResponseDTO;
+import com.hust.backend.entity.ExaminationEntity;
 import com.hust.backend.entity.PatientEntity;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.factory.PagingInfo;
+import com.hust.backend.repository.ExamRepository;
 import com.hust.backend.repository.PatientRepository;
 import com.hust.backend.service.business.PatientService;
 import com.hust.backend.service.storage.StorageService;
@@ -28,13 +33,25 @@ public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
     private final StorageService storageService;
     private final AppConfig appConfig;
+    private final ExamRepository examRepo;
+    private final KDCExamResultRepository kdcExamResultRepo;
+    private final PFSExamResultRepository pfsExamResultRepo;
+    private final PatientSymptomRepository patientSymptomRepo;
 
     public PatientServiceImpl(PatientRepository patientRepository,
                               StorageService storageService,
-                              AppConfig appConfig) {
+                              AppConfig appConfig,
+                              ExamRepository examRepo,
+                              KDCExamResultRepository kdcExamResultRepo,
+                              PFSExamResultRepository pfsExamResultRepo,
+                              PatientSymptomRepository patientSymptomRepo) {
         this.patientRepository = patientRepository;
         this.storageService = storageService;
         this.appConfig = appConfig;
+        this.examRepo = examRepo;
+        this.kdcExamResultRepo = kdcExamResultRepo;
+        this.pfsExamResultRepo = pfsExamResultRepo;
+        this.patientSymptomRepo = patientSymptomRepo;
     }
 
     @Override
@@ -57,7 +74,8 @@ public class PatientServiceImpl implements PatientService {
     }
 
     private Page<PatientEntity> getAllPatientsByQuery(String query, Pageable pageable) {
-        return patientRepository.findByNameContainingOrEmailContainingOrPhoneNoContaining(query, query, query, pageable);
+        return patientRepository.findByNameContainingOrEmailContainingOrPhoneNoContaining(query, query, query
+                , pageable);
     }
 
     @Override
@@ -93,6 +111,24 @@ public class PatientServiceImpl implements PatientService {
         }
         patientRepository.save(patientEntity);
         log.info("New patient registered successfully {}", patientEntity);
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public void deletePatient(String patientId) {
+        PatientEntity patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new NotFoundException(PatientEntity.class, patientId));
+
+        List<String> examIds = Transformer.listToList(
+                examRepo.findAllByPatientId(patientId),
+                ExaminationEntity::getId);
+
+        if (examIds.isEmpty()) return;
+
+        examRepo.deleteByIdIn(examIds);
+        pfsExamResultRepo.deleteByExaminationIdIn(examIds);
+        kdcExamResultRepo.deleteByExaminationIdIn(examIds);
+        patientSymptomRepo.deleteByExaminationIdIn(examIds);
     }
 
 }
