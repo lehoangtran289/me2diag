@@ -179,9 +179,19 @@ public class UserServiceImpl implements UserService {
     public void deactivateUser(String userId) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(UserEntity.class, userId));
-        if (userEntity.isEnable())
+        if (!userEntity.isEnable())
             return;
         userEntity.setEnable(false);
+        userRepository.save(userEntity);
+    }
+
+    @Override
+    public void activateUser(String userId) {
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(UserEntity.class, userId));
+        if (userEntity.isEnable())
+            return;
+        userEntity.setEnable(true);
         userRepository.save(userEntity);
     }
 

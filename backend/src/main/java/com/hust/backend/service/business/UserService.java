@@ -18,4 +18,6 @@ public interface UserService {
     UserInfoResponseDTO getUserInfo(String userId);
 
     void deactivateUser(String userId);
+
+    void activateUser(String userId);
 }
