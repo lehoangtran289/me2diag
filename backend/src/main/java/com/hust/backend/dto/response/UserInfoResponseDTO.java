@@ -23,6 +23,9 @@ public class UserInfoResponseDTO {
     private UserGenderEnum gender;
     @JsonProperty("isEnable")
     private boolean isEnable;
+    private String avatarUrl;
+    private Date birthDate;
+    private String description;
     private Date updatedAt;
     private List<UserRoleEnum> roles;
 }

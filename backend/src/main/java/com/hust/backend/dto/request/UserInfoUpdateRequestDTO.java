@@ -26,6 +26,8 @@ public class UserInfoUpdateRequestDTO {
     private String firstName;
     private String lastName;
     private MultipartFile avatar;
+
+    private String phoneNo;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
     private UserGenderEnum gender;

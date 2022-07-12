@@ -74,7 +74,7 @@ public class AuthAOP {
             return setPayload(joinPoint, args, payload);
         }
 
-        if (!userPermissions.containsAll(requiredPermissions)) {
+        if (!new HashSet<>(requiredPermissions).containsAll(userPermissions)) {
             log.info("Do not have required permission(s)");
             throw new BusinessException(ResponseStatusEnum.FORBIDDEN);
         }
