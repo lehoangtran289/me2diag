@@ -3,27 +3,27 @@ import { useParams } from "react-router-dom";
 import { toastify } from "../../../utils/toastUtils";
 import { Modal } from "react-bootstrap";
 import { ModalProgressBar } from "../../../../_metronic/_partials/controls";
-import { deactivateSelectedAccount } from "../_redux/accountCrud";
+import { activateSelectedAccount } from "../_redux/accountCrud";
 
-export default function AccountDeactivateDialog({ show, onHide }) {
+export default function AccountActivateDialog({ show, onHide }) {
   const { userId } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const deactivateAccount = () => {
+  const activateAccount = () => {
     // server request for deleting customer by selected ids
     setIsLoading(true);
-    deactivateSelectedAccount(userId)
+    activateSelectedAccount(userId)
       .then(r => {
         setIsLoading(false);
         console.log(r);
-        toastify.success('Deactivate account success!');
+        toastify.success('Activate account success!');
         onHide();
       })
       .catch(err => {
         setIsLoading(false);
         console.log(err);
-        toastify.error("Deactivate account failed");
+        toastify.error("Activate account failed");
       })
   };
 
@@ -43,9 +43,9 @@ export default function AccountDeactivateDialog({ show, onHide }) {
       </Modal.Header>
       <Modal.Body>
         {!isLoading && (
-          <span>Are you sure to deactivate the selected user account?</span>
+          <span>Are you sure to activate the selected user account?</span>
         )}
-        {isLoading && <span>Account is deactivating...</span>}
+        {isLoading && <span>Account is activating...</span>}
       </Modal.Body>
       <Modal.Footer>
         <div>
@@ -59,10 +59,10 @@ export default function AccountDeactivateDialog({ show, onHide }) {
           <> </>
           <button
             type="button"
-            onClick={deactivateAccount}
-            className="btn btn-danger btn-elevate"
+            onClick={activateAccount}
+            className="btn btn-primary btn-elevate"
           >
-            Deactivate
+            Activate
           </button>
         </div>
       </Modal.Footer>

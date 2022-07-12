@@ -7,3 +7,15 @@ export const getAllAccounts = (params) => {
     params: params
   });
 };
+
+export const deactivateSelectedAccount = (accountId) => {
+  const DEACTIVATE_ACCOUNT = BACKEND_ORIGIN + `user/` + accountId + `/deactivate`;
+  console.log(DEACTIVATE_ACCOUNT);
+  return axios.delete(DEACTIVATE_ACCOUNT);
+}
+
+export const activateSelectedAccount = (accountId) => {
+  const ACTIVATE_ACCOUNT = BACKEND_ORIGIN + `user/` + accountId + `/activate`;
+  console.log(ACTIVATE_ACCOUNT);
+  return axios.post(ACTIVATE_ACCOUNT);
+}

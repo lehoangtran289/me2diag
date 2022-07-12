@@ -5,6 +5,7 @@ import AccountListPage from "./AccountListPage";
 import AccountCreateDialog from "./components/AccountCreateDialog";
 import AccountDeactivateDialog from "./components/AccountDeactivateDialog";
 import AccountEditDialog from "./components/AccountEditDialog";
+import AccountActivateDialog from "./components/AccountActivateDialog";
 
 function AccountMngPage(props) {
   const {url} = useRouteMatch();
@@ -31,10 +32,19 @@ function AccountMngPage(props) {
             />
           )
         }}/>
-        <ContentRoute path={`${url}/:userId/delete`} children={({match}) => {
+        <ContentRoute path={`${url}/:userId/deactivate`} children={({match}) => {
           return (
             match &&
             <AccountDeactivateDialog
+              show={Boolean(match)}
+              onHide={onHide}
+            />
+          )
+        }}/>
+        <ContentRoute path={`${url}/:userId/activate`} children={({match}) => {
+          return (
+            match &&
+            <AccountActivateDialog
               show={Boolean(match)}
               onHide={onHide}
             />

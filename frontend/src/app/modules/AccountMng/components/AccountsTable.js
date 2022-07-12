@@ -21,9 +21,12 @@ function AccountsTable({ accounts, paging, query, setQuery, listLoading, setList
     console.log("openEditAccountDetail")
   }
 
-  const openDeleteAccountDialog = (id) => {
+  const openDeactivateAccountDialog = (id, isEnable) => {
     console.log("openDeleteAccountDialog")
-    history.push(`/accounts/${id}/delete`)
+    if (isEnable)
+      history.push(`/accounts/${id}/deactivate`)
+    else
+      history.push(`/accounts/${id}/activate`)
   }
 
   // Table columns
@@ -91,8 +94,8 @@ function AccountsTable({ accounts, paging, query, setQuery, listLoading, setList
       text: "Actions",
       formatter: AccountActionsColumnFormatter,
       formatExtraData: {
-        openViewPatientDetails: openEditAccountDetail,
-        openDeletePatientDialog: openDeleteAccountDialog
+        openEditAccountDetails: openEditAccountDetail,
+        openDeleteAccountDialog: openDeactivateAccountDialog
       },
       classes: "text-right pr-0",
       headerClasses: "text-right pr-3",

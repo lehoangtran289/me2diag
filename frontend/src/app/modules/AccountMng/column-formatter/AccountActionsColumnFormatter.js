@@ -26,11 +26,17 @@ export function AccountActionsColumnFormatter(
       <a
         title="Delete patient"
         className="btn btn-icon btn-light btn-hover-danger btn-sm"
-        onClick={() => openDeleteAccountDialog(row.id)}
+        onClick={() => openDeleteAccountDialog(row.id, row.isEnable)}
       >
-        <span className="svg-icon svg-icon-md svg-icon-danger">
-          <SVG src={toAbsoluteUrl("/media/svg/icons/General/Trash.svg")} />
-        </span>
+        {
+          row.isEnable ?
+            <span className="svg-icon svg-icon-md svg-icon-danger">
+              <SVG src={toAbsoluteUrl("/media/svg/icons/General/Trash.svg")} />
+            </span> :
+            <span className="svg-icon svg-icon-md svg-icon-success">
+              <SVG src={toAbsoluteUrl("/media/svg/icons/Navigation/Double-check.svg")} />
+            </span>
+        }
       </a>
     </>
   );
