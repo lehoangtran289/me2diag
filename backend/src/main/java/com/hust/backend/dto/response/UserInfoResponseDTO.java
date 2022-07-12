@@ -1,5 +1,6 @@
 package com.hust.backend.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hust.backend.constant.UserGenderEnum;
 import com.hust.backend.constant.UserRoleEnum;
 import lombok.*;
@@ -20,7 +21,8 @@ public class UserInfoResponseDTO {
     private String lastName;
     private String phoneNo;
     private UserGenderEnum gender;
-    private Boolean isEnable;
+    @JsonProperty("isEnable")
+    private boolean isEnable;
     private Date updatedAt;
     private List<UserRoleEnum> roles;
 }

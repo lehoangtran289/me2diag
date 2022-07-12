@@ -35,7 +35,7 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
             "OR u.email LIKE CONCAT('%',:query,'%') " +
             "OR u.phoneNo LIKE CONCAT('%',:query,'%'))) " +
             "AND (:isEnable IS NULL OR u.isEnable = :isEnable) " +
-            "AND (r.roleEnum IN (:roles)) " +
+            "AND ((:roles) IS NULL OR r.roleEnum IN (:roles)) " +
             "GROUP BY u.id")
     Page<UserEntity> findAllUsers(
             @Param("query") String query,

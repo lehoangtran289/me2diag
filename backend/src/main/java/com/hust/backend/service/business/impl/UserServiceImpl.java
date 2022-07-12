@@ -144,7 +144,8 @@ public class UserServiceImpl implements UserService {
     ) {
         // query to get UserInfoResponseDto without roles
         List<UserRoleEnum> roles = Transformer.listToList(roleStrs, UserRoleEnum::from);
-        Page<UserEntity> userEntityPage = userRepository.findAllUsers(usernameQuery, roles, isEnable, pageable);
+        Page<UserEntity> userEntityPage = userRepository.findAllUsers(
+                usernameQuery, roles.size() != 0 ? roles : null, isEnable, pageable);
         List<UserInfoResponseDTO> results = Transformer.listToList(
                 userEntityPage.getContent(),
                 userEntity -> Common.convertObject(userEntity, UserInfoResponseDTO.class));
@@ -162,6 +163,7 @@ public class UserServiceImpl implements UserService {
                 .currentPage(userEntityPage.getNumber() + 1)
                 .totalItems(userEntityPage.getTotalElements())
                 .totalPages(userEntityPage.getTotalPages())
+                .pageSize(userEntityPage.getSize())
                 .build();
     }
 
