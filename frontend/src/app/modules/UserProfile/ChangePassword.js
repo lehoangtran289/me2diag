@@ -56,7 +56,7 @@ function ChangePassword(props) {
     cPassword: Yup.string()
       .required("Password confirmation is required")
       .when("password", {
-        is: (val) => (val && val.length > 0 ? true : false),
+        is: (val) => (val && val.length > 0),
         then: Yup.string().oneOf(
           [Yup.ref("password")],
           "Password and Confirm Password didn't match"

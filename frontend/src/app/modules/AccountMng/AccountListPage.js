@@ -1,16 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getAllPatients } from "./_redux/patientCrud";
-import { toast } from "react-toastify";
+import { getAllAccounts } from "./_redux/accountCrud";
 import { Card, CardBody, CardHeader, CardHeaderToolbar } from "../../../_metronic/_partials/controls";
-import PatientsFilter from "./components/PatientsFilter";
-import PatientsTable from "./components/PatientsTable";
+import AccountsTable from "./components/AccountsTable";
+import AccountsFilter from "./components/AccountsFilter";
 
-function PatientListPage(props) {
+function AccountListPage(props) {
   const history = useHistory();
 
-  const [patients, setPatients] = useState([]);
+  const [accounts, setAccounts] = useState([]);
   const [listLoading, setListLoading] = useState(false);
 
   const [paging, setPaging] = useState({
@@ -24,9 +22,10 @@ function PatientListPage(props) {
   const [query, setQuery] = useState({
     query: "",
     page: 1,
-    gen: null,
     size: 10,
-    sort: ""
+    sort: "",
+    isEnable: "",
+    roles: "",
   });
 
   useEffect(() => {
@@ -36,9 +35,9 @@ function PatientListPage(props) {
   useEffect(() => {
     console.log(query);
     setListLoading(true);
-    getAllPatients(query)
+    getAllAccounts(query)
       .then(r => {
-        setPatients(r.data.data["items"]);
+        setAccounts(r.data.data["items"]);
         setPaging({
           ...paging,
           totalPages: r.data.data["total_pages"],
@@ -50,33 +49,33 @@ function PatientListPage(props) {
       })
       .catch(error => {
         setListLoading(false);
-        console.log("Error get all patients: " + error);
-        alert("Cannot get patients");
+        console.log("Error get all accounts: " + error);
+        alert("Cannot get accounts");
       });
   }, [query, props.rerenderFlag]);
 
-  const newCustomerButtonClick = () => {
-    console.log("newCustomerButtonClick")
-    history.push("/patients/new");
+  const newAccountButtonClick = () => {
+    console.log("newAccountButtonClick")
+    history.push("/accounts/new");
   }
 
   return (
     <Card>
-      <CardHeader title={"Patient list"}>
+      <CardHeader title={"Account list"}>
         <CardHeaderToolbar>
           <button
             type="button"
             className="btn btn-primary"
-            onClick={newCustomerButtonClick}
+            onClick={newAccountButtonClick}
           >
-            New Customer
+            New user account
           </button>
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-        <PatientsFilter query={query} setQuery={setQuery}/>
-        <PatientsTable
-          patients={patients}
+        <AccountsFilter query={query} setQuery={setQuery}/>
+        <AccountsTable
+          accounts={accounts}
           query={query}
           paging={paging}
           setQuery={setQuery}
@@ -88,4 +87,4 @@ function PatientListPage(props) {
   );
 }
 
-export default PatientListPage;
+export default AccountListPage;

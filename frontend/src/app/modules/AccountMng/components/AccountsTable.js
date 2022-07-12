@@ -1,33 +1,29 @@
-import React, { useEffect, useState } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import {
-  getSelectRow,
-  getHandlerTableChange,
+  headerSortingClasses,
   NoRecordsFoundMessage,
   PleaseWaitMessage,
-  sortCaret,
-  headerSortingClasses
+  sortCaret
 } from "../../../../_metronic/_helpers";
-import paginationFactory, {
-  PaginationProvider,
-} from "react-bootstrap-table2-paginator";
+import { AccountActionsColumnFormatter } from "../column-formatter/AccountActionsColumnFormatter";
+import paginationFactory, { PaginationProvider } from "react-bootstrap-table2-paginator";
 import { Pagination } from "../../../../_metronic/_partials/controls";
-import {
-  PatientActionsColumnFormatter
-} from "../column-formatters/ActionsColumnFormatter";
-import {useHistory} from "react-router-dom";
+import BootstrapTable from "react-bootstrap-table-next";
+import { StatusColumnFormatter } from "../column-formatter/StatusColumnFormatter";
+import { RolesColumnFormatter } from "../column-formatter/RolesColumnFormatter";
+import { DateColumnFormatter } from "../column-formatter/DateColumnFormatter";
 
-function PatientsTable({ patients, paging, query, setQuery, listLoading, setListLoading }) {
+function AccountsTable({ accounts, paging, query, setQuery, listLoading, setListLoading }) {
   const history = useHistory();
 
-  const openViewPatientDetail = (id) => {
-    console.log("openViewPatientDetail")
-    history.push(`/patients/${id}`);
+  const openEditAccountDetail = (id) => {
+    console.log("openEditAccountDetail")
   }
 
-  const openDeletePatientDialog = (id) => {
-    console.log("openDeletePatientDialog")
-    history.push(`/patients/${id}/delete`)
+  const openDeleteAccountDialog = (id) => {
+    console.log("openDeleteAccountDialog")
+    history.push(`/accounts/${id}/delete`)
   }
 
   // Table columns
@@ -37,28 +33,25 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
       text: "Patient ID"
     },
     {
-      dataField: "name",
-      text: "Fullname",
+      dataField: "username",
+      text: "Username",
       sort: true,
       sortCaret: sortCaret,
       headerSortingClasses
     },
-    // {
-    //   dataField: "lastName",
-    //   text: "Lastname",
-    //   sort: true,
-    //   sortCaret: sortCaret,
-    //   headerSortingClasses
-    // },
     {
-      dataField: "phoneNo",
-      text: "Phone",
-      sort: false,
+      dataField: "firstname",
+      text: "Firstname",
+      sort: true,
+      sortCaret: sortCaret,
+      headerSortingClasses
     },
     {
-      dataField: "address",
-      text: "address",
-      sort: false,
+      dataField: "lastName",
+      text: "Lastname",
+      sort: true,
+      sortCaret: sortCaret,
+      headerSortingClasses
     },
     {
       dataField: "email",
@@ -66,22 +59,40 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
       sort: false,
     },
     {
+      dataField: "phoneNo",
+      text: "Phone",
+      sort: false,
+    },
+    {
       dataField: "gender",
-      text: "Gender",
+      text: "Gender"
+    },
+    {
+      dataField: "roles",
+      text: "Roles",
+      formatter: RolesColumnFormatter
+    },
+    {
+      dataField: "isEnable",
+      text: "Status",
+      formatter: StatusColumnFormatter,
       sort: false,
       sortCaret: sortCaret
     },
     {
-      dataField: "birthDate",
-      text: "Date of birth",
+      dataField: "updatedAt",
+      text: "Update at",
+      formatter: DateColumnFormatter,
+      sort: false,
+      sortCaret: sortCaret
     },
     {
       dataField: "action",
       text: "Actions",
-      formatter: PatientActionsColumnFormatter,
+      formatter: AccountActionsColumnFormatter,
       formatExtraData: {
-        openViewPatientDetails: openViewPatientDetail,
-        openDeletePatientDialog: openDeletePatientDialog
+        openViewPatientDetails: openEditAccountDetail,
+        openDeletePatientDialog: openDeleteAccountDialog
       },
       classes: "text-right pr-0",
       headerClasses: "text-right pr-3",
@@ -130,14 +141,14 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
                 bootstrap4
                 remote
                 keyField="id"
-                data={patients === null ? [] : patients}
+                data={accounts === null ? [] : accounts}
                 columns={columns}
                 // defaultSorted={uiHelpers.defaultSorted}
                 onTableChange={handleTableChange}
                 {...paginationTableProps}
               >
-                <PleaseWaitMessage entities={patients} />
-                <NoRecordsFoundMessage entities={patients} />
+                <PleaseWaitMessage entities={accounts} />
+                <NoRecordsFoundMessage entities={accounts} />
               </BootstrapTable>
             </Pagination>
           );
@@ -147,4 +158,4 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
   );
 }
 
-export default PatientsTable;
+export default AccountsTable;

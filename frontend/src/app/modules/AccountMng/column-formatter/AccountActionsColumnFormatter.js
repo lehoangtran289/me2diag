@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 import SVG from "react-inlinesvg";
-import {toAbsoluteUrl} from "../../../../_metronic/_helpers";
+import { toAbsoluteUrl } from "../../../../_metronic/_helpers";
 
-export function PatientActionsColumnFormatter(
+export function AccountActionsColumnFormatter(
   cellContent,
   row,
   rowIndex,
-  { openViewPatientDetails, openDeletePatientDialog }
+  { openEditAccountDetails, openDeleteAccountDialog }
 ) {
   return (
     <>
       <a
         title="View patient detail"
         className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
-        onClick={() => openViewPatientDetails(row.id)}
+        onClick={() => openEditAccountDetails(row.id)}
       >
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <SVG
@@ -26,7 +26,7 @@ export function PatientActionsColumnFormatter(
       <a
         title="Delete patient"
         className="btn btn-icon btn-light btn-hover-danger btn-sm"
-        onClick={() => openDeletePatientDialog(row.id)}
+        onClick={() => openDeleteAccountDialog(row.id)}
       >
         <span className="svg-icon svg-icon-md svg-icon-danger">
           <SVG src={toAbsoluteUrl("/media/svg/icons/General/Trash.svg")} />

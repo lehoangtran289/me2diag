@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect } from "react";
-import {Formik} from "formik";
-import _debounce from "lodash/debounce";
-import {debounce} from "../../../utils/debounce";
+import React from "react";
+import { Formik } from "formik";
+import { debounce } from "../../../utils/debounce";
 
 const prepareFilter = (queryParams, values) => {
   const { status, type, searchText } = values;
@@ -22,14 +21,14 @@ const prepareFilter = (queryParams, values) => {
   return newQueryParams;
 };
 
-function PatientsFilter({ query, setQuery }) {
-
+function AccountsFilter({ query, setQuery }) {
   // on filter submit
   const applyFilter = (values) => {
     // queryParams, setQueryParams,
     setQuery({
       ...query,
-      gen: values.gender ? values.gender : null,
+      isEnable: values.isEnable ? values.isEnable : null,
+      roles: values.roles ? values.roles : null,
       query: values.searchText
     })
   };
@@ -38,7 +37,8 @@ function PatientsFilter({ query, setQuery }) {
     <>
       <Formik
         initialValues={{
-          gender: "",
+          isEnable: "",
+          roles: '',
           searchText: "",
         }}
         onSubmit={debounce((values) => {
@@ -57,21 +57,42 @@ function PatientsFilter({ query, setQuery }) {
               <div className="col-lg-2">
                 <select
                   className="form-control"
-                  name="gender"
-                  placeholder="Filter by Gender"
+                  name="roles"
+                  placeholder="Filter by Role"
                   onChange={(e) => {
-                    setFieldValue("gender", e.target.value);
+                    setFieldValue("roles", e.target.value);
                     handleSubmit();
                   }}
                   onBlur={handleBlur}
                   value={values.status}
                 >
                   <option value="">All</option>
-                  <option value="MALE">MALE</option>
-                  <option value="FEMALE">FEMALE</option>
+                  <option value="USER">USER</option>
+                  <option value="EXPERT">EXPERT</option>
+                  <option value="ADMIN">ADMIN</option>
                 </select>
                 <small className="form-text text-muted">
-                  <b>Filter</b> by Gender
+                  <b>Filter</b> by Role
+                </small>
+              </div>
+              <div className="col-lg-2">
+                <select
+                  className="form-control"
+                  name="isEnable"
+                  placeholder="Filter by Status"
+                  onChange={(e) => {
+                    setFieldValue("isEnable", e.target.value);
+                    handleSubmit();
+                  }}
+                  onBlur={handleBlur}
+                  value={values.status}
+                >
+                  <option value="">All</option>
+                  <option value="True">Active</option>
+                  <option value="False">Inactive</option>
+                </select>
+                <small className="form-text text-muted">
+                  <b>Filter</b> by Status
                 </small>
               </div>
               <div className="col-lg-2">
@@ -99,4 +120,4 @@ function PatientsFilter({ query, setQuery }) {
   );
 }
 
-export default PatientsFilter;
+export default AccountsFilter;
