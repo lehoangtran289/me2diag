@@ -33,7 +33,7 @@ function PatientCreateDialog({ show, onHide }) {
       .catch(error => {
         // setIsLoading(false);
         console.log("Error get all patients: " + error);
-        alert("Cannot get patients");
+        toastify.error("Cannot get patients");
       })
   };
 

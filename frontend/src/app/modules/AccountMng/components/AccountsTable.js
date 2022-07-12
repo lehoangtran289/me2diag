@@ -43,7 +43,7 @@ function AccountsTable({ accounts, paging, query, setQuery, listLoading, setList
       headerSortingClasses
     },
     {
-      dataField: "firstname",
+      dataField: "firstName",
       text: "Firstname",
       sort: true,
       sortCaret: sortCaret,

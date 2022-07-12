@@ -1,6 +1,11 @@
 import { BACKEND_ORIGIN } from "../../../../config";
 import axios from "axios";
 
+export const createNewAccount = (account) => {
+  const POST_ACCOUNT = BACKEND_ORIGIN + `user/register`;
+  return axios.post(POST_ACCOUNT, account)
+}
+
 export const getAllAccounts = (params) => {
   const GET_ACCOUNTS_INFO = BACKEND_ORIGIN + `user`;
   return axios.get(GET_ACCOUNTS_INFO, {
