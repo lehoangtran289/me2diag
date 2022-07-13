@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.hust.backend.constant.UserGenderEnum;
+import com.hust.backend.constant.UserRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,10 +34,11 @@ public class UserInfoUpdateRequestDTO {
     private Date birthDate;
     private UserGenderEnum gender;
     private String description;
+    private List<UserRoleEnum> roles;
 
     public boolean isAllPropertiesNull() {
         return username == null && email == null && firstName == null && lastName == null && avatar == null
-                && birthDate == null && gender == null && description == null;
+                && birthDate == null && gender == null && description == null && (roles == null || roles.size() == 0);
     }
 }
 

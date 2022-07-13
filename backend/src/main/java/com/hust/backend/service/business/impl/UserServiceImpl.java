@@ -7,7 +7,6 @@ import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.request.UserInfoUpdateRequestDTO;
 import com.hust.backend.dto.request.UserRegisterRequestDTO;
 import com.hust.backend.dto.response.UserInfoResponseDTO;
-import com.hust.backend.entity.PatientEntity;
 import com.hust.backend.entity.RoleEntity;
 import com.hust.backend.entity.UserEntity;
 import com.hust.backend.entity.UserRoleEntity;
@@ -23,7 +22,6 @@ import com.hust.backend.utils.Common;
 import com.hust.backend.utils.Transformer;
 import com.hust.backend.utils.ULID;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,7 +43,8 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final StorageService storageService;
     private final AppConfig appConfig;
-    private final Map<String, UserRoleEnum> map = new HashMap<>();
+    private final Map<String, UserRoleEnum> roleIDtoEnumMap = new HashMap<>();
+    private final Map<UserRoleEnum, String> roleEnumToIDMap = new HashMap<>();
 
     public UserServiceImpl(UserRepository userRepository,
                            UserRoleRepository userRoleRepository,
@@ -66,7 +65,8 @@ public class UserServiceImpl implements UserService {
         for (UserRoleEnum role : UserRoleEnum.values()) {
             RoleEntity roleEntity = roleRepository.findByRoleEnum(role)
                     .orElseThrow(() -> new NotFoundException(UserRoleEnum.class, role.getRole()));
-            map.put(roleEntity.getId(), roleEntity.getRoleEnum());
+            roleIDtoEnumMap.put(roleEntity.getId(), role);
+            roleEnumToIDMap.put(role, roleEntity.getId());
         }
     }
 
@@ -115,6 +115,18 @@ public class UserServiceImpl implements UserService {
         // update user info (except avatar)
         Common.copyPropertiesIgnoreNull(request, user, "avatar");
 
+        if (request.getRoles() != null && request.getRoles().size() != 0) {
+            // delete old roles
+            List<UserRoleEntity> oldUserRoles = userRoleRepository.findAllByUserId(userId);
+            userRoleRepository.deleteAll(oldUserRoles);
+
+            // save new roles
+            List<UserRoleEntity> newUserRoles = Transformer.listToList(
+                    request.getRoles(),
+                    r -> UserRoleEntity.builder().userId(userId).roleId(roleEnumToIDMap.get(r)).build());
+            userRoleRepository.saveAll(newUserRoles);
+        }
+
         // update user avatar
         if (request.getAvatar() != null) {
             String relAvatarUrl = storageService.upload(ResourceType.USER, request.getAvatar());
@@ -156,7 +168,7 @@ public class UserServiceImpl implements UserService {
             List<UserRoleEntity> userRoleEntities = userRoleRepository.findAllByUserId(user.getId());
             user.setRoles(Transformer.listToList(
                     userRoleEntities,
-                    urEntity -> map.get(urEntity.getRoleId())
+                    urEntity -> roleIDtoEnumMap.get(urEntity.getRoleId())
             ));
         }
         return PagingInfo.<UserInfoResponseDTO>builder()
