@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(request.getPassword())) // TODO: client should encode password
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
+                .gender(request.getGender())
                 .isEnable(true)
                 .build());
 

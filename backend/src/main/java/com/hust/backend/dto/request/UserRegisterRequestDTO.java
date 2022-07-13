@@ -3,6 +3,7 @@ package com.hust.backend.dto.request;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.hust.backend.constant.UserGenderEnum;
 import com.hust.backend.constant.UserRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,6 +39,8 @@ public class UserRegisterRequestDTO {
 
     @Size(max = 255, message = "Invalid string length")
     private String lastName;
+
+    private UserGenderEnum gender;
 
     @NotNull
     private List<UserRoleEnum> roles;
