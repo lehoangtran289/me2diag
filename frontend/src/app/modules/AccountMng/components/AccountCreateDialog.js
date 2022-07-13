@@ -16,19 +16,19 @@ function AccountCreateDialog({ show, onHide }) {
   // server request for saving customer
   const saveAccount = (account) => {
     console.log(account);
-    // setIsLoading(true);
-    // createNewAccount(account)
-    //   .then(() => {
-    //     console.log("create new account ok");
-    //     // setIsLoading(false);
-    //     toastify.success('Create new account success!');
-    //     onHide();
-    //   })
-    //   .catch(error => {
-    //     // setIsLoading(false);
-    //     console.log("Error get all accounts: " + error);
-    //     toastify.error("Cannot create new account");
-    //   })
+    setIsLoading(true);
+    createNewAccount(account)
+      .then(() => {
+        console.log("create new account ok");
+        // setIsLoading(false);
+        toastify.success('Create new account success!');
+        onHide();
+      })
+      .catch(error => {
+        // setIsLoading(false);
+        console.log("Error get all accounts: " + error);
+        toastify.error("Cannot create new account");
+      })
   };
 
   // Validation schema
@@ -70,7 +70,7 @@ function AccountCreateDialog({ show, onHide }) {
           password: "",
           first_name: "",
           last_name: "",
-          gender: "",
+          gender: "female",
           roles: []
         }}
         enableReinitialize={true}
@@ -141,11 +141,9 @@ function AccountCreateDialog({ show, onHide }) {
                     />
                   </div>
                   <div className="col-lg-6">
-                    <Select name="gender" label="Gender" onChange={(e) => {
-                      setFieldValue("gender", e.target.value);
-                    }}>
-                      <option value="Female">Female</option>
-                      <option value="Male">Male</option>
+                    <Select name="gender" label="Gender" >
+                      <option value="female">Female</option>
+                      <option value="male">Male</option>
                     </Select>
                   </div>
                 </div>
