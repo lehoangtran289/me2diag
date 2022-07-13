@@ -69,7 +69,7 @@ function PatientListPage(props) {
             className="btn btn-primary"
             onClick={newCustomerButtonClick}
           >
-            New Customer
+            New Patient
           </button>
         </CardHeaderToolbar>
       </CardHeader>

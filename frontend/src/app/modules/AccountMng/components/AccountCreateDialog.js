@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { createNewPatient } from "../../Patient/_redux/patientCrud";
 import { toastify } from "../../../utils/toastUtils";
 import * as Yup from "yup";
 import { Modal } from "react-bootstrap";
 import { Field, Form, Formik } from "formik";
-import { DatePickerField, Input, Select } from "../../../../_metronic/_partials/controls";
-import ImageThumb from "../../../utils/ImageThumb";
+import { Input, Select } from "../../../../_metronic/_partials/controls";
 import { createNewAccount } from "../_redux/accountCrud";
 
 function AccountCreateDialog({ show, onHide }) {
@@ -19,18 +17,18 @@ function AccountCreateDialog({ show, onHide }) {
   const saveAccount = (account) => {
     console.log(account);
     // setIsLoading(true);
-    createNewAccount(account)
-      .then(() => {
-        console.log("create new account ok");
-        // setIsLoading(false);
-        toastify.success('Create new account success!');
-        onHide();
-      })
-      .catch(error => {
-        // setIsLoading(false);
-        console.log("Error get all accounts: " + error);
-        toastify.error("Cannot get patients");
-      })
+    // createNewAccount(account)
+    //   .then(() => {
+    //     console.log("create new account ok");
+    //     // setIsLoading(false);
+    //     toastify.success('Create new account success!');
+    //     onHide();
+    //   })
+    //   .catch(error => {
+    //     // setIsLoading(false);
+    //     console.log("Error get all accounts: " + error);
+    //     toastify.error("Cannot create new account");
+    //   })
   };
 
   // Validation schema
@@ -48,6 +46,7 @@ function AccountCreateDialog({ show, onHide }) {
       .max(150, "Maximum 150 chars"),
     last_name: Yup.string()
       .max(150, "Maximum 150 chars"),
+    gender: Yup.string(),
     roles: Yup.mixed()
   });
 
@@ -71,6 +70,7 @@ function AccountCreateDialog({ show, onHide }) {
           password: "",
           first_name: "",
           last_name: "",
+          gender: "",
           roles: []
         }}
         enableReinitialize={true}
@@ -140,6 +140,16 @@ function AccountCreateDialog({ show, onHide }) {
                       label="Password"
                     />
                   </div>
+                  <div className="col-lg-6">
+                    <Select name="gender" label="Gender" onChange={(e) => {
+                      setFieldValue("gender", e.target.value);
+                    }}>
+                      <option value="Female">Female</option>
+                      <option value="Male">Male</option>
+                    </Select>
+                  </div>
+                </div>
+                <div className="form-group row">
                   <div className="col-lg-6">
                     <Select name="roles" label="Roles" multiple>
                       <option value="USER">USER</option>
