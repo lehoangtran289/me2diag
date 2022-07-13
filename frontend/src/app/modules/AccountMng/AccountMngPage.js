@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Switch, useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import { ContentRoute } from "../../../_metronic/layout";
 import AccountListPage from "./AccountListPage";
@@ -29,6 +29,7 @@ function AccountMngPage(props) {
             <AccountCreateDialog
               show={Boolean(match)}
               onHide={onHide}
+              {...props}
             />
           )
         }}/>
@@ -56,6 +57,7 @@ function AccountMngPage(props) {
             <AccountEditDialog
               show={Boolean(match)}
               onHide={onHide}
+              {...props}
             />
           )
         }}/>

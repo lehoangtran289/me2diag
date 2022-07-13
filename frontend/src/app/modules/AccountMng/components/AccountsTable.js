@@ -17,12 +17,15 @@ import { DateColumnFormatter } from "../column-formatter/DateColumnFormatter";
 function AccountsTable({ accounts, paging, query, setQuery, listLoading, setListLoading }) {
   const history = useHistory();
 
-  const openEditAccountDetail = (id) => {
-    console.log("openEditAccountDetail")
+  const openEditAccountDetail = (id, rowData) => {
+    console.log("openEditAccountDetail");
+    history.push(`/accounts/${id}/edit`, {
+      account: rowData
+    })
   }
 
   const openDeactivateAccountDialog = (id, isEnable) => {
-    console.log("openDeleteAccountDialog")
+    console.log("openDeleteAccountDialog");
     if (isEnable)
       history.push(`/accounts/${id}/deactivate`)
     else

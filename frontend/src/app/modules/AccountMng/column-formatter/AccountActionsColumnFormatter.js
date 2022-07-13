@@ -13,7 +13,7 @@ export function AccountActionsColumnFormatter(
       <a
         title="View patient detail"
         className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
-        onClick={() => openEditAccountDetails(row.id)}
+        onClick={() => openEditAccountDetails(row.id, row)}
       >
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <SVG
