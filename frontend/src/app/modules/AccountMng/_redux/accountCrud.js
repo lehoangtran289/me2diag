@@ -13,6 +13,7 @@ export const editAccountDetail = (id, updatedUser) => {
   if (updatedUser.email) formData.append('email', updatedUser.email);
   if (updatedUser.description) formData.append('description', updatedUser.description);
   if (updatedUser.roles) formData.append('roles', updatedUser.roles);
+  if (updatedUser.gender) formData.append('gender', updatedUser.gender);
   if (updatedUser.avatarUrl && updatedUser.avatarUrl instanceof File)
     formData.append('avatar', updatedUser.avatarUrl)
 
