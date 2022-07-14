@@ -10,6 +10,7 @@ import com.hust.backend.application.picturefuzzyset.entity.PatientSymptomEntity;
 import com.hust.backend.application.picturefuzzyset.entity.SymptomDiagnoseEntity;
 import com.hust.backend.application.picturefuzzyset.model.GeneralPictureFuzzySet;
 import com.hust.backend.application.picturefuzzyset.model.PictureFuzzySet;
+import com.hust.backend.application.picturefuzzyset.model.SymptomDiagnoseConfig;
 import com.hust.backend.application.picturefuzzyset.repository.PFSExamResultRepository;
 import com.hust.backend.application.picturefuzzyset.repository.PatientSymptomRepository;
 import com.hust.backend.application.picturefuzzyset.repository.SymptomDiagnoseRepository;
@@ -75,6 +76,13 @@ public class PFSServiceImpl implements PFSService {
         }
         symptomDiagnoseRepo.saveAll(updatedPFSConfigs);
         return true;
+    }
+
+    @Override
+    public List<SymptomDiagnoseConfig> getPFSConfigs() {
+        return Transformer.listToList(
+                symptomDiagnoseRepo.findAll(),
+                sdEntity -> Common.convertObject(sdEntity, SymptomDiagnoseConfig.class));
     }
 
     @Override

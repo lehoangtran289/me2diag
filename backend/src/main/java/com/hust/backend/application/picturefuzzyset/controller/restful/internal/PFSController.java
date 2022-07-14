@@ -6,6 +6,7 @@ import com.hust.backend.application.picturefuzzyset.constant.SymptomEnum;
 import com.hust.backend.application.picturefuzzyset.dto.request.GeneralDiagnoseRequestDTO;
 import com.hust.backend.application.picturefuzzyset.dto.request.SymptomDiagnoseConfigRequestDTO;
 import com.hust.backend.application.picturefuzzyset.dto.response.PFSDiagnoseResponseDTO;
+import com.hust.backend.application.picturefuzzyset.model.SymptomDiagnoseConfig;
 import com.hust.backend.application.picturefuzzyset.service.PFSService;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.factory.GeneralResponse;
@@ -103,8 +104,14 @@ public class PFSController {
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @Valid @RequestBody List<SymptomDiagnoseConfigRequestDTO> request
     ) {
-        return responseFactory.success(
-                pfsService.changePFSConfigs(request)
-        );
+        return responseFactory.success(pfsService.changePFSConfigs(request));
+    }
+
+    @GetMapping("/config")
+    @AuthRequired(roles = UserRoleEnum.EXPERT)
+    public ResponseEntity<GeneralResponse<List<SymptomDiagnoseConfig>>> getPFSConfigs(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken
+    ) {
+        return responseFactory.success(pfsService.getPFSConfigs());
     }
 }
