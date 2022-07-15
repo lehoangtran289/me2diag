@@ -38,6 +38,7 @@ function AccountsTable({ accounts, paging, query, setQuery, listLoading, setList
       dataField: "id",
       text: "Patient ID"
     },
+    // TODO: Username + email + user ava token
     {
       dataField: "username",
       text: "Username",
@@ -45,6 +46,7 @@ function AccountsTable({ accounts, paging, query, setQuery, listLoading, setList
       sortCaret: sortCaret,
       headerSortingClasses
     },
+    // TODO: full name
     {
       dataField: "firstName",
       text: "Firstname",
@@ -85,6 +87,7 @@ function AccountsTable({ accounts, paging, query, setQuery, listLoading, setList
       sort: false,
       sortCaret: sortCaret
     },
+    // TODO: add last_login
     {
       dataField: "updatedAt",
       text: "Update at",
