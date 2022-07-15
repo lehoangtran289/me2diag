@@ -1,11 +1,11 @@
 import React from "react";
-import {formatDate} from "../../../utils/dateUtils";
+import {formatDate, timeSince} from "../../../utils/dateUtils";
 
 export function LastLoginColumnFormatter(cellContent, row) {
   return (
     row.lastLogin &&
     <span>
-      {formatDate(new Date(row.lastLogin))}
+      {timeSince(new Date(row.lastLogin))}
     </span>
   );
 }
