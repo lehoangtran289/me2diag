@@ -80,7 +80,7 @@ public class UserEntity {
     private Date createdAt;
 
     @Column(name = "updated_at")
-    @UpdateTimestamp
+//    @UpdateTimestamp
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date updatedAt;
 }

@@ -29,10 +29,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -86,6 +83,7 @@ public class UserServiceImpl implements UserService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .gender(request.getGender())
+                .updatedAt(new Date())
                 .isEnable(true)
                 .build());
 
@@ -104,6 +102,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackOn = {Exception.class})
     public UserInfoResponseDTO updateUserInfo(String userId, UserInfoUpdateRequestDTO request) {
+        Date updatedDate = new Date();
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(UserEntity.class, userId));
 
@@ -144,6 +143,7 @@ public class UserServiceImpl implements UserService {
             }
             user.setAvatarUrl(absAvatarUrl);
         }
+        user.setUpdatedAt(updatedDate);
         userRepository.save(user);
         return Common.convertObject(user, UserInfoResponseDTO.class);
     }
@@ -194,6 +194,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException(UserEntity.class, userId));
         if (!userEntity.isEnable())
             return;
+        userEntity.setUpdatedAt(new Date());
         userEntity.setEnable(false);
         userRepository.save(userEntity);
     }
@@ -204,6 +205,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException(UserEntity.class, userId));
         if (userEntity.isEnable())
             return;
+        userEntity.setUpdatedAt(new Date());
         userEntity.setEnable(true);
         userRepository.save(userEntity);
     }
