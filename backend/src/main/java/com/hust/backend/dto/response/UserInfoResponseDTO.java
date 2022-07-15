@@ -26,6 +26,7 @@ public class UserInfoResponseDTO {
     private String avatarUrl;
     private Date birthDate;
     private String description;
+    private Date lastLogin;
     private Date updatedAt;
     private List<UserRoleEnum> roles;
 }
