@@ -16,6 +16,7 @@ import {
   PatientActionsColumnFormatter
 } from "../column-formatters/ActionsColumnFormatter";
 import {useHistory} from "react-router-dom";
+import { NameColumnFormatter } from "../column-formatters/NameColumnFormatter";
 
 function PatientsTable({ patients, paging, query, setQuery, listLoading, setListLoading }) {
   const history = useHistory();
@@ -38,31 +39,15 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
     },
     {
       dataField: "name",
-      text: "Fullname",
+      text: "Name",
       sort: true,
       sortCaret: sortCaret,
-      headerSortingClasses
+      headerSortingClasses,
+      formatter: NameColumnFormatter
     },
-    // {
-    //   dataField: "lastName",
-    //   text: "Lastname",
-    //   sort: true,
-    //   sortCaret: sortCaret,
-    //   headerSortingClasses
-    // },
     {
       dataField: "phoneNo",
       text: "Phone",
-      sort: false,
-    },
-    {
-      dataField: "address",
-      text: "address",
-      sort: false,
-    },
-    {
-      dataField: "email",
-      text: "email",
       sort: false,
     },
     {
@@ -74,6 +59,11 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
     {
       dataField: "birthDate",
       text: "Date of birth",
+    },
+    {
+      dataField: "address",
+      text: "address",
+      sort: false,
     },
     {
       dataField: "action",

@@ -40,7 +40,6 @@ function AccountsTable({ accounts, paging, query, setQuery, listLoading, setList
       dataField: "id",
       text: "User ID"
     },
-    // TODO: Username + email + user ava token
     {
       dataField: "username",
       text: "Name",
