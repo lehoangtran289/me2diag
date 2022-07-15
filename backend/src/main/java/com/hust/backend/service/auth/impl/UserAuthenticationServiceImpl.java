@@ -64,6 +64,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
                 userRepository.findByEmail(request.getUsername()) :
                 userRepository.findByUsername(request.getUsername());
         UserEntity user = optionalUser.orElseThrow(() -> new UnauthorizedException("UserEntity.class", request.getUsername()));
+        user.setLastLogin(new Date());
 
         if (!user.isEnable()) {
             log.info("User " + user.getId() + "has been deactivated");

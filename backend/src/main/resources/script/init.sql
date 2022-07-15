@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS `user`;
 DROP TABLE IF EXISTS `role`;
 DROP TABLE IF EXISTS `user_role`;
 
+alter table user add `last_login` DATETIME;
+
 CREATE TABLE `user`
 (
     `id`                  VARCHAR(50) PRIMARY KEY NOT NULL,
@@ -28,6 +30,7 @@ CREATE TABLE `user`
     `gender`              VARCHAR(50),
     `description`         TEXT,
 
+    `last_login`          DATETIME,
     `created_at`          DATETIME                NOT NULL,
     `updated_at`          DATETIME                NOT NULL
 );

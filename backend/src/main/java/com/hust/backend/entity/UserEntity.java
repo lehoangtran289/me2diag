@@ -70,6 +70,10 @@ public class UserEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "last_login")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date lastLogin;
+
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
