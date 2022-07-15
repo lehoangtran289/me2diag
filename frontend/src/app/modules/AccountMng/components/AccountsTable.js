@@ -13,6 +13,8 @@ import BootstrapTable from "react-bootstrap-table-next";
 import { StatusColumnFormatter } from "../column-formatter/StatusColumnFormatter";
 import { RolesColumnFormatter } from "../column-formatter/RolesColumnFormatter";
 import { DateColumnFormatter } from "../column-formatter/DateColumnFormatter";
+import {LastLoginColumnFormatter} from "../column-formatter/LastLoginColumnFormatter";
+import {NameColumnFormatter} from "../column-formatter/NameColumnFormatter";
 
 function AccountsTable({ accounts, paging, query, setQuery, listLoading, setListLoading }) {
   const history = useHistory();
@@ -36,36 +38,36 @@ function AccountsTable({ accounts, paging, query, setQuery, listLoading, setList
   const columns = [
     {
       dataField: "id",
-      text: "Patient ID"
+      text: "User ID"
     },
     // TODO: Username + email + user ava token
     {
       dataField: "username",
-      text: "Username",
+      text: "Name",
       sort: true,
       sortCaret: sortCaret,
-      headerSortingClasses
+      headerSortingClasses,
+      formatter: NameColumnFormatter
     },
-    // TODO: full name
     {
-      dataField: "firstName",
-      text: "Firstname",
+      dataField: "fullname",
+      text: "Fullname",
       sort: true,
       sortCaret: sortCaret,
-      headerSortingClasses
+      headerSortingClasses,
+      formatter: (cellContent, row) => {
+        return (
+          <span>
+            {`${row.firstName ? row.firstName : ""} ${row.lastName ? row.lastName : ""}`}
+          </span>
+        );
+      }
     },
-    {
-      dataField: "lastName",
-      text: "Lastname",
-      sort: true,
-      sortCaret: sortCaret,
-      headerSortingClasses
-    },
-    {
-      dataField: "email",
-      text: "email",
-      sort: false,
-    },
+    // {
+    //   dataField: "email",
+    //   text: "email",
+    //   sort: false,
+    // },
     {
       dataField: "phoneNo",
       text: "Phone",
@@ -87,7 +89,13 @@ function AccountsTable({ accounts, paging, query, setQuery, listLoading, setList
       sort: false,
       sortCaret: sortCaret
     },
-    // TODO: add last_login
+    {
+      dataField: "lastLogin",
+      text: "Last login",
+      formatter: LastLoginColumnFormatter,
+      sort: false,
+      sortCaret: sortCaret
+    },
     {
       dataField: "updatedAt",
       text: "Update at",

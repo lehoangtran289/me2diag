@@ -85,7 +85,7 @@ function AccountEditDialog({ show, onHide, ...props }) {
           lastName: user.lastName ? user.lastName : "",
           email: user.email ? user.email : "",
           phoneNo: user.phoneNo ? user.phoneNo : "",
-          gender: user.gender ? user.gender : "female",
+          gender: user.gender ? user.gender.toLowerCase() : "female",
           roles: user.roles ? user.roles : []
         }}
         enableReinitialize={true}

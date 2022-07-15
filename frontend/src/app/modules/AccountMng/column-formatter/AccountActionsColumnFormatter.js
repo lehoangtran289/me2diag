@@ -17,7 +17,7 @@ export function AccountActionsColumnFormatter(
       >
         <span className="svg-icon svg-icon-md svg-icon-primary">
           <SVG
-            src={toAbsoluteUrl("/media/svg/icons/General/Visible.svg")}
+            src={toAbsoluteUrl("/media/svg/icons/General/Edit.svg")}
           />
         </span>
       </a>
