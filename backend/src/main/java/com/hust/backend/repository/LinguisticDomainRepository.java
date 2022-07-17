@@ -13,5 +13,5 @@ import java.util.List;
 public interface LinguisticDomainRepository extends JpaRepository<LinguisticDomainEntity, LinguisticApplicationEntityKey> {
     List<LinguisticDomainEntity> findAllByApplicationIdAndLinguisticDomainElementIn(ApplicationEnum appId, List<LinguisticDomainEnum> ids);
 
-    List<LinguisticDomainEntity> findAllByApplicationId(ApplicationEnum appId);
+    List<LinguisticDomainEntity> findAllByApplicationIdOrderByLinguisticOrderAsc(ApplicationEnum appId);
 }

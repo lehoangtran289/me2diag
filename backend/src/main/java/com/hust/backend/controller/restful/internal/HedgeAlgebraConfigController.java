@@ -6,6 +6,7 @@ import com.hust.backend.constant.ApplicationEnum;
 import com.hust.backend.constant.HedgeAlgebraEnum;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.request.HedgeAlgebraConfigRequestDTO;
+import com.hust.backend.dto.response.HedgeConfigResponseDTO;
 import com.hust.backend.dto.response.LinguisticDomainResponseDTO;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.ResponseFactory;
@@ -43,7 +44,18 @@ public class HedgeAlgebraConfigController {
         this.hedgeAlgebraService = hedgeAlgebraService;
     }
 
-    @GetMapping
+    @GetMapping("/config")
+    @AuthRequired(roles = {UserRoleEnum.USER, UserRoleEnum.EXPERT})
+    public ResponseEntity<GeneralResponse<List<HedgeConfigResponseDTO>>> getAllHedgeAlgebraConfig(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
+            @RequestParam @NotBlank(message = "application id must not be blank") String appId
+    ) {
+        return responseFactory.success(
+                hedgeAlgebraService.getAllHedgeConfigsElements(ApplicationEnum.from(appId))
+        );
+    }
+
+    @GetMapping("/linguistic-domain")
     @AuthRequired(roles = {UserRoleEnum.USER, UserRoleEnum.EXPERT})
     public ResponseEntity<GeneralResponse<List<LinguisticDomainResponseDTO>>> getAllLinguisticDomainElements(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,

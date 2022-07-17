@@ -4,6 +4,7 @@ import com.hust.backend.constant.ApplicationEnum;
 import com.hust.backend.constant.HedgeAlgebraEnum;
 import com.hust.backend.constant.LinguisticDomainEnum;
 import com.hust.backend.dto.request.HedgeAlgebraConfigRequestDTO;
+import com.hust.backend.dto.response.HedgeConfigResponseDTO;
 import com.hust.backend.dto.response.LinguisticDomainResponseDTO;
 import com.hust.backend.entity.HedgeAlgebraEntity;
 import com.hust.backend.entity.LinguisticDomainEntity;
@@ -49,9 +50,17 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
     }
 
     @Override
+    public List<HedgeConfigResponseDTO> getAllHedgeConfigsElements(ApplicationEnum appId) {
+        return Transformer.listToList(
+                hedgeAlgebraConfigRepo.findAllByApplicationIdOrderByLinguisticOrderAsc(appId),
+                hedgeAlgebraEntity -> Common.convertObject(hedgeAlgebraEntity, HedgeConfigResponseDTO.class)
+        );
+    }
+
+    @Override
     public List<LinguisticDomainResponseDTO> getAllLinguisticDomainElements(ApplicationEnum appId) {
         return Transformer.listToList(
-                linguisticDomRepo.findAllByApplicationId(appId),
+                linguisticDomRepo.findAllByApplicationIdOrderByLinguisticOrderAsc(appId),
                 linguisticDomainEntity -> Common.convertObject(linguisticDomainEntity,
                         LinguisticDomainResponseDTO.class)
         );

@@ -12,4 +12,6 @@ import java.util.List;
 @Repository
 public interface HedgeAlgebraConfigRepository extends JpaRepository<HedgeAlgebraEntity, HedgeApplicationEntityKey> {
     List<HedgeAlgebraEntity> findAllByApplicationIdAndHedgeAlgebraEnumIn(ApplicationEnum appId, List<HedgeAlgebraEnum> ids);
+
+    List<HedgeAlgebraEntity> findAllByApplicationIdOrderByLinguisticOrderAsc(ApplicationEnum appId);
 }
