@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {getAllKDCHedgeConfigs, getAllKDCLinguisticDomainConfigs, saveKDCHedgeConfigs} from "./_redux/KDCConfigCrud";
 import { toastify } from "../../utils/toastUtils";
 import { Card, CardBody, CardHeader, ModalProgressBar } from "../../../_metronic/_partials/controls";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import BootstrapTable from "react-bootstrap-table-next";
 import {
   headerSortingClasses,
