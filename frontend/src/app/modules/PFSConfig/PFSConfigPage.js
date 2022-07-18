@@ -11,7 +11,7 @@ function PfsConfigPage(props) {
 
   return (
     <>
-      <div className="d-flex flex-row">
+      <div className="d-flex flex-row mb-5">
         {/*BEGIN:: hedge config card*/}
         <PFSHedgeConfig/>
       </div>
