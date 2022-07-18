@@ -14,10 +14,12 @@ import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import Slider from "@mui/material/Slider";
+import useForceUpdate from "../../utils/hooks/useForceUpdate";
 
 function KdcConfigPage(props) {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [rerender, setRerender] = useState(false);
   const [loading, setloading] = useState(false);
 
   const [hedgeConfigs, setHedgeConfigs] = useState({
@@ -76,7 +78,7 @@ function KdcConfigPage(props) {
         console.log(err);
         toastify.error("Error getting linguistic domain configs");
       });
-  }, []);
+  }, [rerender]);
 
   // BEGIN TABLE COLUMN CONFIG-----------------------------------------
   const configsTableColumns = [
@@ -112,6 +114,8 @@ function KdcConfigPage(props) {
   // BEGIN TABLE COLUMN CONFIG-----------------------------------------
 
   // BEGIN FORMIK FORM CONFIG-----------------------------------------
+  const initialValues = hedgeConfigs;
+
   const saveConfigs = (values, setStatus, setSubmitting) => {
     console.log(values);
     //TODO
@@ -127,7 +131,6 @@ function KdcConfigPage(props) {
     return "";
   };
 
-  const initialValues = hedgeConfigs;
 
   const Schema = Yup.object().shape({
     neutral_theta: Yup.number().min(0.0).max(1.0),
@@ -180,12 +183,15 @@ function KdcConfigPage(props) {
                 Save Changes
                 {formik.isSubmitting}
               </button>
-              <Link
-                to="/config/kdc"
+              <div
                 className="btn btn-secondary"
+                onClick={() => {
+                  setRerender(!rerender);
+                  formik.resetForm();
+                }}
               >
                 Cancel
-              </Link>
+              </div>
             </div>
           </div>
           {/* end::Header */}
