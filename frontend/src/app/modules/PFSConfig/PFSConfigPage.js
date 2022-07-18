@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {useSubheader} from "../../../_metronic/layout";
-import PFSLinguisticDomainTable from "./components/PFSLinguisticDomainTable";
-import PFSHedgeConfigCard from "./PFSHedgeConfigCard";
+import PFSHedgeConfig from "./components/PFSHedgeConfig";
+import PictureFuzzySetConfig from "./components/PictureFuzzySetConfig";
 
 function PfsConfigPage(props) {
   const subheader = useSubheader();
@@ -9,27 +9,16 @@ function PfsConfigPage(props) {
     subheader.setTitle("PFS problem settings");
   })
 
-  const [rerender, setRerender] = useState(false);
-  const [loading, setLoading] = useState(false);
-
   return (
-    <div className="d-flex flex-row">
-      {/*BEGIN:: hedge config card*/}
-      <PFSHedgeConfigCard
-        rerender={rerender}
-        setRerender={setRerender}
-        loading={loading}
-        setLoading={setLoading}
-      />
-      {/*END:: hedge config card*/}
-      {/* BEGIN:: linguistic table domain */}
-      <PFSLinguisticDomainTable
-        rerender={rerender}
-        loading={loading}
-        setLoading={setLoading}
-      />
-      {/* END:: linguistic table domain */}
-    </div>
+    <>
+      <div className="d-flex flex-row">
+        {/*BEGIN:: hedge config card*/}
+        <PFSHedgeConfig/>
+      </div>
+      <div className="d-flex flex-row mt-5">
+        <PictureFuzzySetConfig/>
+      </div>
+    </>
   );
 }
 

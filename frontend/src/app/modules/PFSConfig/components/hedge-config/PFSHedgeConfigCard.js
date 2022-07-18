@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {ModalProgressBar} from "../../../_metronic/_partials/controls";
-import {toastify} from "../../utils/toastUtils";
-import {getAllPFSHedgeConfigs, savePFSHedgeConfigs} from "./_redux/PFSConfigCrud";
+import {ModalProgressBar} from "../../../../../_metronic/_partials/controls";
+import {toastify} from "../../../../utils/toastUtils";
+import {getAllPFSHedgeConfigs, savePFSHedgeConfigs} from "../../_redux/PFSConfigCrud";
 import * as Yup from "yup";
 import {useFormik} from "formik";
-import KDCHedgeConfigSlider from "../KDCConfig/components/KDCHedgeConfigSlider";
+import KDCHedgeConfigSlider from "../../../KDCConfig/components/KDCHedgeConfigSlider";
 
 function PFSHedgeConfigCard({ loading, setLoading, rerender, setRerender, ...props }) {
   const [hedgeConfigs, setHedgeConfigs] = useState({

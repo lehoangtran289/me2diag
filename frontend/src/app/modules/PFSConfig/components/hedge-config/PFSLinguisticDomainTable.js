@@ -1,15 +1,15 @@
 import React from 'react';
-import {Card, CardBody, CardHeader} from "../../../../_metronic/_partials/controls";
+import {Card, CardBody, CardHeader} from "../../../../../_metronic/_partials/controls";
 import BootstrapTable from "react-bootstrap-table-next";
 import {
   headerSortingClasses,
   NoRecordsFoundMessage,
   PleaseWaitMessage,
   sortCaret
-} from "../../../../_metronic/_helpers";
+} from "../../../../../_metronic/_helpers";
 import {useEffect, useState} from "react";
-import {getAllPFSLinguisticDomainConfigs} from "../_redux/PFSConfigCrud";
-import {toastify} from "../../../utils/toastUtils";
+import {getAllPFSLinguisticDomainConfigs} from "../../_redux/PFSConfigCrud";
+import {toastify} from "../../../../utils/toastUtils";
 
 function PFSLinguisticDomainTable({ rerender, loading, setLoading, ...props }) {
   const [linguisticDomain, setLinguisticDomain] = useState([]);
@@ -65,7 +65,7 @@ function PFSLinguisticDomainTable({ rerender, loading, setLoading, ...props }) {
   return (
     <div className="flex-row-fluid ml-lg-8">
       <Card>
-        <CardHeader title={"All PFS model settings"}>
+        <CardHeader title={"All PFS linguistic domain settings"}>
         </CardHeader>
         <CardBody>
           <BootstrapTable
