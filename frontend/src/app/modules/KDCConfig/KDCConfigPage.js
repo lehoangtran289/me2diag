@@ -14,8 +14,12 @@ import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import Slider from "@mui/material/Slider";
+import {useSubheader} from "../../../_metronic/layout";
 
 function KdcConfigPage(props) {
+  const subheader = useSubheader();
+  subheader.setTitle("KDC problem settings");
+
   const dispatch = useDispatch();
   const history = useHistory();
   const [rerender, setRerender] = useState(false);
