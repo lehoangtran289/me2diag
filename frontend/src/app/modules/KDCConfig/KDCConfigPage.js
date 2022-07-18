@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllKDCHedgeConfigs, getAllKDCLinguisticDomainConfigs } from "./_redux/KDCConfigCrud";
+import {getAllKDCHedgeConfigs, getAllKDCLinguisticDomainConfigs, saveKDCHedgeConfigs} from "./_redux/KDCConfigCrud";
 import { toastify } from "../../utils/toastUtils";
 import { Card, CardBody, CardHeader, ModalProgressBar } from "../../../_metronic/_partials/controls";
 import { Link, useHistory } from "react-router-dom";
@@ -14,7 +14,6 @@ import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import Slider from "@mui/material/Slider";
-import useForceUpdate from "../../utils/hooks/useForceUpdate";
 
 function KdcConfigPage(props) {
   const dispatch = useDispatch();
@@ -43,6 +42,7 @@ function KdcConfigPage(props) {
       });
 
     // get hedge configs
+    setloading(true);
     getAllKDCHedgeConfigs()
       .then(res => {
         const configs = res.data.data
@@ -73,8 +73,10 @@ function KdcConfigPage(props) {
           }
         });
         setHedgeConfigs(curHedgeConfig);
+        setloading(false);
       })
       .catch(err => {
+        setloading(false);
         console.log(err);
         toastify.error("Error getting linguistic domain configs");
       });
@@ -117,8 +119,23 @@ function KdcConfigPage(props) {
   const initialValues = hedgeConfigs;
 
   const saveConfigs = (values, setStatus, setSubmitting) => {
+    if (curHedgeSum() !== 1.0) {
+      toastify.error("Error setting KDC hedge configs configs, sum hedge configs != 1.0");
+      return;
+    }
     console.log(values);
-    //TODO
+    setloading(true);
+    saveKDCHedgeConfigs(values)
+      .then(res => {
+        setloading(false);
+        setRerender(!rerender);
+        toastify.success("set KDC hedge configs succeed!");
+      })
+      .catch(err => {
+        setloading(false);
+        console.log(err);
+        toastify.error("Error setting KDC hedge configs configs");
+      });
   };
 
   const getInputClasses = (fieldname) => {
@@ -400,7 +417,7 @@ function KdcConfigPage(props) {
               {
                 curHedgeSum() !== 1.0 &&
                   <span className="text-danger font-weight-bold font-size-sm mt-1">
-                    Note: Sum of all hedge configs must equals 1
+                    {`Note: Sum of all hedge configs must equals 1. Current sum = ${Number((curHedgeSum()).toFixed(2))}`}
                   </span>
               }
             </div>
