@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-import {
-  Input,
-  Select,
-  DatePickerField, ModalProgressBar
-} from "../../../../_metronic/_partials/controls";
-import { Formik, Form, Field } from "formik";
+import React, {useEffect, useState} from "react";
+import {Modal} from "react-bootstrap";
+import {DatePickerField, Input, Select} from "../../../../_metronic/_partials/controls";
+import {Field, Form, Formik} from "formik";
 import * as Yup from "yup";
-import { createNewPatient } from "../_redux/patientCrud";
+import {createNewPatient} from "../_redux/patientCrud";
 import ImageThumb from "../../../utils/ImageThumb";
 import {toastify} from "../../../utils/toastUtils";
 

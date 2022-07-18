@@ -112,10 +112,10 @@ export function AsideMenuList({layoutProps}) {
               <i className="menu-icon flaticon-more-v2"></i>
             </li>
             <li
-              className={`menu-item ${getMenuItemActive("/config/fps", false)}`}
+              className={`menu-item ${getMenuItemActive("/config/pfs", false)}`}
               aria-haspopup="true"
             >
-              <NavLink className="menu-link" to="/config/fps">
+              <NavLink className="menu-link" to="/config/pfs">
                   <span className="svg-icon menu-icon">
                     <SVG src={toAbsoluteUrl("/media/svg/icons/General/Settings-1.svg")}/>
                   </span>

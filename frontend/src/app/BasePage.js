@@ -1,8 +1,6 @@
-import React, {Suspense, lazy} from "react";
-import {Redirect, Switch, Route} from "react-router-dom";
-import {LayoutSplashScreen, ContentRoute} from "../_metronic/layout";
-import {BuilderPage} from "./pages/BuilderPage";
-import {MyPage} from "./pages/MyPage";
+import React, {lazy, Suspense} from "react";
+import {Redirect, Route, Switch} from "react-router-dom";
+import {ContentRoute, LayoutSplashScreen} from "../_metronic/layout";
 import {DashboardPage} from "./pages/DashboardPage";
 import {shallowEqual, useSelector} from "react-redux";
 import {ROLE_ADMIN, ROLE_EXPERT, ROLE_USER} from "../constants";
