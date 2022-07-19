@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import {
-  getSelectRow,
-  getHandlerTableChange,
+  headerSortingClasses,
   NoRecordsFoundMessage,
   PleaseWaitMessage,
-  sortCaret,
-  headerSortingClasses
+  sortCaret
 } from "../../../../_metronic/_helpers";
-import paginationFactory, {
-  PaginationProvider,
-} from "react-bootstrap-table2-paginator";
-import { Pagination } from "../../../../_metronic/_partials/controls";
-import {
-  PatientActionsColumnFormatter
-} from "../column-formatters/ActionsColumnFormatter";
+import paginationFactory, {PaginationProvider,} from "react-bootstrap-table2-paginator";
+import {Pagination} from "../../../../_metronic/_partials/controls";
+import {PatientActionsColumnFormatter} from "../column-formatters/ActionsColumnFormatter";
 import {useHistory} from "react-router-dom";
-import { NameColumnFormatter } from "../column-formatters/NameColumnFormatter";
+import {NameColumnFormatter} from "../column-formatters/NameColumnFormatter";
 
 function PatientsTable({ patients, paging, query, setQuery, listLoading, setListLoading }) {
   const history = useHistory();

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useParams} from "react-router-dom";
 import {Modal} from "react-bootstrap";
 import {ModalProgressBar} from "../../../../_metronic/_partials/controls";

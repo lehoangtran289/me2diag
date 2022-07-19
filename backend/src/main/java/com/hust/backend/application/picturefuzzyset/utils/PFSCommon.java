@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+import static org.apache.commons.math3.util.Precision.EPSILON;
+
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PFSCommon {
@@ -51,7 +53,7 @@ public class PFSCommon {
     }
 
     public static boolean isValidPFS(PictureFuzzySet pfs) {
-        return 1 - pfs.getPositive() - pfs.getNeutral() - pfs.getNegative() >= 0;
+        return pfs.getPositive() + pfs.getNeutral() + pfs.getNegative() <= 1 + EPSILON;
     }
 
     // TODO: validate invalid linguistic input

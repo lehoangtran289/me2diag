@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Switch, useHistory, useLocation, useRouteMatch } from "react-router-dom";
-import { ContentRoute } from "../../../_metronic/layout";
+import React, {useState} from "react";
+import {Switch, useHistory, useLocation, useRouteMatch} from "react-router-dom";
+import {ContentRoute} from "../../../_metronic/layout";
 import AccountListPage from "./AccountListPage";
 import AccountCreateDialog from "./components/AccountCreateDialog";
 import AccountDeactivateDialog from "./components/AccountDeactivateDialog";

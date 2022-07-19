@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import {Formik} from "formik";
-import _debounce from "lodash/debounce";
 import {debounce} from "../../../utils/debounce";
 
 const prepareFilter = (queryParams, values) => {
