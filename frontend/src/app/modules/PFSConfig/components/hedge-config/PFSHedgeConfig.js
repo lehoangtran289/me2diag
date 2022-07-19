@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import PFSHedgeConfigCard from "./hedge-config/PFSHedgeConfigCard";
-import PFSLinguisticDomainTable from "./hedge-config/PFSLinguisticDomainTable";
+import PFSHedgeConfigCard from "./PFSHedgeConfigCard";
+import PFSLinguisticDomainTable from "./PFSLinguisticDomainTable";
 
 function PfsHedgeConfig(props) {
   const [rerender, setRerender] = useState(false);

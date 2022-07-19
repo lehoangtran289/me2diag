@@ -5,6 +5,7 @@ import {getAllPFSHedgeConfigs, savePFSHedgeConfigs} from "../../_redux/PFSConfig
 import * as Yup from "yup";
 import {useFormik} from "formik";
 import KDCHedgeConfigSlider from "../../../KDCConfig/components/KDCHedgeConfigSlider";
+import PFSHedgeConfigSlider from "./PFSHedgeConfigSlider";
 
 function PFSHedgeConfigCard({ loading, setLoading, rerender, setRerender, ...props }) {
   const [hedgeConfigs, setHedgeConfigs] = useState({
@@ -154,7 +155,7 @@ function PFSHedgeConfigCard({ loading, setLoading, rerender, setRerender, ...pro
             {/* begin::Form Group */}
             <div className="form-group row">
               <label className="col-xl-3 col-lg-3 col-form-label">Theta</label>
-              <KDCHedgeConfigSlider formik={formik} field={"neutral_theta"}/>
+              <PFSHedgeConfigSlider formik={formik} field={"neutral_theta"}/>
             </div>
             <div className="separator separator-dashed my-5"></div>
             {/* ----------------------------------------------------*/}
@@ -171,7 +172,7 @@ function PFSHedgeConfigCard({ loading, setLoading, rerender, setRerender, ...pro
                 return (
                   <div className="form-group row" key={key}>
                     <label className="col-xl-3 col-lg-3 col-form-label">{element.label}</label>
-                    <KDCHedgeConfigSlider formik={formik} field={element.field}/>
+                    <PFSHedgeConfigSlider formik={formik} field={element.field}/>
                   </div>
                 )
               })

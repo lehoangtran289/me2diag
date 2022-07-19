@@ -25,8 +25,8 @@ export const getAllPictureFuzzySetsConfigs = () => {
 }
 
 export const savePFSHedgeConfigs = (data) => {
-  const POST_HEDGE_CONFIGS = BACKEND_ORIGIN + `hedge-algebra/config`;
-  return axios.put(POST_HEDGE_CONFIGS, {
+  const PUT_HEDGE_CONFIGS = BACKEND_ORIGIN + `hedge-algebra/config`;
+  return axios.put(PUT_HEDGE_CONFIGS, {
     app_id: "PFS",
     neutral_theta : data.neutral_theta,
     configs : {
@@ -35,5 +35,11 @@ export const savePFSHedgeConfigs = (data) => {
     }
   })
 }
+
+export const savePictureFuzzySetConfigs = (data) => {
+  const PUT_PFS_CONFIGS = BACKEND_ORIGIN + `pfs/config`;
+  return axios.put(PUT_PFS_CONFIGS, data);
+}
+
 
 

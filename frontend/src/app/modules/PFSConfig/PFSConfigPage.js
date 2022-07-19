@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {useSubheader} from "../../../_metronic/layout";
-import PFSHedgeConfig from "./components/PFSHedgeConfig";
-import PictureFuzzySetConfig from "./components/PictureFuzzySetConfig";
+import PFSHedgeConfig from "./components/hedge-config/PFSHedgeConfig";
+import PictureFuzzySetConfig from "./components/picture-fuzzy-set-config/PictureFuzzySetConfig";
 
 function PfsConfigPage(props) {
   const subheader = useSubheader();
