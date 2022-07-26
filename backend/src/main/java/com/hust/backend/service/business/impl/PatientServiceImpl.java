@@ -5,8 +5,10 @@ import com.hust.backend.application.picturefuzzyset.repository.PFSExamResultRepo
 import com.hust.backend.application.picturefuzzyset.repository.PatientSymptomRepository;
 import com.hust.backend.config.AppConfig;
 import com.hust.backend.constant.ResourceType;
+import com.hust.backend.dto.request.PatientEditRequestDTO;
 import com.hust.backend.dto.request.PatientRegisterRequestDTO;
 import com.hust.backend.dto.response.PatientInfoResponseDTO;
+import com.hust.backend.dto.response.UserInfoResponseDTO;
 import com.hust.backend.entity.ExaminationEntity;
 import com.hust.backend.entity.PatientEntity;
 import com.hust.backend.exception.NotFoundException;
@@ -23,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -97,20 +100,10 @@ public class PatientServiceImpl implements PatientService {
                 .address(request.getAddress())
                 .email(request.getEmail())
                 .build();
+        updatePatientAvatar(patientEntity, request.getAvatar());
 
-        if (request.getAvatar() != null) {
-            String relAvatarUrl = storageService.upload(ResourceType.PATIENT, request.getAvatar());
-            String absAvatarUrl = appConfig.getDomain() + "/media/" + relAvatarUrl;
-            if (patientEntity.getAvatarUrl() != null) {
-                String folder = "/" + ResourceType.PATIENT.folderName + "/";
-                String avatarFileName = folder + patientEntity.getAvatarUrl().split(folder)[1];
-                if (storageService.isExist(avatarFileName)) {
-                    storageService.delete(avatarFileName);
-                }
-            }
-            patientEntity.setAvatarUrl(absAvatarUrl);
-        }
         patientRepository.save(patientEntity);
+
         log.info("New patient registered successfully {}", patientEntity);
     }
 
@@ -131,6 +124,55 @@ public class PatientServiceImpl implements PatientService {
         pfsExamResultRepo.deleteByExaminationIdIn(examIds);
         kdcExamResultRepo.deleteByExaminationIdIn(examIds);
         patientSymptomRepo.deleteByExaminationIdIn(examIds);
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public void editPatient(String patientId, PatientEditRequestDTO request) {
+        // update patient info
+        if (request.getId() == null || StringUtils.equals(patientId, request.getId())) {
+            PatientEntity patient = patientRepository.findById(patientId)
+                    .orElseThrow(() -> new NotFoundException(PatientEntity.class, patientId));
+
+            // update patient details (except avatar)
+            Common.copyPropertiesIgnoreNull(request, patient, "avatar", "id");
+
+            updatePatientAvatar(patient, request.getAvatar());
+
+            patientRepository.save(patient);
+        } else if (!StringUtils.equals(patientId, request.getId())
+                && !patientRepository.existsById(request.getId())) { // create new patient
+            deletePatient(patientId);
+
+            PatientEntity patientEntity = PatientEntity.builder()
+                    .id(request.getId())
+                    .name(request.getName())
+                    .birthDate(request.getBirthDate())
+                    .gender(request.getGender())
+                    .phoneNo(request.getPhoneNo())
+                    .address(request.getAddress())
+                    .email(request.getEmail())
+                    .build();
+
+            updatePatientAvatar(patientEntity, request.getAvatar());
+
+            patientRepository.save(patientEntity);
+        }
+    }
+
+    private void updatePatientAvatar(PatientEntity patient, MultipartFile avatar) {
+        if (avatar != null) {
+            String relAvatarUrl = storageService.upload(ResourceType.PATIENT, avatar);
+            String absAvatarUrl = appConfig.getDomain() + "/media/" + relAvatarUrl;
+            if (patient.getAvatarUrl() != null) {
+                String folder = "/" + ResourceType.PATIENT.folderName + "/";
+                String avatarFileName = folder + patient.getAvatarUrl().split(folder)[1];
+                if (storageService.isExist(avatarFileName)) {
+                    storageService.delete(avatarFileName);
+                }
+            }
+            patient.setAvatarUrl(absAvatarUrl);
+        }
     }
 
 }

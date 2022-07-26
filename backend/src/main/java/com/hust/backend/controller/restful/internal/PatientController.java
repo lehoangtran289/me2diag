@@ -3,6 +3,7 @@ package com.hust.backend.controller.restful.internal;
 import com.hust.backend.aop.AuthRequired;
 import com.hust.backend.application.picturefuzzyset.dto.response.ExamInfoResponseDTO;
 import com.hust.backend.constant.UserRoleEnum;
+import com.hust.backend.dto.request.PatientEditRequestDTO;
 import com.hust.backend.dto.request.PatientRegisterRequestDTO;
 import com.hust.backend.dto.response.PatientInfoResponseDTO;
 import com.hust.backend.factory.GeneralResponse;
@@ -52,6 +53,17 @@ public class PatientController {
             @Valid @ModelAttribute PatientRegisterRequestDTO request
     ) {
         patientService.registerPatient(request);
+        return responseFactory.success();
+    }
+
+    @PatchMapping(consumes = "multipart/form-data", value = "/{patientId}")
+    @AuthRequired(roles = UserRoleEnum.USER)
+    public ResponseEntity<GeneralResponse<String>> editPatientDetails(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
+            @PathVariable @NotBlank(message = "patient id must not be blank") String patientId,
+            @Valid @ModelAttribute PatientEditRequestDTO request
+    ) {
+        patientService.editPatient(patientId, request);
         return responseFactory.success();
     }
 

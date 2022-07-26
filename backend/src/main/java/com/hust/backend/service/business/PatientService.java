@@ -1,5 +1,6 @@
 package com.hust.backend.service.business;
 
+import com.hust.backend.dto.request.PatientEditRequestDTO;
 import com.hust.backend.dto.request.PatientRegisterRequestDTO;
 import com.hust.backend.dto.response.PatientInfoResponseDTO;
 import com.hust.backend.factory.PagingInfo;
@@ -13,4 +14,6 @@ public interface PatientService {
     void registerPatient(PatientRegisterRequestDTO request);
 
     void deletePatient(String patientId);
+
+    void editPatient(String patientId, PatientEditRequestDTO request);
 }
