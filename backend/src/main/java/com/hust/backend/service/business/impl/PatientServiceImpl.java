@@ -165,10 +165,14 @@ public class PatientServiceImpl implements PatientService {
             String relAvatarUrl = storageService.upload(ResourceType.PATIENT, avatar);
             String absAvatarUrl = appConfig.getDomain() + "/media/" + relAvatarUrl;
             if (patient.getAvatarUrl() != null) {
-                String folder = "/" + ResourceType.PATIENT.folderName + "/";
-                String avatarFileName = folder + patient.getAvatarUrl().split(folder)[1];
-                if (storageService.isExist(avatarFileName)) {
-                    storageService.delete(avatarFileName);
+                try {
+                    String folder = "/" + ResourceType.PATIENT.folderName + "/";
+                    String avatarFileName = folder + patient.getAvatarUrl().split(folder)[1];
+                    if (storageService.isExist(avatarFileName)) {
+                        storageService.delete(avatarFileName);
+                    }
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                    log.error("Error handling old avatar url", ex);
                 }
             }
             patient.setAvatarUrl(absAvatarUrl);
