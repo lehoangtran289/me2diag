@@ -13,6 +13,30 @@ export const deleteSelectedPatient = (id) => {
   return axios.delete(DELETE_PATIENT);
 };
 
+export const editPatient = (id, patient) => {
+  const EDIT_PATIENT = BACKEND_ORIGIN + `patient/` + id;
+
+  let formData = new FormData();
+  formData.append('id', patient.id);
+  formData.append('name', patient.name);
+  formData.append('phoneNo', patient.phoneNo);
+  formData.append('email', patient.email);
+  formData.append('birthDate', patient.birthDate ? new Date(patient.birthDate).toLocaleDateString() : null);
+  formData.append('address', patient.address)
+  formData.append('gender', patient.gender);
+
+  if (patient.avatar)
+    formData.append('avatar', patient.avatar)
+
+  console.log("here");
+  return axios({
+    method: "patch",
+    url: EDIT_PATIENT,
+    data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+}
+
 export const createNewPatient = (patient) => {
   const CREATE_PATIENT = BACKEND_ORIGIN + `patient`;
 

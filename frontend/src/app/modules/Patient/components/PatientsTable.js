@@ -25,6 +25,13 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
     history.push(`/patients/${id}/delete`)
   }
 
+  const openEditPatientDetail = (id, rowData) => {
+    console.log("openEditPatientDetail")
+    history.push(`patients/${id}/edit`, {
+      patient: rowData
+    })
+  }
+
   // Table columns
   const columns = [
     {
@@ -37,7 +44,10 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
       sort: true,
       sortCaret: sortCaret,
       headerSortingClasses,
-      formatter: NameColumnFormatter
+      formatter: NameColumnFormatter,
+      formatExtraData: {
+        openViewPatientDetails: openViewPatientDetail
+      }
     },
     {
       dataField: "phoneNo",
@@ -65,7 +75,8 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
       formatter: PatientActionsColumnFormatter,
       formatExtraData: {
         openViewPatientDetails: openViewPatientDetail,
-        openDeletePatientDialog: openDeletePatientDialog
+        openDeletePatientDialog: openDeletePatientDialog,
+        openEditPatientDetails: openEditPatientDetail
       },
       classes: "text-right pr-0",
       headerClasses: "text-right pr-3",

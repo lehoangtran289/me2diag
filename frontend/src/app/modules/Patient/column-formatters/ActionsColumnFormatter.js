@@ -6,13 +6,13 @@ export function PatientActionsColumnFormatter(
   cellContent,
   row,
   rowIndex,
-  { openViewPatientDetails, openDeletePatientDialog }
+  { openViewPatientDetails, openDeletePatientDialog, openEditPatientDetails }
 ) {
   return (
     <>
       <a
         title="View patient detail"
-        className="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+        className="btn btn-icon btn-light btn-hover-primary btn-sm mr-3"
         onClick={() => openViewPatientDetails(row.id)}
       >
         <span className="svg-icon svg-icon-md svg-icon-primary">
@@ -21,8 +21,17 @@ export function PatientActionsColumnFormatter(
           />
         </span>
       </a>
-      <> </>
-
+      <a
+        title="View patient detail"
+        className="btn btn-icon btn-light btn-hover-primary btn-sm mr-3"
+        onClick={() => openEditPatientDetails(row.id, row)}
+      >
+        <span className="svg-icon svg-icon-md svg-icon-primary">
+          <SVG
+            src={toAbsoluteUrl("/media/svg/icons/General/Edit.svg")}
+          />
+        </span>
+      </a>
       <a
         title="Delete patient"
         className="btn btn-icon btn-light btn-hover-danger btn-sm"

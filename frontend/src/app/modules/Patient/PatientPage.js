@@ -5,6 +5,7 @@ import PatientCreateDialog from "./components/PatientCreateDialog";
 import PatientListPage from "./PatientListPage";
 import PatientDeleteDialog from "./components/PatientDeleteDialog";
 import PatientDetailPage from "./PatientDetailPage";
+import PatientEditDialog from "./components/PatientEditDialog";
 
 function PatientPage(props) {
   const {url} = useRouteMatch();
@@ -37,6 +38,16 @@ function PatientPage(props) {
             <PatientDeleteDialog
               show={Boolean(match)}
               onHide={onHide}
+            />
+          )
+        }}/>
+        <ContentRoute path={`${url}/:patientId/edit`} children={({match}) => {
+          return (
+            match &&
+            <PatientEditDialog
+              show={Boolean(match)}
+              onHide={onHide}
+              {...props}
             />
           )
         }}/>

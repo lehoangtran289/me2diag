@@ -2,10 +2,15 @@ import React from "react";
 import SVG from "react-inlinesvg";
 import { toAbsoluteUrl } from "../../../../_metronic/_helpers";
 
-export function NameColumnFormatter(cellContent, row) {
+export function NameColumnFormatter(cellContent, row, rowIndex, { openViewPatientDetails }) {
+
+  const handlePatientOnClick = () => {
+    openViewPatientDetails(row.id);
+  }
+
   return (
     <>
-      <div className={"container-fluid px-0 mx-0"}>
+      <div className={"container-fluid px-0 mx-0"} >
         <div className={"row px-0 mx-0"}>
           <div className={"col-lg-3 pr-0 pl-0 ml-0"}>
             <div className="symbol mr align-self-start">
@@ -27,14 +32,14 @@ export function NameColumnFormatter(cellContent, row) {
               }
             </div>
           </div>
-          <div className={"col-lg-9 pl-0 pr-0 flex align-items-center"}>
+          <a className={"col-lg-9 pl-0 pr-0 flex align-items-center"} onClick={handlePatientOnClick}>
             <div className="font-weight-bolder text-dark">
               {row.name ? row.name : ""}
             </div>
             <div>
               {row.email ? row.email : ""}
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </>
