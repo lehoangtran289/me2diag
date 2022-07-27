@@ -45,6 +45,12 @@ public class ExceptionControllerAdvice {
         return internalServerErrorResponse(ex.getMessage());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<GeneralResponse<String>> handleIllegalArgumentException(Exception ex) {
+        log.info("handleIllegalArgumentException", ex);
+        return badRequestResponse(ex.getMessage());
+    }
+
     @ExceptionHandler(PersistenceException.class)
     public ResponseEntity<GeneralResponse<String>> handlePersistenceExceptions(PersistenceException ex) {
         log.info("handlePersistenceExceptions", ex);
