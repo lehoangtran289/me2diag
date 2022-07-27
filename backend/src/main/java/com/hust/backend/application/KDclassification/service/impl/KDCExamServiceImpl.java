@@ -121,69 +121,108 @@ public class KDCExamServiceImpl implements KDCExamService {
         return KDCModelInputRequestDTO.builder()
                 .age(Common.getDiffYears(patient.getBirthDate(), new Date()))
                 .gender(patient.getGender().getValue())
-                .WBC(req.getWBC() instanceof Double ? (Double) req.getWBC() :
+                .WBC(req.getWBC() instanceof Number ? // check if number, then check if double or integer
+                        (req.getWBC() instanceof Double ?
+                                (Double) req.getWBC() :
+                                (Integer) req.getWBC()) :
                         convertToClassicValue(
                                 KDCDomainEnum.WBC,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC, (String) req.getWBC())
                         ))
-                .LY(req.getLY() instanceof Double ? (Double) req.getLY() :
+                .LY(req.getLY() instanceof Number ?
+                        (req.getLY() instanceof Double ?
+                                (Double) req.getLY() :
+                                (Integer) req.getLY()) :
                         convertToClassicValue(
                                 KDCDomainEnum.LY,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC, (String) req.getLY())
                         ))
-                .NE(req.getNE() instanceof Double ? (Double) req.getNE() :
+                .NE(req.getNE() instanceof Number ?
+                        (req.getNE() instanceof Double ?
+                                (Double) req.getNE() :
+                                (Integer) req.getNE()) :
                         convertToClassicValue(
                                 KDCDomainEnum.NE,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC, (String) req.getNE())
                         ))
-                .RBC(req.getRBC() instanceof Double ? (Double) req.getRBC() :
+                .RBC(req.getRBC() instanceof Number ?
+                        (req.getRBC() instanceof Double ?
+                                (Double) req.getRBC() :
+                                (Integer) req.getRBC()) :
                         convertToClassicValue(
                                 KDCDomainEnum.RBC,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC, (String) req.getRBC())
                         ))
-                .HGB(req.getHGB() instanceof Double ? (Double) req.getHGB() :
+                .HGB(req.getHGB() instanceof Number ?
+                        (req.getHGB() instanceof Double ?
+                                (Double) req.getHGB() :
+                                (Integer) req.getHGB()) :
                         convertToClassicValue(
                                 KDCDomainEnum.HGB,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC, (String) req.getHGB())
                         ))
-                .HCT(req.getHCT() instanceof Double ? (Double) req.getHCT() :
+                .HCT(req.getHCT() instanceof Number ?
+                        (req.getHCT() instanceof Double ?
+                                (Double) req.getHCT() :
+                                (Integer) req.getHCT()) :
                         convertToClassicValue(
                                 KDCDomainEnum.HCT,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC, (String) req.getHCT())
                         ))
-                .PLT(req.getPLT() instanceof Double ? (Double) req.getPLT() :
+                .PLT(req.getPLT() instanceof Number ?
+                        (req.getPLT() instanceof Double ?
+                                (Double) req.getPLT() :
+                                (Integer) req.getPLT()) :
                         convertToClassicValue(
                                 KDCDomainEnum.PLT,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC, (String) req.getPLT())
                         ))
-                .Na(req.getNa() instanceof Double ? (Double) req.getNa() :
+                .Na(req.getNa() instanceof Number ?
+                        (req.getNa() instanceof Double ?
+                                (Double) req.getNa() :
+                                (Integer) req.getNa()) :
                         convertToClassicValue(
                                 KDCDomainEnum.NA,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC, (String) req.getNa())
                         ))
-                .K(req.getK() instanceof Double ? (Double) req.getK() :
+                .K(req.getK() instanceof Number ?
+                        (req.getK() instanceof Double ?
+                                (Double) req.getK() :
+                                (Integer) req.getK()) :
                         convertToClassicValue(
                                 KDCDomainEnum.K,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC, (String) req.getK())
                         ))
-                .totalProtein(req.getTotalProtein() instanceof Double ? (Double) req.getTotalProtein() :
+                .totalProtein(req.getTotalProtein() instanceof Number ?
+                        (req.getTotalProtein() instanceof Double ?
+                                (Double) req.getTotalProtein() :
+                                (Integer) req.getTotalProtein()) :
                         convertToClassicValue(
                                 KDCDomainEnum.TOTAL_PROTEIN,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC,
                                         (String) req.getTotalProtein())
                         ))
-                .Albumin(req.getAlbumin() instanceof Double ? (Double) req.getAlbumin() :
+                .Albumin(req.getAlbumin() instanceof Number ?
+                        (req.getAlbumin() instanceof Double ?
+                                (Double) req.getAlbumin() :
+                                (Integer) req.getAlbumin()) :
                         convertToClassicValue(
                                 KDCDomainEnum.ALBUMIN,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC,
                                         (String) req.getAlbumin())
                         ))
-                .Ure(req.getUre() instanceof Double ? (Double) req.getUre() :
+                .Ure(req.getUre() instanceof Number ?
+                        (req.getUre() instanceof Double ?
+                                (Double) req.getUre() :
+                                (Integer) req.getUre()) :
                         convertToClassicValue(
                                 KDCDomainEnum.URE,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC, (String) req.getUre())
                         ))
-                .Creatinin(req.getCreatinin() instanceof Double ? (Double) req.getCreatinin() :
+                .Creatinin(req.getCreatinin() instanceof Number ?
+                        (req.getCreatinin() instanceof Double ?
+                                (Double) req.getCreatinin() :
+                                (Integer) req.getCreatinin()) :
                         convertToClassicValue(
                                 KDCDomainEnum.CREATININ,
                                 HAService.getVValueFromLinguistic(ApplicationEnum.KDC,
@@ -211,18 +250,18 @@ public class KDCExamServiceImpl implements KDCExamService {
 
     // TODO: check valid linguistic input
     private boolean isReqDataValid(KDCRequestDTO req) {
-        return (req.getWBC() instanceof Double ||req.getWBC() instanceof String) &&
-                (req.getLY() instanceof Double || req.getLY() instanceof String) &&
-                (req.getNE() instanceof Double || req.getNE() instanceof String) &&
-                (req.getRBC() instanceof Double || req.getRBC() instanceof String) &&
-                (req.getHGB() instanceof Double || req.getHGB() instanceof String) &&
-                (req.getHCT() instanceof Double || req.getHCT() instanceof String) &&
-                (req.getPLT() instanceof Double || req.getPLT() instanceof String) &&
-                (req.getNa() instanceof Double || req.getNa() instanceof String) &&
-                (req.getK() instanceof Double || req.getK() instanceof String) &&
-                (req.getTotalProtein() instanceof Double || req.getTotalProtein() instanceof String) &&
-                (req.getAlbumin() instanceof Double || req.getAlbumin() instanceof String) &&
-                (req.getUre() instanceof Double || req.getUre() instanceof String) &&
-                (req.getCreatinin() instanceof Double || req.getCreatinin() instanceof String);
+        return (req.getWBC() instanceof Number ||req.getWBC() instanceof String) &&
+                (req.getLY() instanceof Number || req.getLY() instanceof String) &&
+                (req.getNE() instanceof Number || req.getNE() instanceof String) &&
+                (req.getRBC() instanceof Number || req.getRBC() instanceof String) &&
+                (req.getHGB() instanceof Number || req.getHGB() instanceof String) &&
+                (req.getHCT() instanceof Number || req.getHCT() instanceof String) &&
+                (req.getPLT() instanceof Number || req.getPLT() instanceof String) &&
+                (req.getNa() instanceof Number || req.getNa() instanceof String) &&
+                (req.getK() instanceof Number || req.getK() instanceof String) &&
+                (req.getTotalProtein() instanceof Number || req.getTotalProtein() instanceof String) &&
+                (req.getAlbumin() instanceof Number || req.getAlbumin() instanceof String) &&
+                (req.getUre() instanceof Number || req.getUre() instanceof String) &&
+                (req.getCreatinin() instanceof Number || req.getCreatinin() instanceof String);
     }
 }
