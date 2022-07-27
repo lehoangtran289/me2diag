@@ -1,6 +1,6 @@
 import React from "react";
 import {Formik} from "formik";
-import {debounce} from "../../../utils/debounce";
+import {debounce} from "../../../../utils/debounce";
 
 const prepareFilter = (queryParams, values) => {
   const { status, type, searchText } = values;

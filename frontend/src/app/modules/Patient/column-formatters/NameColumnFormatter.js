@@ -5,7 +5,7 @@ import { toAbsoluteUrl } from "../../../../_metronic/_helpers";
 export function NameColumnFormatter(cellContent, row, rowIndex, { openViewPatientDetails }) {
 
   const handlePatientOnClick = () => {
-    openViewPatientDetails(row.id);
+    openViewPatientDetails(row.id, row);
   }
 
   return (

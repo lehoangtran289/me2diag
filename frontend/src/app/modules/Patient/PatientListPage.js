@@ -2,8 +2,8 @@ import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {getAllPatients} from "./_redux/patientCrud";
 import {Card, CardBody, CardHeader, CardHeaderToolbar} from "../../../_metronic/_partials/controls";
-import PatientsFilter from "./components/PatientsFilter";
-import PatientsTable from "./components/PatientsTable";
+import PatientsFilter from "./components/table/PatientsFilter";
+import PatientsTable from "./components/table/PatientsTable";
 
 function PatientListPage(props) {
   const history = useHistory();

@@ -1,35 +1,57 @@
-import React, {useEffect, useState} from "react";
-import {Modal} from "react-bootstrap";
-import {DatePickerField, Input, Select} from "../../../../_metronic/_partials/controls";
-import {Field, Form, Formik} from "formik";
+import React from "react";
+import { useEffect, useState } from "react";
+import { createNewPatient, editPatient, getPatientDetail } from "../../_redux/patientCrud";
+import { toastify } from "../../../../utils/toastUtils";
 import * as Yup from "yup";
-import {createNewPatient} from "../_redux/patientCrud";
-import ImageThumb from "../../../utils/ImageThumb";
-import {toastify} from "../../../utils/toastUtils";
+import { Modal } from "react-bootstrap";
+import { Field, Form, Formik } from "formik";
+import { DatePickerField, Input, Select } from "../../../../../_metronic/_partials/controls";
+import ImageThumb from "../../../../utils/ImageThumb";
+import { useParams } from "react-router-dom";
+import { toAbsoluteUrl } from "../../../../../_metronic/_helpers";
 
-function PatientCreateDialog({ show, onHide }) {
-
+function PatientEditDialog({ show, onHide, ...props }) {
+  const { patientId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  const [patient, setPatient] = useState({});
+  const [month, day, year] = patient.birthDate ? patient.birthDate.split('/') : [1, 1, 1970];
 
+  useEffect(() => {
+    if (props.location.state && props.location.state.patient) {
+      setPatient(props.location.state.patient);
+    }
+    else {
+      getPatientDetail(patientId)
+        .then(r => {
+          console.log(r);
+          setPatient(r.data.data)
+        }).catch(err => {
+        console.log(err);
+        toastify.error(`Get detail of patient failed!`)
+      })
+    }
   }, []);
+
+  useEffect(() => {
+    console.log(patient);
+  }, [patient])
 
   // server request for saving customer
   const savePatient = (patient) => {
     console.log(patient);
     // setIsLoading(true);
-    createNewPatient(patient)
+    editPatient(patientId, patient)
       .then(() => {
-        console.log("create new patient ok");
+        console.log(`Edit patient ${patientId} details ok`);
         // setIsLoading(false);
-        toastify.success('Create new patient success!');
+        toastify.success(`Edit patient ${patientId} details success!`);
         onHide();
       })
       .catch(error => {
         // setIsLoading(false);
-        console.log("Error get all patients: " + error);
-        toastify.error("Cannot get patients");
+        console.log(`Error editing patients: ` + error);
+        toastify.error(`Edit patient ${patientId} details`);
       })
   };
 
@@ -65,23 +87,22 @@ function PatientCreateDialog({ show, onHide }) {
     >
       {/*{isLoading && <ModalProgressBar />}*/}
       <Modal.Header closeButton>
-        <Modal.Title id="example-modal-sizes-title-lg">{`Create new patient`}</Modal.Title>
+        <Modal.Title id="example-modal-sizes-title-lg">{`Edit patient: ${patient.name}`}</Modal.Title>
       </Modal.Header>
       <Formik
         validationSchema={PatientEditSchema}
         onSubmit={(values) => savePatient(values)}
         initialValues={{
-          id: "",
-          name: "",
-          phoneNo: "",
-          email: "",
-          address: "",
-          birthDate: '01/01/1970',
-          gender: "",
-          avatar: null
+          id: patient.id ? patient.id : "",
+          name: patient.name ? patient.name : "",
+          phoneNo: patient.phoneNo ? patient.phoneNo : "",
+          email: patient.email ? patient.email : "",
+          address: patient.address ? patient.address : "",
+          birthDate: new Date(year, month, day),
+          gender: patient.gender ? patient.gender : "",
+          avatar: ""
         }}
         enableReinitialize={true}
-        // initialValues={customer}
       >
         {({
             handleSubmit,
@@ -101,6 +122,25 @@ function PatientCreateDialog({ show, onHide }) {
                 </div>
               )}
               <Form className="form form-label-right">
+                <div className={"form-group row mx-2"}>
+                  <div className="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
+                    {
+                      patient.avatarUrl ?
+                        <div
+                          className="symbol-label"
+                          style={{ backgroundImage: `url(${patient.avatarUrl})` }}
+                        /> :
+                        <div
+                          className="symbol-label"
+                          style={{
+                            backgroundImage: `url(${toAbsoluteUrl(
+                              "/media/users/blank.png"
+                            )}`,
+                          }}
+                        />
+                    }
+                  </div>
+                </div>
                 <div className="form-group row">
                   <div className="col-lg-6">
                     <Field
@@ -143,8 +183,8 @@ function PatientCreateDialog({ show, onHide }) {
                   {/* Gender */}
                   <div className="col-lg-6">
                     <Select name="gender" label="Gender">
-                      <option value="Female">Female</option>
-                      <option value="Male">Male</option>
+                      <option value="FEMALE">Female</option>
+                      <option value="MALE">Male</option>
                     </Select>
                   </div>
                   {/* Date of birth */}
@@ -204,4 +244,4 @@ function PatientCreateDialog({ show, onHide }) {
   );
 }
 
-export default PatientCreateDialog;
+export default PatientEditDialog;

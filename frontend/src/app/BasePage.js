@@ -1,14 +1,15 @@
 import React, {lazy, Suspense} from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {ContentRoute, LayoutSplashScreen} from "../_metronic/layout";
-import {DashboardPage} from "./pages/DashboardPage";
 import {shallowEqual, useSelector} from "react-redux";
 import {ROLE_ADMIN, ROLE_EXPERT, ROLE_USER} from "../constants";
-import PatientPage from "./modules/Patient/PatientPage";
-import ExaminationPage from "./modules/Examination/ExaminationPage";
-import AccountMngPage from "./modules/AccountMng/AccountMngPage";
-import PFSConfigPage from "./modules/PFSConfig/PFSConfigPage";
-import KDCConfigPage from "./modules/KDCConfig/KDCConfigPage";
+
+import {DashboardPage} from "./pages/DashboardPage";
+// import PatientPage from "./modules/Patient/PatientPage";
+// import ExaminationPage from "./modules/Examination/ExaminationPage";
+// import AccountMngPage from "./modules/AccountMng/AccountMngPage";
+// import PFSConfigPage from "./modules/PFSConfig/PFSConfigPage";
+// import KDCConfigPage from "./modules/KDCConfig/KDCConfigPage";
 
 // const GoogleMaterialPage = lazy(() =>
 //   import("./modules/GoogleMaterialExamples/GoogleMaterialPage")
@@ -21,6 +22,26 @@ import KDCConfigPage from "./modules/KDCConfig/KDCConfigPage";
 // );
 const UserProfilePage = lazy(() =>
   import("./modules/UserProfile/UserProfilePage")
+);
+
+const PatientPage = lazy(() =>
+  import("./modules/Patient/PatientPage")
+);
+
+const ExaminationPage = lazy(() =>
+  import("./modules/Examination/ExaminationPage")
+);
+
+const AccountMngPage = lazy(() =>
+  import("./modules/AccountMng/AccountMngPage")
+);
+
+const PFSConfigPage = lazy(() =>
+  import("./modules/PFSConfig/PFSConfigPage")
+);
+
+const KDCConfigPage = lazy(() =>
+  import("./modules/KDCConfig/KDCConfigPage")
 );
 
 /**

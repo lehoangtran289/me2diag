@@ -200,8 +200,8 @@ function KDCHedgeConfigCard({rerender, setRerender, loading, setLoading, ...prop
             {
               curHedgeSum() !== 1.0 &&
               <span className="text-danger font-weight-bold font-size-sm mt-1">
-                  {`Note: Sum of all hedge configs must equals 1. Current sum = ${Number((curHedgeSum()).toFixed(2))}`}
-                </span>
+                {`Note: Sum of all hedge configs must equals 1. Current sum = ${Number((curHedgeSum()).toFixed(2))}`}
+              </span>
             }
           </div>
         </div>

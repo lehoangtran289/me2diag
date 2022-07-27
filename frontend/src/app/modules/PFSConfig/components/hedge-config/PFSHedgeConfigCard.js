@@ -116,8 +116,8 @@ function PFSHedgeConfigCard({ loading, setLoading, rerender, setRerender, ...pro
               1. Hedge Algebra settings
             </h3>
             <span className="text-muted font-weight-bold font-size-sm mt-1">
-                Change PFS model's hedge algebra settings
-              </span>
+              Change PFS model's hedge algebra settings
+            </span>
           </div>
           <div className="card-toolbar">
             <button

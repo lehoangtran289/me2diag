@@ -16,6 +16,10 @@ export function toIsoString(date) {
     ':' + pad(tzo % 60);
 }
 
+export function getAge(birthDate) {
+  return Math.floor((new Date() - birthDate.getTime()) / 3.15576e+10)
+}
+
 export function formatDate(date) {
   let hours = date.getHours();
   let minutes = date.getMinutes();

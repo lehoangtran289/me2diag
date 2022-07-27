@@ -5,19 +5,21 @@ import {
   NoRecordsFoundMessage,
   PleaseWaitMessage,
   sortCaret
-} from "../../../../_metronic/_helpers";
+} from "../../../../../_metronic/_helpers";
 import paginationFactory, {PaginationProvider,} from "react-bootstrap-table2-paginator";
-import {Pagination} from "../../../../_metronic/_partials/controls";
-import {PatientActionsColumnFormatter} from "../column-formatters/ActionsColumnFormatter";
+import {Pagination} from "../../../../../_metronic/_partials/controls";
+import {PatientActionsColumnFormatter} from "../../column-formatters/ActionsColumnFormatter";
 import {useHistory} from "react-router-dom";
-import {NameColumnFormatter} from "../column-formatters/NameColumnFormatter";
+import {NameColumnFormatter} from "../../column-formatters/NameColumnFormatter";
 
 function PatientsTable({ patients, paging, query, setQuery, listLoading, setListLoading }) {
   const history = useHistory();
 
-  const openViewPatientDetail = (id) => {
+  const openViewPatientDetail = (id, data) => {
     console.log("openViewPatientDetail")
-    history.push(`/patients/${id}`);
+    history.push(`/patients/${id}/diagnose`,{
+      patient: data
+    });
   }
 
   const openDeletePatientDialog = (id) => {

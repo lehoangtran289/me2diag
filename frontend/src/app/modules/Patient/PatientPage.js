@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {Switch, useHistory, useLocation, useRouteMatch} from "react-router-dom";
 import {ContentRoute} from "../../../_metronic/layout";
-import PatientCreateDialog from "./components/PatientCreateDialog";
+import PatientCreateDialog from "./components/dialogs/PatientCreateDialog";
 import PatientListPage from "./PatientListPage";
-import PatientDeleteDialog from "./components/PatientDeleteDialog";
+import PatientDeleteDialog from "./components/dialogs/PatientDeleteDialog";
 import PatientDetailPage from "./PatientDetailPage";
-import PatientEditDialog from "./components/PatientEditDialog";
+import PatientEditDialog from "./components/dialogs/PatientEditDialog";
 
 function PatientPage(props) {
   const {url} = useRouteMatch();
@@ -58,7 +58,12 @@ function PatientPage(props) {
         <ContentRoute exact path={`${url}/:patientId`} render={() => {
           return location.pathname === `${url}/new` ?
             <PatientListPage rerenderFlag={rerenderFlag} setRerenderFlag={setRerenderFlag}/> :
-            <PatientDetailPage/>
+            <PatientDetailPage { ...props }/>
+        }}/>
+        <ContentRoute path={`${url}/:patientId/diagnose`} children={({match}) => {
+          return (
+            <PatientDetailPage { ...props }/>
+          )
         }}/>
         <ContentRoute path={`${url}`} children={({match}) => {
           return (

@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {useParams} from "react-router-dom";
 import {Modal} from "react-bootstrap";
-import {ModalProgressBar} from "../../../../_metronic/_partials/controls";
-import {deleteSelectedPatient} from "../_redux/patientCrud";
-import {toastify} from "../../../utils/toastUtils";
+import {ModalProgressBar} from "../../../../../_metronic/_partials/controls";
+import {deleteSelectedPatient} from "../../_redux/patientCrud";
+import {toastify} from "../../../../utils/toastUtils";
 
 export default function PatientDeleteDialog({ show, onHide }) {
   const { patientId } = useParams();
