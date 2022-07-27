@@ -58,13 +58,13 @@ public class PFSCommon {
 
     // TODO: validate invalid linguistic input
     public static boolean isValidGPFS(GeneralPictureFuzzySet gpfs) {
-        return (gpfs.getPositive() instanceof Double || gpfs.getPositive() instanceof String) &&
-                (gpfs.getNeutral() instanceof Double || gpfs.getNeutral() instanceof String) &&
-                (gpfs.getNegative() instanceof Double || gpfs.getNegative() instanceof String);
+        return (gpfs.getPositive() instanceof Number || gpfs.getPositive() instanceof String) &&
+                (gpfs.getNeutral() instanceof Number || gpfs.getNeutral() instanceof String) &&
+                (gpfs.getNegative() instanceof Number || gpfs.getNegative() instanceof String);
     }
 
     public static Double calPDCorrespondence(PictureFuzzySet pfs) {
-        return pfs.getPositive() - pfs.getNegative() *
+        return pfs.getPositive() - pfs.getNeutral() *
                 (1 - (pfs.getPositive() + pfs.getNeutral() + pfs.getNegative()));
     }
 

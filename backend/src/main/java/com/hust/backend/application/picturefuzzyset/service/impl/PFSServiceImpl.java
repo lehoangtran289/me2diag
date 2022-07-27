@@ -68,7 +68,7 @@ public class PFSServiceImpl implements PFSService {
     @Transactional(rollbackOn = Exception.class)
     public Boolean changePFSConfigs(List<SymptomDiagnoseConfigRequestDTO> request) {
         List<SymptomDiagnoseEntity> updatedPFSConfigs = new ArrayList<>();
-        for (SymptomDiagnoseConfigRequestDTO config: request) {
+        for (SymptomDiagnoseConfigRequestDTO config : request) {
             if (!PFSCommon.isValidPFS(config.getPictureFuzzySet()))
                 throw new InternalException("Invalid picture fuzzy set");
 
@@ -179,15 +179,37 @@ public class PFSServiceImpl implements PFSService {
     private PictureFuzzySet convertGeneralPFSToPFS(GeneralPictureFuzzySet gpfs) {
         // if not linguistic domain -> throw
         if (!PFSCommon.isValidGPFS(gpfs))
-            throw new InternalException("Picture Fuzzy Set type must be enum STRING or DOUBLE");
+            throw new IllegalArgumentException("Picture Fuzzy Set type must be enum STRING or DOUBLE");
+
+        double positive = 0.0;
+        double neutral = 0.0;
+        double negative = 0.0;
+
+        if (gpfs.getPositive() instanceof Number) {
+            positive = gpfs.getPositive() instanceof Double ?
+                    (Double) gpfs.getPositive() :
+                    (Integer) gpfs.getPositive();
+        } else
+            positive = HAService.getVValueFromLinguistic(ApplicationEnum.PFS, (String) gpfs.getPositive());
+
+        if (gpfs.getNeutral() instanceof Number) {
+            neutral = gpfs.getNeutral() instanceof Double ?
+                    (Double) gpfs.getNeutral() :
+                    (Integer) gpfs.getNeutral();
+        } else
+            neutral = HAService.getVValueFromLinguistic(ApplicationEnum.PFS, (String) gpfs.getNeutral());
+
+        if (gpfs.getNegative() instanceof Number) {
+            negative = gpfs.getNegative() instanceof Double ?
+                    (Double) gpfs.getNegative() :
+                    (Integer) gpfs.getNegative();
+        } else
+            negative = HAService.getVValueFromLinguistic(ApplicationEnum.PFS, (String) gpfs.getNegative());
 
         return PictureFuzzySet.builder()
-                .positive(gpfs.getPositive() instanceof Double ? (Double) gpfs.getPositive() :
-                        HAService.getVValueFromLinguistic(ApplicationEnum.PFS, (String) gpfs.getPositive()))
-                .neutral(gpfs.getNeutral() instanceof Double ? (Double) gpfs.getNeutral() :
-                        HAService.getVValueFromLinguistic(ApplicationEnum.PFS, (String) gpfs.getNeutral()))
-                .negative(gpfs.getNegative() instanceof Double ? (Double) gpfs.getNegative() :
-                        HAService.getVValueFromLinguistic(ApplicationEnum.PFS, (String) gpfs.getNegative()))
+                .positive(positive)
+                .neutral(neutral)
+                .negative(negative)
                 .build();
     }
 }
