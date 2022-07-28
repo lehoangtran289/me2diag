@@ -65,7 +65,7 @@ function PFSLinguisticDomainTable({ rerender, loading, setLoading, ...props }) {
   return (
     <div className="flex-row-fluid ml-lg-8">
       <Card className={"mb-0"}>
-        <CardHeader title={"All PFS linguistic domain settings"}>
+        <CardHeader title={"1. All PFS linguistic domain settings"}>
         </CardHeader>
         <CardBody>
           <BootstrapTable
