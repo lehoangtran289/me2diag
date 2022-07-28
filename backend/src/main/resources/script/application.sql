@@ -107,11 +107,14 @@ CREATE TABLE `kdc_examination_result`
     `result`              VARCHAR(50)
 );
 
+alter table `kdc_domain` add `description` TEXT;
+
 CREATE TABLE `kdc_domain`
 (
-    `name` VARCHAR(50) PRIMARY KEY NOT NULL,
-    `max`  DOUBLE,
-    `min`  DOUBLE
+    `name`        VARCHAR(50) PRIMARY KEY NOT NULL,
+    `description` TEXT,
+    `max`         DOUBLE,
+    `min`         DOUBLE
 );
 
 CREATE TABLE `hedge_algebra_config`
