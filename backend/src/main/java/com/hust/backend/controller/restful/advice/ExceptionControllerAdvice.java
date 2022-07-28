@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -45,10 +46,10 @@ public class ExceptionControllerAdvice {
         return internalServerErrorResponse(ex.getMessage());
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler({ IllegalArgumentException.class, HttpMessageNotReadableException.class })
     public ResponseEntity<GeneralResponse<String>> handleIllegalArgumentException(Exception ex) {
         log.info("handleIllegalArgumentException", ex);
-        return badRequestResponse(ex.getMessage());
+        return badRequestResponse("Illegal args or request.");
     }
 
     @ExceptionHandler(PersistenceException.class)

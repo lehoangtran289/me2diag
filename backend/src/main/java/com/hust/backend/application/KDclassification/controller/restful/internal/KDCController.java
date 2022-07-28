@@ -2,6 +2,7 @@ package com.hust.backend.application.KDclassification.controller.restful.interna
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hust.backend.aop.AuthRequired;
+import com.hust.backend.application.KDclassification.dto.request.KDCDomainConfigRequestDTO;
 import com.hust.backend.application.KDclassification.dto.request.KDCRequestDTO;
 import com.hust.backend.application.KDclassification.dto.response.KDCDiagnoseResponseDTO;
 import com.hust.backend.application.KDclassification.dto.response.KDCDomainResponseDTO;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
@@ -61,5 +63,14 @@ public class KDCController {
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken
     ) {
         return responseFactory.success(kdcService.getAllKDCDomain());
+    }
+
+    @PutMapping("/domain")
+    @AuthRequired(roles = {UserRoleEnum.USER, UserRoleEnum.EXPERT})
+    public ResponseEntity<GeneralResponse<Boolean>> changeKDCDomainConfigs(
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
+            @RequestBody List<KDCDomainConfigRequestDTO> request
+    ) {
+        return responseFactory.success(kdcService.changeKDCDomainConfigs(request));
     }
 }

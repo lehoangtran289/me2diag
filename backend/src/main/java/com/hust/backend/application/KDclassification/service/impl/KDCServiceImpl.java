@@ -1,5 +1,8 @@
 package com.hust.backend.application.KDclassification.service.impl;
 
+import com.google.common.collect.Lists;
+import com.hust.backend.application.KDclassification.constant.KDCDomainEnum;
+import com.hust.backend.application.KDclassification.dto.request.KDCDomainConfigRequestDTO;
 import com.hust.backend.application.KDclassification.dto.response.KDCDomainResponseDTO;
 import com.hust.backend.application.KDclassification.entity.KDCDomainEntity;
 import com.hust.backend.application.KDclassification.repository.KDCDomainRepository;
@@ -7,8 +10,10 @@ import com.hust.backend.application.KDclassification.service.KDCService;
 import com.hust.backend.utils.Common;
 import com.hust.backend.utils.Transformer;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.ListUtils;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -26,5 +31,23 @@ public class KDCServiceImpl implements KDCService {
         return Transformer.listToList(
                 allDomainEntities,
                 kdcDomainEntity -> Common.convertObject(kdcDomainEntity, KDCDomainResponseDTO.class));
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public Boolean changeKDCDomainConfigs(List<KDCDomainConfigRequestDTO> request) {
+        if (request.size() == 0) return false;
+        List<KDCDomainEnum> keys = Transformer.listToList(request, KDCDomainConfigRequestDTO::getName);
+        List<KDCDomainEntity> entitiesToBeChanged = kdcDomainRepository.findAllById(keys);
+        for (KDCDomainEntity entity : entitiesToBeChanged) {
+            KDCDomainConfigRequestDTO match = request.stream()
+                    .filter(e -> e.getName().equals(entity.getName()))
+                    .findAny().orElse(null);
+            if (match != null) {
+                entity.setMaxValue(match.getMaxValue());
+                entity.setMinValue(match.getMinValue());
+            }
+        }
+        return true;
     }
 }
