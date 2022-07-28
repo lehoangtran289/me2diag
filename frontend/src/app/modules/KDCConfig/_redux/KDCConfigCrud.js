@@ -10,6 +10,11 @@ export const getAllKDCLinguisticDomainConfigs = () => {
   })
 }
 
+export const getAllKDCDomainConfigs = () => {
+  const GET_DOMAIN_CONFIGS = BACKEND_ORIGIN + `kdc/domain`
+  return axios.get(GET_DOMAIN_CONFIGS);
+}
+
 export const getAllKDCHedgeConfigs = () => {
   const GET_HEDGE_CONFIGS = BACKEND_ORIGIN + `hedge-algebra/config`;
   return axios.get(GET_HEDGE_CONFIGS, {
@@ -17,6 +22,11 @@ export const getAllKDCHedgeConfigs = () => {
       appId: "KDC"
     }
   })
+}
+
+export const saveKDCDomainConfigs = (data) => {
+  const POST_DOMAIN_CONFIGS = BACKEND_ORIGIN + `kdc/domain`;
+  return axios.put(POST_DOMAIN_CONFIGS, data);
 }
 
 export const saveKDCHedgeConfigs = (data) => {
