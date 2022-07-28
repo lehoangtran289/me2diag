@@ -48,7 +48,9 @@ function PfsDiagnosis({ patientId, ...props }) {
       negative: 0.25
     }
   ]);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState({
+    id: ""
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -249,6 +251,9 @@ function PfsDiagnosis({ patientId, ...props }) {
       headerAlign: "center",
       align: "center",
       formatter: PFSResultFormatter,
+      headerStyle: (colum, colIndex) => {
+        return { width: '16.5em' };
+      },
     },
   ]
 
@@ -339,7 +344,7 @@ function PfsDiagnosis({ patientId, ...props }) {
             classes="table table-head-custom table-vertical-center overflow-hidden"
             bootstrap4
             keyField={"id"}
-            data={[result] ? [result] : []}
+            data={result ? [result] : []}
             columns={resultTableColumns}
           >
             <PleaseWaitMessage entities={[result]} />

@@ -6,8 +6,8 @@ function PictureFuzzySetFormatter(cellContent, row, rowIndex, { field, setData }
       <input
         type="number" min={0.0} max={1.0} step={0.01}
         className={`form-control form-control-sm form-control-solid`}
-        value={cellContent.positive}
-        onChange={(e) => {
+        defaultValue={cellContent.positive}
+        onBlur={(e) => {
           setData(rowIndex, field, {
             ...cellContent,
             positive: e.target.value ? Number(e.target.value) : 0.0
@@ -17,8 +17,8 @@ function PictureFuzzySetFormatter(cellContent, row, rowIndex, { field, setData }
       <input
         type="number" min={0.0} max={1.0} step={0.01}
         className={`form-control form-control-sm form-control-solid`}
-        value={cellContent.neutral}
-        onChange={(e) => {
+        defaultValue={cellContent.neutral}
+        onBlur={(e) => {
           setData(rowIndex, field, {
             ...cellContent,
             neutral: e.target.value ? Number(e.target.value) : 0.0
@@ -28,8 +28,8 @@ function PictureFuzzySetFormatter(cellContent, row, rowIndex, { field, setData }
       <input
         type="number" min={0.0} max={1.0} step={0.01}
         className={`form-control form-control-sm form-control-solid`}
-        value={cellContent.negative}
-        onChange={(e) => {
+        defaultValue={cellContent.negative}
+        onBlur={(e) => {
           setData(rowIndex, field, {
             ...cellContent,
             negative: e.target.value ? Number(e.target.value) : 0.0

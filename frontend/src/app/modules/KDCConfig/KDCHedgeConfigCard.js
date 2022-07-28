@@ -126,14 +126,14 @@ function KDCHedgeConfigCard({rerender, setRerender, loading, setLoading, ...prop
     <div
       className="flex-row-auto offcanvas-mobile w-550px w-xxl-650px"
     >
-      <form className="card card-custom" onSubmit={formik.handleSubmit}>
+      <form className="card card-custom h-100" onSubmit={formik.handleSubmit}>
         {loading && <ModalProgressBar/>}
 
         {/* begin::Header */}
         <div className="card-header py-3">
           <div className="card-title align-items-start flex-column">
             <h3 className="card-label text-dark">
-              Hedge Algebra settings
+              1. Hedge Algebra settings
             </h3>
             <span className="text-muted font-weight-bold font-size-sm mt-1">
                 Change KDC model's hedge algebra settings

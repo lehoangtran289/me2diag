@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ModalProgressBar } from "../../../../../_metronic/_partials/controls";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import { getAllPictureFuzzySetsConfigs, savePictureFuzzySetConfigs } from "../../_redux/PFSConfigCrud";
 import { toastify } from "../../../../utils/toastUtils";
 import { NoRecordsFoundMessage, PleaseWaitMessage } from "../../../../../_metronic/_helpers";
