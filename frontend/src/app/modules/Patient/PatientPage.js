@@ -60,7 +60,7 @@ function PatientPage(props) {
             <PatientListPage rerenderFlag={rerenderFlag} setRerenderFlag={setRerenderFlag}/> :
             <PatientDetailPage { ...props }/>
         }}/>
-        <ContentRoute path={`${url}/:patientId/diagnose`} children={({match}) => {
+        <ContentRoute path={`${url}/:patientId/`} children={({match}) => {
           return (
             <PatientDetailPage { ...props }/>
           )

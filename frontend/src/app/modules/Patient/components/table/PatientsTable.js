@@ -17,7 +17,7 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
 
   const openViewPatientDetail = (id, data) => {
     console.log("openViewPatientDetail")
-    history.push(`/patients/${id}/diagnose`,{
+    history.push(`/patients/${id}`,{
       patient: data
     });
   }

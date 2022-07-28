@@ -137,8 +137,8 @@ function PatientCard({ ...props }) {
                   </span>
                 </span>
                   <span className="navi-text font-size-lg">
-                  Common diseases diagnosis
-                </span>
+                    Common diseases diagnosis
+                  </span>
                 </NavLink>
               </div>
               <div className="navi-item mb-2">
@@ -157,8 +157,28 @@ function PatientCard({ ...props }) {
                   </span>
                 </span>
                   <span className="navi-text font-size-lg">
-                  Kidney diseases diagnosis
+                    Kidney diseases diagnosis
+                  </span>
+                </NavLink>
+              </div>
+              <div className="navi-item mb-2">
+                <NavLink
+                  to={`/patients/${patient.id}/examinations`}
+                  className="navi-link py-4"
+                  activeClassName="active"
+                >
+                <span className="navi-icon mr-2">
+                  <span className="svg-icon">
+                    <SVG
+                      src={toAbsoluteUrl(
+                        "/media/svg/icons/Files/File.svg"
+                      )}
+                    ></SVG>{" "}
+                  </span>
                 </span>
+                  <span className="navi-text font-size-lg">
+                    Examinations history
+                  </span>
                 </NavLink>
               </div>
             </div>

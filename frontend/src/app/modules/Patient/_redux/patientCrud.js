@@ -3,12 +3,29 @@ import axios from "axios";
 
 export const diagnosePFS = (patientId, pfs) => {
   const DIAGNOSE_PATIENTS = BACKEND_ORIGIN + `pfs/diagnose`;
-  const data = buildDiagnoseRequest(patientId, pfs);
+  const data = buildPFSDiagnoseRequest(patientId, pfs);
   console.log(data);
   return axios.post(DIAGNOSE_PATIENTS, data);
 }
 
-export const buildDiagnoseRequest = (patientId, pfs) => {
+export const diagnoseKDC = (patientId, kdcData) => {
+  const DIAGNOSE_PATIENT = BACKEND_ORIGIN + `kdc/diagnose`;
+  const data = buildKDCDiagnoseRequest(patientId, kdcData)
+  console.log(data);
+  return axios.post(DIAGNOSE_PATIENT, data);
+}
+
+export const buildKDCDiagnoseRequest = (patientId, data) => {
+  let res = {
+    patient_id: patientId
+  }
+  data.forEach((e) => {
+    res[e.field] = e.value
+  })
+  return res;
+}
+
+export const buildPFSDiagnoseRequest = (patientId, pfs) => {
   let res = {
     patient_id: patientId,
     symptoms: []

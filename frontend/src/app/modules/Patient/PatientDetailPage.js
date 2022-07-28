@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ContentRoute, useSubheader } from "../../../_metronic/layout";
-import { Redirect, Route, Switch, useParams, useRouteMatch } from "react-router-dom";
+import { Redirect, Switch, useParams, useRouteMatch } from "react-router-dom";
 import PatientCard from "./components/diagnosis-page/PatientCard";
 import PFSDiagnosis from "./components/diagnosis-page/PFSDiagnosis";
 import KDCDiagnosis from "./components/diagnosis-page/KDCDiagnosis";
-import { useState } from "react";
+import PatientExamsTable from "./components/diagnosis-page/PatientExamsTable";
 
 function PatientDetailPage({ ...props }) {
   const { patientId } = useParams();
@@ -33,17 +33,23 @@ function PatientDetailPage({ ...props }) {
           <Redirect
             from={`${url}`}
             exact={true}
-            to={`${url}/pfs`}
+            to={`${url}/diagnose/pfs`}
           />
-          <ContentRoute path={`${url}/pfs`} children={({match}) => {
+          <ContentRoute path={`${url}/diagnose/pfs`} children={({match}) => {
             return (
               <PFSDiagnosis patientId={patientId} { ...props }/>
             )
           }}/>
-          <Route
-            path={`${url}/kdc`}
-            component={KDCDiagnosis}
-          />
+          <ContentRoute path={`${url}/diagnose/kdc`} children={({match}) => {
+            return (
+              <KDCDiagnosis patientId={patientId} { ...props }/>
+            )
+          }}/>
+          <ContentRoute path={`${url}/examinations`} children={({match}) => {
+            return (
+              <PatientExamsTable patientId={patientId} { ...props }/>
+            )
+          }}/>
         </Switch>
       </div>
     </div>
