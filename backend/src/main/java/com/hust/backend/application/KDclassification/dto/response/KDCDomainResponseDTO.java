@@ -18,4 +18,5 @@ public class KDCDomainResponseDTO {
     private Double minValue;
     @JsonProperty("max")
     private Double maxValue;
+    private String description;
 }

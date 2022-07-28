@@ -23,4 +23,7 @@ public class KDCDomainEntity {
 
     @Column(name = "max")
     private Double maxValue;
+
+    @Column(name = "description")
+    private String description;
 }
