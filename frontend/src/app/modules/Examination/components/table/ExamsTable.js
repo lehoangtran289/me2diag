@@ -8,7 +8,7 @@ import ExamActionsColumnFormatter from "../formatter/ExamActionsColumnFormatter"
 import DoctorNameColumnFormatter from "../formatter/DoctorNameColumnFormatter";
 import { formatDate } from "../../../../utils/dateUtils";
 
-function ExamsTable({ exams, paging, query, setQuery, listLoading, setListLoading }) {
+function ExamsTable({ exams, paging, query, setQuery, listLoading, setListLoading, isPatientPage }) {
   const history = useHistory();
 
   const openViewExamDetail = (id, data) => {
@@ -18,8 +18,71 @@ function ExamsTable({ exams, paging, query, setQuery, listLoading, setListLoadin
     });
   }
 
-  // Table columns
-  const columns = [
+  // Table columns for patient examinations page
+  const patientExamsColumns = [
+    {
+      dataField: "id",
+      text: "Examination ID",
+      headerStyle: (colum, colIndex) => {
+        return { width: '13em' };
+      },
+    },
+    {
+      dataField: "appId",
+      text: "Application ID",
+      align: "center",
+      headerAlign: "center",
+      headerStyle: (colum, colIndex) => {
+        return { width: '12em' };
+      },
+      formatter: (cellContent, row, rowIndex) => {
+        return (
+          <div className={`font-weight-bolder font-size-lg text-${cellContent === "PFS" ? "success" : "info"}`}>
+            {`${cellContent}`}
+          </div>
+        );
+      }
+    },
+    {
+      dataField: "createdAt",
+      text: "Exam Datetime",
+      align: "center",
+      headerAlign: "center",
+      formatter: (cellContent, row, rowIndex) => {
+        return <>{`${formatDate(new Date(cellContent))}`}</>
+      }
+    },
+    {
+      dataField: "userFullName",
+      text: "Doctor in charge",
+      formatter: DoctorNameColumnFormatter,
+      headerStyle: (colum, colIndex) => {
+        return { width: '17em' };
+      },
+    },
+    {
+      dataField: "result",
+      text: "Result",
+      align: "center",
+      headerAlign: "center",
+      formatter: (cellContent, row, rowIndex) => {
+        return <div className={"font-weight-bold"}>{`${cellContent}`}</div>
+      }
+    },
+    {
+      dataField: "action",
+      text: "Actions",
+      formatter: ExamActionsColumnFormatter,
+      formatExtraData: {
+        openViewExamDetails: openViewExamDetail,
+      },
+      align: "center",
+      headerAlign: "center",
+    }
+  ];
+
+  // Table columns for examinations list page
+  const AllExamsListColumns = [
     {
       dataField: "id",
       text: "Examination ID",
@@ -142,7 +205,7 @@ function ExamsTable({ exams, paging, query, setQuery, listLoading, setListLoadin
                 remote
                 keyField="id"
                 data={exams === null ? [] : exams}
-                columns={columns}
+                columns={isPatientPage ? patientExamsColumns : AllExamsListColumns}
                 // defaultSorted={uiHelpers.defaultSorted}
                 onTableChange={handleTableChange}
                 {...paginationTableProps}

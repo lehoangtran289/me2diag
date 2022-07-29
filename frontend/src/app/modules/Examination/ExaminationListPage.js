@@ -22,7 +22,7 @@ function ExaminationListPage({ ...props }) {
   const [query, setQuery] = useState({
     query: "",
     page: 1,
-    gen: null,
+    appId: "",
     size: 10,
     sort: ""
   });
@@ -65,6 +65,7 @@ function ExaminationListPage({ ...props }) {
           setQuery={setQuery}
           listLoading={listLoading}
           setListLoading={setListLoading}
+          isPatientPage={false}
         />
       </CardBody>
     </Card>
