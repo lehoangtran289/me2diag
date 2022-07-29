@@ -64,7 +64,7 @@ public class PFSExamServiceImpl implements PFSExamService {
         List<PatientPFSExamResponseDTO> results = new ArrayList<>();
 
         for (ExaminationEntity e : examinationEntities) {
-            results.add(buildExamResult(e));
+            results.add(buildExamResult(e)); // fixme: no JOIN so has to do it this way
         }
         return PagingInfo.<PatientPFSExamResponseDTO>builder()
                 .items(results)
@@ -91,7 +91,8 @@ public class PFSExamServiceImpl implements PFSExamService {
                 .collect(Collectors.toList());
     }
 
-    private PatientPFSExamResponseDTO buildExamResult(ExaminationEntity e) {
+    @Override
+    public PatientPFSExamResponseDTO buildExamResult(ExaminationEntity e) {
         UserEntity userEntity = userRepository.findById(e.getUserId())
                 .orElseThrow(() -> new NotFoundException(UserEntity.class, e.getUserId()));
 
@@ -110,9 +111,11 @@ public class PFSExamServiceImpl implements PFSExamService {
 
         return PatientPFSExamResponseDTO.builder()
                 .examinationId(e.getId())
-                .username(userEntity.getFirstName() + " " + userEntity.getLastName())
                 .patientName(patientEntity.getName())
                 .patientId(patientEntity.getId())
+                .birthDate(patientEntity.getBirthDate())
+                .userFullName(userEntity.getFirstName() + " " + userEntity.getLastName())
+                .userEmail(userEntity.getEmail())
                 .symptoms(symptoms)
                 .result(result)
                 .date(e.getCreatedAt())

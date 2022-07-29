@@ -5,6 +5,7 @@ import com.hust.backend.application.KDclassification.constant.KDCResultEnum;
 import com.hust.backend.application.KDclassification.dto.request.KDCModelInputRequestDTO;
 import com.hust.backend.application.KDclassification.dto.request.KDCRequestDTO;
 import com.hust.backend.application.KDclassification.dto.response.KDCDiagnoseResponseDTO;
+import com.hust.backend.application.KDclassification.dto.response.KDCResultResponseDTO;
 import com.hust.backend.application.KDclassification.entity.KDCDomainEntity;
 import com.hust.backend.application.KDclassification.entity.KDCExamResultEntity;
 import com.hust.backend.application.KDclassification.repository.KDCDomainRepository;
@@ -16,20 +17,26 @@ import com.hust.backend.constant.LinguisticDomainEnum;
 import com.hust.backend.entity.ExaminationEntity;
 import com.hust.backend.entity.LinguisticDomainEntity;
 import com.hust.backend.entity.PatientEntity;
+import com.hust.backend.entity.UserEntity;
 import com.hust.backend.entity.key.LinguisticApplicationEntityKey;
 import com.hust.backend.exception.InternalException;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.repository.ExamRepository;
 import com.hust.backend.repository.LinguisticDomainRepository;
 import com.hust.backend.repository.PatientRepository;
+import com.hust.backend.repository.UserRepository;
 import com.hust.backend.service.business.HedgeAlgebraService;
 import com.hust.backend.utils.Common;
 import com.hust.backend.utils.ULID;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -38,6 +45,7 @@ public class KDCExamServiceImpl implements KDCExamService {
     private final KDCExamResultRepository examResultRepository;
     private final ExamRepository examRepository;
     private final PatientRepository patientRepository;
+    private final UserRepository userRepository;
     private final LinguisticDomainRepository linguisticDomRepo;
     private final HedgeAlgebraService HAService;
     private final KDCModelService kdcModelService;
@@ -46,6 +54,7 @@ public class KDCExamServiceImpl implements KDCExamService {
                               KDCExamResultRepository examResultRepository,
                               ExamRepository examRepository,
                               PatientRepository patientRepository,
+                              UserRepository userRepository,
                               LinguisticDomainRepository linguisticDomRepo,
                               HedgeAlgebraService HAService,
                               KDCModelService kdcModelService) {
@@ -53,6 +62,7 @@ public class KDCExamServiceImpl implements KDCExamService {
         this.examResultRepository = examResultRepository;
         this.examRepository = examRepository;
         this.patientRepository = patientRepository;
+        this.userRepository = userRepository;
         this.linguisticDomRepo = linguisticDomRepo;
         this.HAService = HAService;
         this.kdcModelService = kdcModelService;
@@ -106,6 +116,26 @@ public class KDCExamServiceImpl implements KDCExamService {
                 .patientId(patientId)
                 .examinationId(examinationId)
                 .result(result)
+                .build();
+    }
+
+    @Override
+    public KDCResultResponseDTO buildExamResult(ExaminationEntity e) {
+        PatientEntity patient = patientRepository.findById(e.getPatientId())
+                .orElseThrow(() -> new NotFoundException(PatientEntity.class, e.getPatientId()));
+        UserEntity user = userRepository.findById(e.getUserId())
+                .orElseThrow(() -> new NotFoundException(UserEntity.class, e.getUserId()));
+        KDCExamResultEntity result = examResultRepository.findById(e.getId())
+                .orElseThrow(() -> new NotFoundException(KDCExamResultEntity.class, e.getId()));
+        return KDCResultResponseDTO.builder()
+                .examinationId(e.getId())
+                .patientId(patient.getId())
+                .patientName(patient.getName())
+                .birthDate(patient.getBirthDate())
+                .userFullName(user.getFirstName() + " " + user.getLastName())
+                .userEmail(user.getEmail())
+                .result(Common.convertObject(result, KDCResultResponseDTO.KDCResultDTO.class))
+                .date(e.getCreatedAt())
                 .build();
     }
 

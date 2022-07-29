@@ -18,13 +18,14 @@ import java.util.Map;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PatientPFSExamResponseDTO {
     private String examinationId;
-    private String username;
     private String patientId;
     private String patientName;
+    private Date birthDate;
+    private String userFullName;
+    private String userEmail;
     private List<Map.Entry<SymptomEnum, PictureFuzzySet>> symptoms;
     private List<Map.Entry<DiagnoseEnum, Double>> result;
     @JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")

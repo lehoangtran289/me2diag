@@ -5,7 +5,7 @@ import com.hust.backend.application.KDclassification.dto.response.KDCDomainRespo
 
 import java.util.List;
 
-public interface KDCService {
+public interface KDCConfigService {
     List<KDCDomainResponseDTO> getAllKDCDomain();
 
     Boolean changeKDCDomainConfigs(List<KDCDomainConfigRequestDTO> request);

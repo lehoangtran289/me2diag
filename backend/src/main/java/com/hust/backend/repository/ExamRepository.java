@@ -23,4 +23,6 @@ public interface ExamRepository extends JpaRepository<ExaminationEntity, String>
     List<ExaminationEntity> findAllByPatientId(String patientId);
 
     void deleteByIdIn(List<String> examIds);
+
+
 }
