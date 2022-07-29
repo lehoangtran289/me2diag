@@ -70,6 +70,9 @@ function PatientsTable({ patients, paging, query, setQuery, listLoading, setList
       dataField: "address",
       text: "address",
       sort: false,
+      headerStyle: (colum, colIndex) => {
+        return { width: '20em' };
+      },
     },
     {
       dataField: "action",
