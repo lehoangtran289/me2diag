@@ -56,14 +56,16 @@ function PatientPage(props) {
       {/*TODO: workaround this routing since url/:patientId ~ url/new :<*/}
       <Switch>
         <ContentRoute exact path={`${url}/:patientId`} render={() => {
-          return location.pathname === `${url}/new` ?
-            <PatientListPage rerenderFlag={rerenderFlag} setRerenderFlag={setRerenderFlag}/> :
-            <PatientDetailPage { ...props }/>
+          if (location.pathname === `${url}/new`)
+            return <PatientListPage rerenderFlag={rerenderFlag} setRerenderFlag={setRerenderFlag}/>
+          else
+            return <PatientDetailPage { ...props }/>
         }}/>
         <ContentRoute path={`${url}/:patientId/`} children={({match}) => {
-          return (
-            <PatientDetailPage { ...props }/>
-          )
+          if (["delete", "edit"].some(v => location.pathname.includes(v)))
+            return <PatientListPage rerenderFlag={rerenderFlag} setRerenderFlag={setRerenderFlag}/>
+          else
+            return <PatientDetailPage { ...props }/>
         }}/>
         <ContentRoute path={`${url}`} children={({match}) => {
           return (
