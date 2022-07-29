@@ -68,6 +68,16 @@ function KdcDomainConfig(props) {
       },
     },
     {
+      dataField: "min",
+      text: "Min value",
+      formatter: KDCDomainConfigFormatter,
+      formatExtraData: {
+        setData: setData,
+        field: "min"
+      },
+      headerAlign: "center"
+    },
+    {
       dataField: "max",
       text: "Max value",
       formatter: KDCDomainConfigFormatter,
@@ -77,16 +87,6 @@ function KdcDomainConfig(props) {
       },
       headerAlign: "center"
     },
-    {
-      dataField: "min",
-      text: "Min value",
-      formatter: KDCDomainConfigFormatter,
-      formatExtraData: {
-        setData: setData,
-        field: "min"
-      },
-      headerAlign: "center"
-    }
   ];
   // BEGIN TABLE COLUMN CONFIG-----------------------------------------
 

@@ -7,7 +7,7 @@ import os
 import logging
 
 app = Flask(__name__)
-model = pickle.load(open('model.pkl', 'rb'))
+model = pickle.load(open('model_20220729.pkl', 'rb'))
 
 @app.route('/kdc/api/v1/predict', methods=['POST'])
 def predict():

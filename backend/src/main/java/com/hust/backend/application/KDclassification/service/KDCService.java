@@ -1,12 +1,8 @@
 package com.hust.backend.application.KDclassification.service;
 
-import com.hust.backend.application.KDclassification.dto.request.KDCDomainConfigRequestDTO;
-import com.hust.backend.application.KDclassification.dto.response.KDCDomainResponseDTO;
-
-import java.util.List;
+import com.hust.backend.application.KDclassification.dto.request.KDCRequestDTO;
+import com.hust.backend.application.KDclassification.dto.response.KDCDiagnoseResponseDTO;
 
 public interface KDCService {
-    List<KDCDomainResponseDTO> getAllKDCDomain();
-
-    Boolean changeKDCDomainConfigs(List<KDCDomainConfigRequestDTO> request);
+    KDCDiagnoseResponseDTO diagnose(String userId, KDCRequestDTO request);
 }

@@ -163,7 +163,7 @@ function PatientCard({ ...props }) {
               </div>
               <div className="navi-item mb-2">
                 <NavLink
-                  to={`/patients/${patient.id}/examinations`}
+                  to={`/patients/${patient.id}/exams`}
                   className="navi-link py-4"
                   activeClassName="active"
                 >

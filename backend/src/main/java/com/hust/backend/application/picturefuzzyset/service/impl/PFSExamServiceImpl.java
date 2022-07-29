@@ -54,6 +54,7 @@ public class PFSExamServiceImpl implements PFSExamService {
         this.userRepository = userRepository;
     }
 
+    // fixme: Must be changed to @Query JOIN to avoid redundant query tx
     @Override
     public PagingInfo<PatientPFSExamResponseDTO> getAllExaminations(String patientID, Pageable pageable) {
         Page<ExaminationEntity> examinationEntityPage = StringUtils.isBlank(patientID) ?
@@ -71,6 +72,7 @@ public class PFSExamServiceImpl implements PFSExamService {
                 .currentPage(examinationEntityPage.getNumber())
                 .totalItems(examinationEntityPage.getTotalElements())
                 .totalPages(examinationEntityPage.getTotalPages())
+                .pageSize(examinationEntityPage.getSize())
                 .build();
     }
 
@@ -91,7 +93,8 @@ public class PFSExamServiceImpl implements PFSExamService {
                 .collect(Collectors.toList());
     }
 
-    private PatientPFSExamResponseDTO buildExamResult(ExaminationEntity e) {
+    @Override
+    public PatientPFSExamResponseDTO buildExamResult(ExaminationEntity e) {
         UserEntity userEntity = userRepository.findById(e.getUserId())
                 .orElseThrow(() -> new NotFoundException(UserEntity.class, e.getUserId()));
 
@@ -110,9 +113,11 @@ public class PFSExamServiceImpl implements PFSExamService {
 
         return PatientPFSExamResponseDTO.builder()
                 .examinationId(e.getId())
-                .username(userEntity.getFirstName() + " " + userEntity.getLastName())
                 .patientName(patientEntity.getName())
                 .patientId(patientEntity.getId())
+                .birthDate(patientEntity.getBirthDate())
+                .userFullName(userEntity.getFirstName() + " " + userEntity.getLastName())
+                .userEmail(userEntity.getEmail())
                 .symptoms(symptoms)
                 .result(result)
                 .date(e.getCreatedAt())
