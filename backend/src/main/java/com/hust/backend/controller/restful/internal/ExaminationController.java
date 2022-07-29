@@ -1,6 +1,7 @@
 package com.hust.backend.controller.restful.internal;
 
 import com.hust.backend.aop.AuthRequired;
+import com.hust.backend.constant.ApplicationEnum;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.response.ExaminationResponseDTO;
 import com.hust.backend.factory.GeneralResponse;
@@ -48,12 +49,13 @@ public class ExaminationController {
     @AuthRequired(roles = UserRoleEnum.USER)
     public ResponseEntity<GeneralResponse<PagingInfo<ExaminationResponseDTO>>> getAllExaminations(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
+            @RequestParam(required = false) ApplicationEnum appId,
             @RequestParam(required = false) String query,
-            @RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNo,
+            @RequestParam(value = "page", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize,
             @RequestParam(required = false) String[] sort
     ) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, pageService.from(sort));
-        return responseFactory.success(examService.getAllExaminations(query, pageable));
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, pageService.from(sort));
+        return responseFactory.success(examService.getAllExaminations(appId, query, pageable));
     }
 }

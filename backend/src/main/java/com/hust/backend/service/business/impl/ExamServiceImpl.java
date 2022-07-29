@@ -81,8 +81,8 @@ public class ExamServiceImpl implements ExamService {
 
     // fixme: Must be changed to @Query JOIN to avoid redundant query tx
     @Override
-    public PagingInfo<ExaminationResponseDTO> getAllExaminations(String query, Pageable pageable) {
-        Page<ExaminationEntity> examinationEntityPage = examRepository.findAll(pageable);
+    public PagingInfo<ExaminationResponseDTO> getAllExaminations(ApplicationEnum appId, String query, Pageable pageable) {
+        Page<ExaminationEntity> examinationEntityPage = examRepository.findAllExaminations(appId, query, pageable);
         List<ExaminationEntity> examinationEntities = examinationEntityPage.getContent();
 
         List<ExaminationResponseDTO> results = new ArrayList<>();
@@ -121,9 +121,10 @@ public class ExamServiceImpl implements ExamService {
         }
         return PagingInfo.<ExaminationResponseDTO>builder()
                 .items(results)
-                .currentPage(examinationEntityPage.getNumber())
+                .currentPage(examinationEntityPage.getNumber() + 1)
                 .totalItems(examinationEntityPage.getTotalElements())
                 .totalPages(examinationEntityPage.getTotalPages())
+                .pageSize(examinationEntityPage.getSize())
                 .build();
     }
 }

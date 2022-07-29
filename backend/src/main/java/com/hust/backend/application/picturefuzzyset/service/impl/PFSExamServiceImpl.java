@@ -72,6 +72,7 @@ public class PFSExamServiceImpl implements PFSExamService {
                 .currentPage(examinationEntityPage.getNumber())
                 .totalItems(examinationEntityPage.getTotalElements())
                 .totalPages(examinationEntityPage.getTotalPages())
+                .pageSize(examinationEntityPage.getSize())
                 .build();
     }
 

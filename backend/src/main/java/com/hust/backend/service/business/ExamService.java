@@ -13,5 +13,5 @@ public interface ExamService {
 
     Object getExamination(String examinationId);
 
-    PagingInfo<ExaminationResponseDTO> getAllExaminations(String query, Pageable pageable);
+    PagingInfo<ExaminationResponseDTO> getAllExaminations(ApplicationEnum appId, String query, Pageable pageable);
 }
