@@ -1,19 +1,13 @@
 package com.hust.backend.controller.restful.internal;
 
 import com.hust.backend.aop.AuthRequired;
-import com.hust.backend.application.KDclassification.service.KDCExamService;
-import com.hust.backend.application.picturefuzzyset.service.PFSExamService;
-import com.hust.backend.application.picturefuzzyset.service.PFSService;
-import com.hust.backend.constant.ApplicationEnum;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.response.ExaminationResponseDTO;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.PagingInfo;
 import com.hust.backend.factory.ResponseFactory;
-import com.hust.backend.service.auth.JwtService;
 import com.hust.backend.service.business.ExamService;
 import com.hust.backend.service.business.PagingConverterService;
-import com.hust.backend.service.business.PatientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,28 +24,13 @@ import javax.validation.constraints.NotBlank;
 @RequestMapping("${app.application-context-name}/api/v1/examinations")
 public class ExaminationController {
     private final ResponseFactory responseFactory;
-    private final JwtService jwtService;
-    private final PFSService pfsService;
-    private final PatientService patientService;
-    private final PFSExamService pfsExamService;
-    private final KDCExamService kdcExamService;
     private final ExamService examService;
     private final PagingConverterService pageService;
 
     public ExaminationController(ResponseFactory responseFactory,
-                                 JwtService jwtService,
-                                 PFSService pfsService,
-                                 PatientService patientService,
-                                 PFSExamService pfsExamService,
-                                 KDCExamService kdcExamService,
                                  ExamService examService,
                                  PagingConverterService pageService) {
         this.responseFactory = responseFactory;
-        this.jwtService = jwtService;
-        this.pfsService = pfsService;
-        this.patientService = patientService;
-        this.pfsExamService = pfsExamService;
-        this.kdcExamService = kdcExamService;
         this.examService = examService;
         this.pageService = pageService;
     }

@@ -6,8 +6,8 @@ import com.hust.backend.application.KDclassification.dto.request.KDCDomainConfig
 import com.hust.backend.application.KDclassification.dto.request.KDCRequestDTO;
 import com.hust.backend.application.KDclassification.dto.response.KDCDiagnoseResponseDTO;
 import com.hust.backend.application.KDclassification.dto.response.KDCDomainResponseDTO;
-import com.hust.backend.application.KDclassification.service.KDCExamService;
 import com.hust.backend.application.KDclassification.service.KDCConfigService;
+import com.hust.backend.application.KDclassification.service.KDCService;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.ResponseFactory;
@@ -31,15 +31,16 @@ import java.util.List;
 public class KDCController {
     private final ResponseFactory responseFactory;
     private final JwtService jwtService;
-    private final KDCExamService kdcExamService;
+    private final KDCService kdcService;
     private final KDCConfigService kdcConfigService;
 
     public KDCController(ResponseFactory responseFactory,
                          JwtService jwtService,
-                         KDCExamService kdcExamService, KDCConfigService kdcConfigService) {
+                         KDCService kdcService,
+                         KDCConfigService kdcConfigService) {
         this.responseFactory = responseFactory;
         this.jwtService = jwtService;
-        this.kdcExamService = kdcExamService;
+        this.kdcService = kdcService;
         this.kdcConfigService = kdcConfigService;
     }
 
@@ -53,7 +54,7 @@ public class KDCController {
         AccessTokenPayload payload = jwtService.parse(authToken, AccessTokenPayload.class);
         String userId = payload.getSubject();
 
-        return responseFactory.success(kdcExamService.diagnose(userId, request));
+        return responseFactory.success(kdcService.diagnose(userId, request));
     }
 
     @GetMapping("/domain")

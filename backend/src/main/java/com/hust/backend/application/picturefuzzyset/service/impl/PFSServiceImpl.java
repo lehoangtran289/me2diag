@@ -3,14 +3,12 @@ package com.hust.backend.application.picturefuzzyset.service.impl;
 import com.hust.backend.application.picturefuzzyset.constant.DiagnoseEnum;
 import com.hust.backend.application.picturefuzzyset.constant.SymptomEnum;
 import com.hust.backend.application.picturefuzzyset.dto.request.GeneralDiagnoseRequestDTO;
-import com.hust.backend.application.picturefuzzyset.dto.request.SymptomDiagnoseConfigRequestDTO;
 import com.hust.backend.application.picturefuzzyset.dto.response.PFSDiagnoseResponseDTO;
 import com.hust.backend.application.picturefuzzyset.entity.PFSExamResultEntity;
 import com.hust.backend.application.picturefuzzyset.entity.PatientSymptomEntity;
 import com.hust.backend.application.picturefuzzyset.entity.SymptomDiagnoseEntity;
 import com.hust.backend.application.picturefuzzyset.model.GeneralPictureFuzzySet;
 import com.hust.backend.application.picturefuzzyset.model.PictureFuzzySet;
-import com.hust.backend.application.picturefuzzyset.model.SymptomDiagnoseConfig;
 import com.hust.backend.application.picturefuzzyset.repository.PFSExamResultRepository;
 import com.hust.backend.application.picturefuzzyset.repository.PatientSymptomRepository;
 import com.hust.backend.application.picturefuzzyset.repository.SymptomDiagnoseRepository;
@@ -21,13 +19,11 @@ import com.hust.backend.constant.ResponseStatusEnum;
 import com.hust.backend.entity.ExaminationEntity;
 import com.hust.backend.entity.PatientEntity;
 import com.hust.backend.exception.Common.BusinessException;
-import com.hust.backend.exception.InternalException;
 import com.hust.backend.exception.NotFoundException;
 import com.hust.backend.repository.ExamRepository;
 import com.hust.backend.repository.LinguisticDomainRepository;
 import com.hust.backend.repository.PatientRepository;
 import com.hust.backend.service.business.HedgeAlgebraService;
-import com.hust.backend.utils.Common;
 import com.hust.backend.utils.Transformer;
 import com.hust.backend.utils.ULID;
 import com.hust.backend.utils.tuple.Tuple3;
@@ -37,8 +33,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
 
-@Service
 @Slf4j
+@Service
 public class PFSServiceImpl implements PFSService {
     private final PatientRepository patientRepo;
     private final ExamRepository examRepo;
@@ -49,40 +45,19 @@ public class PFSServiceImpl implements PFSService {
     private final HedgeAlgebraService HAService;
 
     public PFSServiceImpl(PatientRepository patientRepo,
-                          ExamRepository examRepo,
-                          PFSExamResultRepository pfsExamResultRepo,
-                          PatientSymptomRepository patientSymptomRepo,
-                          SymptomDiagnoseRepository symptomDiagnoseRepo,
-                          LinguisticDomainRepository linguisticDomRepo,
-                          HedgeAlgebraService haService) {
+                                ExamRepository examRepo,
+                                PFSExamResultRepository pfsExamResultRepo,
+                                PatientSymptomRepository patientSymptomRepo,
+                                SymptomDiagnoseRepository symptomDiagnoseRepo,
+                                LinguisticDomainRepository linguisticDomRepo,
+                                HedgeAlgebraService haService) {
         this.patientRepo = patientRepo;
         this.examRepo = examRepo;
         this.pfsExamResultRepo = pfsExamResultRepo;
         this.patientSymptomRepo = patientSymptomRepo;
         this.symptomDiagnoseRepo = symptomDiagnoseRepo;
         this.linguisticDomRepo = linguisticDomRepo;
-        HAService = haService;
-    }
-
-    @Override
-    @Transactional(rollbackOn = Exception.class)
-    public Boolean changePFSConfigs(List<SymptomDiagnoseConfigRequestDTO> request) {
-        List<SymptomDiagnoseEntity> updatedPFSConfigs = new ArrayList<>();
-        for (SymptomDiagnoseConfigRequestDTO config : request) {
-            if (!PFSCommon.isValidPFS(config.getPictureFuzzySet()))
-                throw new InternalException("Invalid picture fuzzy set");
-
-            updatedPFSConfigs.add(Common.convertObject(config, SymptomDiagnoseEntity.class));
-        }
-        symptomDiagnoseRepo.saveAll(updatedPFSConfigs);
-        return true;
-    }
-
-    @Override
-    public List<SymptomDiagnoseConfig> getPFSConfigs() {
-        return Transformer.listToList(
-                symptomDiagnoseRepo.findAll(),
-                sdEntity -> Common.convertObject(sdEntity, SymptomDiagnoseConfig.class));
+        this.HAService = haService;
     }
 
     @Override
@@ -181,9 +156,9 @@ public class PFSServiceImpl implements PFSService {
         if (!PFSCommon.isValidGPFS(gpfs))
             throw new IllegalArgumentException("Picture Fuzzy Set type must be enum STRING or DOUBLE");
 
-        double positive = 0.0;
-        double neutral = 0.0;
-        double negative = 0.0;
+        double positive;
+        double neutral;
+        double negative;
 
         if (gpfs.getPositive() instanceof Number) {
             positive = gpfs.getPositive() instanceof Double ?

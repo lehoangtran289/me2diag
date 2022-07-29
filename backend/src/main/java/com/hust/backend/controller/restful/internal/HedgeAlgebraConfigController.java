@@ -1,7 +1,7 @@
 package com.hust.backend.controller.restful.internal;
 
 import com.hust.backend.aop.AuthRequired;
-import com.hust.backend.application.picturefuzzyset.service.PFSService;
+import com.hust.backend.application.picturefuzzyset.service.PFSConfigService;
 import com.hust.backend.constant.ApplicationEnum;
 import com.hust.backend.constant.HedgeAlgebraEnum;
 import com.hust.backend.constant.UserRoleEnum;
@@ -32,15 +32,15 @@ import java.util.Map;
 public class HedgeAlgebraConfigController {
     private final ResponseFactory responseFactory;
     private final JwtService jwtService;
-    private final PFSService pfsService;
+    private final PFSConfigService pfsConfigService;
     private final HedgeAlgebraService hedgeAlgebraService;
 
     public HedgeAlgebraConfigController(ResponseFactory responseFactory, JwtService jwtService,
-                                        PFSService pfsService,
+                                        PFSConfigService pfsConfigService,
                                         HedgeAlgebraService hedgeAlgebraService) {
         this.responseFactory = responseFactory;
         this.jwtService = jwtService;
-        this.pfsService = pfsService;
+        this.pfsConfigService = pfsConfigService;
         this.hedgeAlgebraService = hedgeAlgebraService;
     }
 

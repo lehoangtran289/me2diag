@@ -3,14 +3,11 @@ package com.hust.backend.application.picturefuzzyset.controller.restful.internal
 import com.hust.backend.aop.AuthRequired;
 import com.hust.backend.application.picturefuzzyset.dto.response.PatientPFSExamResponseDTO;
 import com.hust.backend.application.picturefuzzyset.service.PFSExamService;
-import com.hust.backend.application.picturefuzzyset.service.PFSService;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.PagingInfo;
 import com.hust.backend.factory.ResponseFactory;
-import com.hust.backend.service.auth.JwtService;
 import com.hust.backend.service.business.PagingConverterService;
-import com.hust.backend.service.business.PatientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,22 +24,13 @@ import javax.validation.constraints.NotBlank;
 @RequestMapping("${app.application-context-name}/api/v1/pfs/examinations")
 public class PFSExamController {
     private final ResponseFactory responseFactory;
-    private final JwtService jwtService;
-    private final PFSService pfsService;
-    private final PatientService patientService;
     private final PFSExamService examinationService;
     private final PagingConverterService pageService;
 
     public PFSExamController(ResponseFactory responseFactory,
-                             PFSService pfsService,
-                             PatientService patientService,
-                             JwtService jwtService,
                              PFSExamService examinationService,
                              PagingConverterService pageService) {
         this.responseFactory = responseFactory;
-        this.pfsService = pfsService;
-        this.patientService = patientService;
-        this.jwtService = jwtService;
         this.examinationService = examinationService;
         this.pageService = pageService;
     }
