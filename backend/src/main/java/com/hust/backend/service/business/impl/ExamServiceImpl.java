@@ -79,7 +79,7 @@ public class ExamServiceImpl implements ExamService {
         return null;
     }
 
-    // fixme: change to @Query to avoid redundant query tx
+    // fixme: Must be changed to @Query JOIN to avoid redundant query tx
     @Override
     public PagingInfo<ExaminationResponseDTO> getAllExaminations(String query, Pageable pageable) {
         Page<ExaminationEntity> examinationEntityPage = examRepository.findAll(pageable);

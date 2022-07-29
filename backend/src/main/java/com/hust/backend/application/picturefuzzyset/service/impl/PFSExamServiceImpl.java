@@ -54,6 +54,7 @@ public class PFSExamServiceImpl implements PFSExamService {
         this.userRepository = userRepository;
     }
 
+    // fixme: Must be changed to @Query JOIN to avoid redundant query tx
     @Override
     public PagingInfo<PatientPFSExamResponseDTO> getAllExaminations(String patientID, Pageable pageable) {
         Page<ExaminationEntity> examinationEntityPage = StringUtils.isBlank(patientID) ?
@@ -64,7 +65,7 @@ public class PFSExamServiceImpl implements PFSExamService {
         List<PatientPFSExamResponseDTO> results = new ArrayList<>();
 
         for (ExaminationEntity e : examinationEntities) {
-            results.add(buildExamResult(e)); // fixme: no JOIN so has to do it this way
+            results.add(buildExamResult(e));
         }
         return PagingInfo.<PatientPFSExamResponseDTO>builder()
                 .items(results)
