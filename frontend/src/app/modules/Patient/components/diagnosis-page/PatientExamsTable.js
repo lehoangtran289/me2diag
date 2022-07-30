@@ -55,21 +55,21 @@ function PatientExamsPage({ patientId, ...props }) {
           <h3 className="card-label font-weight-bolder text-dark">
             Patient examinations history
           </h3>
-          <span className="text-muted font-weight-bold font-size-sm mt-1">
+          <div className="text-muted font-weight-bold font-size-sm">
             Records of all patient's examination history
-          </span>
+          </div>
         </div>
-        <div className={"card-body mx-0 px-0"}>
-          <ExamsTable
-            exams={exams}
-            query={query}
-            paging={paging}
-            setQuery={setQuery}
-            listLoading={listLoading}
-            setListLoading={setListLoading}
-            isPatientPage={true}
-          />
-        </div>
+      </div>
+      <div className={"card-body"}>
+        <ExamsTable
+          exams={exams}
+          query={query}
+          paging={paging}
+          setQuery={setQuery}
+          listLoading={listLoading}
+          setListLoading={setListLoading}
+          isPatientPage={true}
+        />
       </div>
     </div>
   );
