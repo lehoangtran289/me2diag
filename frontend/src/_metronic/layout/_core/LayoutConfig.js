@@ -1,7 +1,7 @@
 import { toAbsoluteUrl } from "../../_helpers";
 export function getInitLayoutConfig() {
   return {
-    demo: "demo2",
+    demo: "demo4",
     js: {
       breakpoints: {
         sm: "576",
