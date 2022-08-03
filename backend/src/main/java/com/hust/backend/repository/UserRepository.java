@@ -42,4 +42,15 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
             @Param("roles") List<UserRoleEnum> roles,
             @Param("isEnable") Boolean isEnable,
             Pageable pageable);
+
+    @Query("SELECT COUNT(u) FROM UserEntity u " +
+            "JOIN UserRoleEntity ur ON u.id = ur.userId " +
+            "JOIN RoleEntity r ON ur.roleId = r.id " +
+            "WHERE r.roleEnum = :role AND u.isEnable = true")
+    int countUsersByRole(@Param("role") UserRoleEnum role);
+
+    @Query("SELECT u, count(e) FROM UserEntity u " +
+            "JOIN ExaminationEntity e ON e.userId = u.id WHERE u.isEnable = true " +
+            "GROUP BY u.id")
+    List<Object[]> getTopDoctors(@Param("size") Integer size);
 }

@@ -35,4 +35,6 @@ public interface ExamRepository extends JpaRepository<ExaminationEntity, String>
             "AND ((:appId IS NULL) OR (e.appId = :appId)) " +
             "ORDER BY e.createdAt DESC")
     Page<ExaminationEntity> findAllExaminations(@Param("appId") ApplicationEnum appId, @Param("query") String query, Pageable pageable);
+
+    int countByAppId(ApplicationEnum appId);
 }
