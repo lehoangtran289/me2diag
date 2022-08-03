@@ -59,13 +59,12 @@ function PatientEditDialog({ show, onHide, ...props }) {
   const PatientEditSchema = Yup.object().shape({
     id: Yup.string()
       // .min(8, "Minimum 8 chars")
-      .max(20, "Maximum 20 chars"),
+      .max(50, "Maximum 50 chars"),
     name: Yup.string()
       .min(3, "Minimum 3 symbols")
       .max(50, "Maximum 50 symbols")
       .required("Firstname is required"),
-    phoneNo: Yup.string()
-      .matches(/^\d+$/),
+    phoneNo: Yup.string(),
     email: Yup.string()
       .email("Invalid email")
       .required("Email is required"),
