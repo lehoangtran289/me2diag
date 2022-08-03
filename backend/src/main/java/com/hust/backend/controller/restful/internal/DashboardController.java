@@ -1,6 +1,7 @@
 package com.hust.backend.controller.restful.internal;
 
 import com.hust.backend.aop.AuthRequired;
+import com.hust.backend.constant.ApplicationEnum;
 import com.hust.backend.constant.UserRoleEnum;
 import com.hust.backend.dto.response.DashboardInfoResponseDTO;
 import com.hust.backend.factory.GeneralResponse;
@@ -10,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Validated
@@ -31,8 +29,9 @@ public class DashboardController {
     @GetMapping
     @AuthRequired(roles = { UserRoleEnum.ADMIN, UserRoleEnum.USER, UserRoleEnum.EXPERT })
     public ResponseEntity<GeneralResponse<DashboardInfoResponseDTO>> getDashboardInfo(
-            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken
+            @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
+            @RequestParam(required = false) Integer listSize
     ) {
-        return responseFactory.success(dashboardService.getGeneralInfo());
+        return responseFactory.success(dashboardService.getGeneralDashboardData(listSize));
     }
 }

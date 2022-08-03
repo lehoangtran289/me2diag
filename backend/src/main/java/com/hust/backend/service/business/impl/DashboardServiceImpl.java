@@ -40,9 +40,9 @@ public class DashboardServiceImpl implements DashboardService {
 
     // Default recentPatients List -> 7
     @Override
-    public DashboardInfoResponseDTO getGeneralInfo() {
+    public DashboardInfoResponseDTO getGeneralDashboardData(Integer listSize) {
         List<PatientInfoResponseDTO> recentPatients = Transformer.listToList(
-                patientRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(0, 7)).getContent(),
+                patientRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(0, listSize)).getContent(),
                 e -> Common.convertObject(e, PatientInfoResponseDTO.class)
         );
         List<TopUserInfoResponseDTO> topUsers = new ArrayList<>();
