@@ -28,9 +28,9 @@ public class DashboardController {
 
     @GetMapping
     @AuthRequired(roles = { UserRoleEnum.ADMIN, UserRoleEnum.USER, UserRoleEnum.EXPERT })
-    public ResponseEntity<GeneralResponse<DashboardInfoResponseDTO>> getDashboardInfo(
+    public ResponseEntity<GeneralResponse<DashboardInfoResponseDTO>> getDashboardGeneralData(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
-            @RequestParam(required = false) Integer listSize
+            @RequestParam(required = false, defaultValue = "7") Integer listSize
     ) {
         return responseFactory.success(dashboardService.getGeneralDashboardData(listSize));
     }
