@@ -99,7 +99,6 @@ services:
       KDC_PORT: $MODEL_DOCKER_PORT
       APP_HOST: 127.0.0.1
       APP_PORT: $SPRING_DOCKER_PORT
-
     networks: 
       - backend
       - frontend
