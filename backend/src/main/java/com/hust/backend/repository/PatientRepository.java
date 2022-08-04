@@ -1,5 +1,6 @@
 package com.hust.backend.repository;
 
+import com.hust.backend.constant.UserGenderEnum;
 import com.hust.backend.entity.PatientEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,5 +27,7 @@ public interface PatientRepository extends JpaRepository<PatientEntity, String> 
     Page<PatientEntity> findAllPatients(@Param("query") String query, @Param("gender") String gender, Pageable pageable);
 
     Page<PatientEntity> findByNameContainingOrEmailContainingOrPhoneNoContaining(String query, String query1, String query2, Pageable pageable);
+
+    int countByGenderLike(UserGenderEnum gender);
 
 }

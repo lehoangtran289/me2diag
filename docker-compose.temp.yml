@@ -73,7 +73,13 @@ services:
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
     environment:
-      ENV: prod
+      # SPRING_APPLICATION_JSON: '{
+      #   "app.datasource.backend.url" : "jdbc:mariadb://database:$MARIADB_DOCKER_PORT/backend",
+      #   "spring.profiles.active" : "dev",
+      #   "app.minio.url" : "http://storage:9000",
+      #   "kdc-model.host" : "http://model:$MODEL_DOCKER_PORT"
+      # }'
+      ENV: dev
       MARIADB_HOST: database
       MARIADB_PORT: $MARIADB_DOCKER_PORT
       MARIADB_DB: backend

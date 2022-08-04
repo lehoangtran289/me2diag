@@ -54,7 +54,7 @@ export function MixedWidget6({ className, chartColor = "danger" }) {
         {/* begin::Header */}
         <div className="card-header border-0 pt-5">
           <h3 className="card-title font-weight-bolder text-white">
-            Sales Progress
+            Patient examination progress
           </h3>
           <div className="card-toolbar">
             <Dropdown className="dropdown-inline" alignRight>

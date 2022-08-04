@@ -21,7 +21,7 @@ export function TilesWidget3({ className, widgetHeight = "175px" }) {
             href="#"
             className="text-dark-75 text-hover-primary font-weight-bolder font-size-h3"
           >
-            Properties
+            Medical diagnosis
           </a>
           {/* end::Title */}
         </div>
