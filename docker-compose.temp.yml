@@ -79,6 +79,7 @@ services:
       #   "app.minio.url" : "http://storage:9000",
       #   "kdc-model.host" : "http://model:$MODEL_DOCKER_PORT"
       # }'
+      ENV: dev
       MARIADB_HOST: database
       MARIADB_PORT: $MARIADB_DOCKER_PORT
       MARIADB_DB: backend
@@ -88,12 +89,12 @@ services:
       MINIO_PORT: 9000
       MINIO_ACCESS: $MINIO_ROOT_USER
       MINIO_KEY: $MINIO_ROOT_PASSWORD
-      MINIO_BUCKET: backend
-      JWT_SECRET: 4UST@202Z
+      MINIO_BUCKET: $MINIO_BUCKET
+      JWT_SECRET: $JWT_SECRET
       CLIENT_HOST: app-client
       CLIENT_PORT: 3000
-      EMAIL_USERNAME: ictblackjack@gmail.com
-      EMAIL_PASSWORD: ddlcovhwptkwjaca
+      EMAIL_USERNAME: $EMAIL_USERNAME
+      EMAIL_PASSWORD: $EMAIL_PASSWORD
       KDC_HOST: model
       KDC_PORT: $MODEL_DOCKER_PORT
       APP_HOST: 127.0.0.1
