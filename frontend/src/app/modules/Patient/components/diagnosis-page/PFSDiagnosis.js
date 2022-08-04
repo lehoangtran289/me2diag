@@ -16,36 +16,21 @@ function PfsDiagnosis({ patientId, ...props }) {
     field: ""
   });
   const [linguisticDomain, setLinguisticDomain] = useState({});
-  const [pfs, setPfs] = useState([ //TODO: change initial value here
+  const [pfs, setPfs] = useState([
     {
-      symptom: "Temperature",
-      positive: 0.5,
-      neutral: 0.25,
-      negative: 0.25
+      symptom: "Temperature"
     },
     {
-      symptom: "Headache",
-      positive: 0.0,
-      neutral: 0.75,
-      negative: 0.25
+      symptom: "Headache"
     },
     {
-      symptom: "Stomach Pain",
-      positive: 0.625,
-      neutral: 0.125,
-      negative: 0.25
+      symptom: "Stomach Pain"
     },
     {
-      symptom: "Cough",
-      positive: 0.125,
-      neutral: 0.625,
-      negative: 0.125
+      symptom: "Cough"
     },
     {
-      symptom: "Chest Pain",
-      positive: 0.375,
-      neutral: 0.375,
-      negative: 0.25
+      symptom: "Chest Pain"
     }
   ]);
   const [result, setResult] = useState({
@@ -57,6 +42,7 @@ function PfsDiagnosis({ patientId, ...props }) {
     getAllPFSLinguisticDomainConfigs()
       .then(res => {
         setLinguisticDomain(convertLinguistic(res.data.data));
+        mockPFSData(convertLinguistic(res.data.data));
         setLoading(false);
       })
       .catch(err => {
@@ -70,6 +56,41 @@ function PfsDiagnosis({ patientId, ...props }) {
     console.log(pfs);
     console.log(result);
   }, [pfs, result]);
+
+  const mockPFSData = (data) => {
+    setPfs([
+      {
+        symptom: "Temperature",
+        positive: data["Medium"],
+        neutral: data["Low"],
+        negative: data["Low"]
+      },
+      {
+        symptom: "Headache",
+        positive: data["None"],
+        neutral: data["High"],
+        negative: data["Low"]
+      },
+      {
+        symptom: "Stomach Pain",
+        positive: data["Slightly high"],
+        neutral: data["Very low"],
+        negative: data["Low"]
+      },
+      {
+        symptom: "Cough",
+        positive: data["Very low"],
+        neutral: data["Slightly high"],
+        negative: data["Very low"]
+      },
+      {
+        symptom: "Chest Pain",
+        positive: data["Slightly low"],
+        neutral: data["Slightly low"],
+        negative: data["Low"]
+      }
+    ])
+  }
 
   const convertLinguistic = (data) => {
     let res = {
@@ -151,7 +172,7 @@ function PfsDiagnosis({ patientId, ...props }) {
 
   const setPfsData = (idx, field, vvalue) => {
     let newPfs = [...pfs];
-    newPfs[idx][field] = vvalue;
+    newPfs[idx][field] = Number(vvalue);
     setPfs(newPfs);
     validatePfs(newPfs);
   };
