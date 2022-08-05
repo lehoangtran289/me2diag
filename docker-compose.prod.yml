@@ -51,7 +51,8 @@ services:
       context: ./frontend 
       dockerfile: Dockerfile
       args:
-        REACT_APP_BACKEND_ORIGIN: http://127.0.0.1:8080/backend/api/v1/
+        REACT_APP_BACKEND_ORIGIN: http://$BACKEND_ORIGIN:$SPRING_LOCAL_PORT/backend/api/v1/
+        REACT_APP_ENV: $REACT_APP_ENV
     ports:
       - "3000:3000"
     restart: always
@@ -73,7 +74,7 @@ services:
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
     environment:
-      ENV: prod
+      ENV: $SPRING_ENV
       MARIADB_HOST: database
       MARIADB_PORT: $MARIADB_DOCKER_PORT
       MARIADB_DB: backend
@@ -91,7 +92,7 @@ services:
       EMAIL_PASSWORD: $EMAIL_PASSWORD
       KDC_HOST: model
       KDC_PORT: $MODEL_DOCKER_PORT
-      APP_HOST: 127.0.0.1
+      APP_HOST: $BACKEND_ORIGIN
       APP_PORT: $SPRING_DOCKER_PORT
     networks: 
       - backend
