@@ -1,4 +1,5 @@
 export const BACKEND_ORIGIN = process.env.REACT_APP_BACKEND_ORIGIN ? process.env.REACT_APP_BACKEND_ORIGIN : "http://127.0.0.1:8080/backend/api/v1/";
+export const REACT_ENV = process.env.REACT_APP_ENV ? process.env.REACT_APP_ENV : "DEVELOP"
 
 console.log(BACKEND_ORIGIN);
 
