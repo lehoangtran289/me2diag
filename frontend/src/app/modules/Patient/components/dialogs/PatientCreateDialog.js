@@ -77,7 +77,7 @@ function PatientCreateDialog({ show, onHide }) {
           email: "",
           address: "",
           birthDate: '01/01/1970',
-          gender: "",
+          gender: "Male",
           avatar: null
         }}
         enableReinitialize={true}

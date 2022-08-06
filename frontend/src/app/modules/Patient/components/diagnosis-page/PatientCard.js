@@ -34,8 +34,7 @@ function PatientCard({ ...props }) {
   return (
     <>
       <div
-        className="flex-row-auto offcanvas-mobile w-300px w-xxl-400px"
-        id="kt_profile_aside"
+        className="col-lg-4 col-sm-12 mb-md-0 mb-sm-5"
       >
         <div className="card card-custom card-stretch">
           {/* begin::Body */}
