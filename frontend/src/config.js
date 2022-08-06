@@ -2,6 +2,7 @@ export const BACKEND_ORIGIN = process.env.REACT_APP_BACKEND_ORIGIN ? process.env
 export const REACT_ENV = process.env.REACT_APP_ENV ? process.env.REACT_APP_ENV : "DEVELOP"
 
 console.log(BACKEND_ORIGIN);
+console.log(REACT_ENV);
 
 export const LOGIN_URL = BACKEND_ORIGIN + 'login';
 export const ME_URL = BACKEND_ORIGIN + 'user/me';

@@ -42,8 +42,7 @@ export function AuthPage() {
                   Welcome to Medical examination system!
                 </h2>
                 <p className="font-weight-lighter text-white opacity-80">
-                  The ultimate Bootstrap & React 16 admin theme framework for
-                  next generation web apps.
+                  A system that conducts medical examinations to support your diagnostic decision making process
                 </p>
               </div>
               {/* end:: Aside content */}

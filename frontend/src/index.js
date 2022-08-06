@@ -27,7 +27,7 @@ import {
 import {MetronicI18nProvider} from "./_metronic/i18n";
 import {REACT_ENV} from "./config";
 
-if (process.env.REACT_APP_ENV !== "DEVELOP")
+if (REACT_ENV !== "DEVELOP")
     console.log = () => {};
 
 /**
