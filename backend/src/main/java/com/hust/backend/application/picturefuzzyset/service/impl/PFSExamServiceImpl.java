@@ -59,7 +59,7 @@ public class PFSExamServiceImpl implements PFSExamService {
     public PagingInfo<PatientPFSExamResponseDTO> getAllExaminations(String patientID, Pageable pageable) {
         Page<ExaminationEntity> examinationEntityPage = StringUtils.isBlank(patientID) ?
                 examRepository.findAllByAppIdOrderByCreatedAtDesc(ApplicationEnum.PFS, pageable) :
-                examRepository.findAllByAppIdAndPatientId(ApplicationEnum.PFS, patientID, pageable);
+                examRepository.findAllByAppIdAndPatientIdOrderByCreatedAtDesc(ApplicationEnum.PFS, patientID, pageable);
         List<ExaminationEntity> examinationEntities = examinationEntityPage.getContent();
 
         List<PatientPFSExamResponseDTO> results = new ArrayList<>();

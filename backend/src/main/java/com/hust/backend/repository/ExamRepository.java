@@ -17,7 +17,7 @@ import java.util.Optional;
 public interface ExamRepository extends JpaRepository<ExaminationEntity, String> {
     List<ExaminationEntity> findAllByAppIdAndPatientId(ApplicationEnum appId, String patientId);
 
-    Page<ExaminationEntity> findAllByAppIdAndPatientId(ApplicationEnum appId, String patientId, Pageable pageable);
+    Page<ExaminationEntity> findAllByAppIdAndPatientIdOrderByCreatedAtDesc(ApplicationEnum appId, String patientId, Pageable pageable);
 
     Page<ExaminationEntity> findAllByAppIdOrderByCreatedAtDesc(ApplicationEnum appId, Pageable pageable);
 
