@@ -164,7 +164,7 @@ function PictureFuzzySetConfig(props) {
 
   return (
     <>
-      <div className="flex-row-fluid mt-5">
+      <div className="col-12 mt-3">
         <form className="card card-custom h-100">
           {loading && <ModalProgressBar />}
 

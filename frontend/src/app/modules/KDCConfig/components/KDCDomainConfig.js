@@ -92,7 +92,7 @@ function KdcDomainConfig(props) {
 
   return (
     <>
-      <div className="flex-row-fluid mt-2">
+      <div className="col-12 mt-3">
         <form className="card card-custom">
           {loading && <ModalProgressBar />}
 

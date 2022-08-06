@@ -13,8 +13,8 @@ function KdcConfigPage(props) {
   const [loading, setLoading] = useState(false);
 
   return (
-    <>
-      <div className="d-flex flex-row mb-5">
+    <div className={"container-fluid px-0"}>
+      <div className="row px-0 mb-5">
         {/*BEGIN:: hedge config card*/}
         <KDCHedgeConfigCard
           rerender={rerender}
@@ -31,12 +31,12 @@ function KdcConfigPage(props) {
         />
         {/* END:: linguistic table domain */}
       </div>
-      <div className="d-flex flex-row mt-5">
+      <div className="row px-0 mt-5">
         {/* BEGIN:: domain */}
         <KDCDomainConfig />
         {/* END:: domain */}
       </div>
-    </>
+    </div>
   );
 }
 

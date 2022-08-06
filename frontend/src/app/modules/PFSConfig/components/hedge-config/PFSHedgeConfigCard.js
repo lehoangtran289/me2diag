@@ -104,7 +104,7 @@ function PFSHedgeConfigCard({ loading, setLoading, rerender, setRerender, ...pro
 
   return (
     <div
-      className="flex-row-auto offcanvas-mobile w-550px w-xxl-650px"
+      className="col-lg-6 col-sm-12"
     >
       <form className="card card-custom h-100" onSubmit={formik.handleSubmit}>
         {loading && <ModalProgressBar />}
