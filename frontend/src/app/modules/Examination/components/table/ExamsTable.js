@@ -133,7 +133,7 @@ function ExamsTable({ exams, paging, query, setQuery, listLoading, setListLoadin
       align: "center",
       headerAlign: "center",
       formatter: (cellContent, row, rowIndex) => {
-        return <>{`${new Date(cellContent).toLocaleDateString()}`}</>
+        return <>{`${new Date(cellContent).toLocaleDateString('en-GB')}`}</>
       }
     },
     {

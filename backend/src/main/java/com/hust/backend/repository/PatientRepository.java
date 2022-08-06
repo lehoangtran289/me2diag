@@ -23,7 +23,7 @@ public interface PatientRepository extends JpaRepository<PatientEntity, String> 
             "or (p.name LIKE CONCAT('%',:query,'%') " +
             "or p.email LIKE CONCAT('%',:query,'%') " +
             "or p.phoneNo LIKE CONCAT('%',:query,'%'))) " +
-            "and (:gender is null or LOWER(p.gender) = LOWER(:#{#gender}))")
+            "and (:gender is null or LOWER(p.gender) = LOWER(:#{#gender})) ORDER BY p.createdAt DESC")
     Page<PatientEntity> findAllPatients(@Param("query") String query, @Param("gender") String gender, Pageable pageable);
 
     Page<PatientEntity> findByNameContainingOrEmailContainingOrPhoneNoContaining(String query, String query1, String query2, Pageable pageable);

@@ -111,402 +111,392 @@ export function UserNotificationsDropdown() {
                         Events
                       </Nav.Link>
                     </Nav.Item>
-                    <Nav.Item as="li">
-                      <Nav.Link
-                        eventKey="Logs"
-                        className={`nav-link show ${
-                          key === "Logs" ? "active" : ""
-                        }`}
-                      >
-                        Logs
-                      </Nav.Link>
-                    </Nav.Item>
                   </Nav>
 
-                  <Tab.Content className="tab-content">
-                    <Tab.Pane eventKey="Alerts" className="p-8">
-                      <PerfectScrollbar
-                        options={perfectScrollbarOptions}
-                        className="scroll pr-7 mr-n7"
-                        style={{ maxHeight: "300px", position: "relative" }}
-                      >
-                        <div className="d-flex align-items-center mb-6">
-                          <div className="symbol symbol-40 symbol-light-primary mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={toAbsoluteUrl(
-                                  "/media/svg/icons/Home/Library.svg"
-                                )}
-                                className="svg-icon-lg svg-icon-primary"
-                              ></SVG>
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a
-                              href="#"
-                              className="text-dark text-hover-primary mb-1 font-size-lg"
-                            >
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">
-                              PHP, SQLite, Artisan CLIмм
-                            </span>
-                          </div>
-                        </div>
-                        <div className="d-flex align-items-center mb-6">
-                          <div className="symbol symbol-40 symbol-light-warning mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={toAbsoluteUrl(
-                                  "/media/svg/icons/Communication/Write.svg"
-                                )}
-                                className="svg-icon-lg svg-icon-warning"
-                              ></SVG>
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a
-                              href="#"
-                              className="text-dark-75 text-hover-primary mb-1 font-size-lg"
-                            >
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">
-                              PHP, SQLite, Artisan CLIмм
-                            </span>
-                          </div>
-                        </div>
-                        <div className="d-flex align-items-center mb-6">
-                          <div className="symbol symbol-40 symbol-light-success mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={toAbsoluteUrl(
-                                  "/media/svg/icons/Communication/Group-chat.svg"
-                                )}
-                                className="svg-icon-lg svg-icon-success"
-                              ></SVG>
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a
-                              href="#"
-                              className="text-dark text-hover-primary mb-1 font-size-lg"
-                            >
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">
-                              PHP, SQLite, Artisan CLIмм
-                            </span>
-                          </div>
-                        </div>
-                        <div className="d-flex align-items-center mb-6">
-                          <div className="symbol symbol-40 symbol-light-danger mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={toAbsoluteUrl(
-                                  "/media/svg/icons/General/Attachment2.svg"
-                                )}
-                                className="svg-icon-lg svg-icon-danger"
-                              ></SVG>
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a
-                              href="#"
-                              className="text-dark text-hover-primary mb-1 font-size-lg"
-                            >
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">
-                              PHP, SQLite, Artisan CLIмм
-                            </span>
-                          </div>
-                        </div>
-                        <div className="d-flex align-items-center mb-2">
-                          <div className="symbol symbol-40 symbol-light-info mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={toAbsoluteUrl(
-                                  "/media/svg/icons/General/Attachment2.svg"
-                                )}
-                                className="svg-icon-lg svg-icon-info"
-                              ></SVG>
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a
-                              href="#"
-                              className="text-dark text-hover-primary mb-1 font-size-lg"
-                            >
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">
-                              PHP, SQLite, Artisan CLIмм
-                            </span>
-                          </div>
-                        </div>
-                        <div className="d-flex align-items-center mb-2">
-                          <div className="symbol symbol-40 symbol-light-info mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={toAbsoluteUrl(
-                                  "/media/svg/icons/Communication/Mail-notification.svg"
-                                )}
-                                className="svg-icon-lg svg-icon-info"
-                              ></SVG>
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a
-                              href="#"
-                              className="text-dark text-hover-primary mb-1 font-size-lg"
-                            >
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">
-                              PHP, SQLite, Artisan CLIмм
-                            </span>
-                          </div>
-                        </div>
-                        <div className="d-flex align-items-center mb-2">
-                          <div className="symbol symbol-40 symbol-light-info mr-5">
-                            <span className="symbol-label">
-                              <SVG
-                                src={toAbsoluteUrl(
-                                  "/media/svg/icons/Design/Bucket.svg"
-                                )}
-                                className="svg-icon-lg svg-icon-info"
-                              ></SVG>
-                            </span>
-                          </div>
-                          <div className="d-flex flex-column font-weight-bold">
-                            <a
-                              href="#"
-                              className="text-dark text-hover-primary mb-1 font-size-lg"
-                            >
-                              Briviba SaaS
-                            </a>
-                            <span className="text-muted">
-                              PHP, SQLite, Artisan CLIмм
-                            </span>
-                          </div>
-                        </div>
-                      </PerfectScrollbar>
-                    </Tab.Pane>
-                    <Tab.Pane
-                      eventKey="Events"
-                      id="topbar_notifications_events"
-                    >
-                      <PerfectScrollbar
-                        options={perfectScrollbarOptions}
-                        className="navi navi-hover scroll my-4"
-                        style={{ maxHeight: "300px", position: "relative" }}
-                      >
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-line-chart text-success"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                New report has been received
-                              </div>
-                              <div className="text-muted">23 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*<Tab.Content className="tab-content">*/}
+                  {/*  <Tab.Pane eventKey="Alerts" className="p-8">*/}
+                  {/*    <PerfectScrollbar*/}
+                  {/*      options={perfectScrollbarOptions}*/}
+                  {/*      className="scroll pr-7 mr-n7"*/}
+                  {/*      style={{ maxHeight: "300px", position: "relative" }}*/}
+                  {/*    >*/}
+                  {/*      <div className="d-flex align-items-center mb-6">*/}
+                  {/*        <div className="symbol symbol-40 symbol-light-primary mr-5">*/}
+                  {/*          <span className="symbol-label">*/}
+                  {/*            <SVG*/}
+                  {/*              src={toAbsoluteUrl(*/}
+                  {/*                "/media/svg/icons/Home/Library.svg"*/}
+                  {/*              )}*/}
+                  {/*              className="svg-icon-lg svg-icon-primary"*/}
+                  {/*            ></SVG>*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*        <div className="d-flex flex-column font-weight-bold">*/}
+                  {/*          <a*/}
+                  {/*            href="#"*/}
+                  {/*            className="text-dark text-hover-primary mb-1 font-size-lg"*/}
+                  {/*          >*/}
+                  {/*            Briviba SaaS*/}
+                  {/*          </a>*/}
+                  {/*          <span className="text-muted">*/}
+                  {/*            PHP, SQLite, Artisan CLIмм*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*      </div>*/}
+                  {/*      <div className="d-flex align-items-center mb-6">*/}
+                  {/*        <div className="symbol symbol-40 symbol-light-warning mr-5">*/}
+                  {/*          <span className="symbol-label">*/}
+                  {/*            <SVG*/}
+                  {/*              src={toAbsoluteUrl(*/}
+                  {/*                "/media/svg/icons/Communication/Write.svg"*/}
+                  {/*              )}*/}
+                  {/*              className="svg-icon-lg svg-icon-warning"*/}
+                  {/*            ></SVG>*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*        <div className="d-flex flex-column font-weight-bold">*/}
+                  {/*          <a*/}
+                  {/*            href="#"*/}
+                  {/*            className="text-dark-75 text-hover-primary mb-1 font-size-lg"*/}
+                  {/*          >*/}
+                  {/*            Briviba SaaS*/}
+                  {/*          </a>*/}
+                  {/*          <span className="text-muted">*/}
+                  {/*            PHP, SQLite, Artisan CLIмм*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*      </div>*/}
+                  {/*      <div className="d-flex align-items-center mb-6">*/}
+                  {/*        <div className="symbol symbol-40 symbol-light-success mr-5">*/}
+                  {/*          <span className="symbol-label">*/}
+                  {/*            <SVG*/}
+                  {/*              src={toAbsoluteUrl(*/}
+                  {/*                "/media/svg/icons/Communication/Group-chat.svg"*/}
+                  {/*              )}*/}
+                  {/*              className="svg-icon-lg svg-icon-success"*/}
+                  {/*            ></SVG>*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*        <div className="d-flex flex-column font-weight-bold">*/}
+                  {/*          <a*/}
+                  {/*            href="#"*/}
+                  {/*            className="text-dark text-hover-primary mb-1 font-size-lg"*/}
+                  {/*          >*/}
+                  {/*            Briviba SaaS*/}
+                  {/*          </a>*/}
+                  {/*          <span className="text-muted">*/}
+                  {/*            PHP, SQLite, Artisan CLIмм*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*      </div>*/}
+                  {/*      <div className="d-flex align-items-center mb-6">*/}
+                  {/*        <div className="symbol symbol-40 symbol-light-danger mr-5">*/}
+                  {/*          <span className="symbol-label">*/}
+                  {/*            <SVG*/}
+                  {/*              src={toAbsoluteUrl(*/}
+                  {/*                "/media/svg/icons/General/Attachment2.svg"*/}
+                  {/*              )}*/}
+                  {/*              className="svg-icon-lg svg-icon-danger"*/}
+                  {/*            ></SVG>*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*        <div className="d-flex flex-column font-weight-bold">*/}
+                  {/*          <a*/}
+                  {/*            href="#"*/}
+                  {/*            className="text-dark text-hover-primary mb-1 font-size-lg"*/}
+                  {/*          >*/}
+                  {/*            Briviba SaaS*/}
+                  {/*          </a>*/}
+                  {/*          <span className="text-muted">*/}
+                  {/*            PHP, SQLite, Artisan CLIмм*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*      </div>*/}
+                  {/*      <div className="d-flex align-items-center mb-2">*/}
+                  {/*        <div className="symbol symbol-40 symbol-light-info mr-5">*/}
+                  {/*          <span className="symbol-label">*/}
+                  {/*            <SVG*/}
+                  {/*              src={toAbsoluteUrl(*/}
+                  {/*                "/media/svg/icons/General/Attachment2.svg"*/}
+                  {/*              )}*/}
+                  {/*              className="svg-icon-lg svg-icon-info"*/}
+                  {/*            ></SVG>*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*        <div className="d-flex flex-column font-weight-bold">*/}
+                  {/*          <a*/}
+                  {/*            href="#"*/}
+                  {/*            className="text-dark text-hover-primary mb-1 font-size-lg"*/}
+                  {/*          >*/}
+                  {/*            Briviba SaaS*/}
+                  {/*          </a>*/}
+                  {/*          <span className="text-muted">*/}
+                  {/*            PHP, SQLite, Artisan CLIмм*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*      </div>*/}
+                  {/*      <div className="d-flex align-items-center mb-2">*/}
+                  {/*        <div className="symbol symbol-40 symbol-light-info mr-5">*/}
+                  {/*          <span className="symbol-label">*/}
+                  {/*            <SVG*/}
+                  {/*              src={toAbsoluteUrl(*/}
+                  {/*                "/media/svg/icons/Communication/Mail-notification.svg"*/}
+                  {/*              )}*/}
+                  {/*              className="svg-icon-lg svg-icon-info"*/}
+                  {/*            ></SVG>*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*        <div className="d-flex flex-column font-weight-bold">*/}
+                  {/*          <a*/}
+                  {/*            href="#"*/}
+                  {/*            className="text-dark text-hover-primary mb-1 font-size-lg"*/}
+                  {/*          >*/}
+                  {/*            Briviba SaaS*/}
+                  {/*          </a>*/}
+                  {/*          <span className="text-muted">*/}
+                  {/*            PHP, SQLite, Artisan CLIмм*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*      </div>*/}
+                  {/*      <div className="d-flex align-items-center mb-2">*/}
+                  {/*        <div className="symbol symbol-40 symbol-light-info mr-5">*/}
+                  {/*          <span className="symbol-label">*/}
+                  {/*            <SVG*/}
+                  {/*              src={toAbsoluteUrl(*/}
+                  {/*                "/media/svg/icons/Design/Bucket.svg"*/}
+                  {/*              )}*/}
+                  {/*              className="svg-icon-lg svg-icon-info"*/}
+                  {/*            ></SVG>*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*        <div className="d-flex flex-column font-weight-bold">*/}
+                  {/*          <a*/}
+                  {/*            href="#"*/}
+                  {/*            className="text-dark text-hover-primary mb-1 font-size-lg"*/}
+                  {/*          >*/}
+                  {/*            Briviba SaaS*/}
+                  {/*          </a>*/}
+                  {/*          <span className="text-muted">*/}
+                  {/*            PHP, SQLite, Artisan CLIмм*/}
+                  {/*          </span>*/}
+                  {/*        </div>*/}
+                  {/*      </div>*/}
+                  {/*    </PerfectScrollbar>*/}
+                  {/*  </Tab.Pane>*/}
+                  {/*  <Tab.Pane*/}
+                  {/*    eventKey="Events"*/}
+                  {/*    id="topbar_notifications_events"*/}
+                  {/*  >*/}
+                  {/*    <PerfectScrollbar*/}
+                  {/*      options={perfectScrollbarOptions}*/}
+                  {/*      className="navi navi-hover scroll my-4"*/}
+                  {/*      style={{ maxHeight: "300px", position: "relative" }}*/}
+                  {/*    >*/}
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon2-line-chart text-success"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              New report has been received*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">23 hrs ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-paper-plane text-danger"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                Finance report has been generated
-                              </div>
-                              <div className="text-muted">25 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon2-paper-plane text-danger"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              Finance report has been generated*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">25 hrs ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-user flaticon2-line- text-success"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                New order has been received
-                              </div>
-                              <div className="text-muted">2 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon2-user flaticon2-line- text-success"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              New order has been received*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">2 hrs ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-pin text-primary"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                New customer is registered
-                              </div>
-                              <div className="text-muted">3 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon2-pin text-primary"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              New customer is registered*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">3 hrs ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-sms text-danger"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                Application has been approved
-                              </div>
-                              <div className="text-muted">3 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon2-sms text-danger"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              Application has been approved*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">3 hrs ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-pie-chart-3 text-warning"></i>
-                            </div>
-                            <div className="navinavinavi-text">
-                              <div className="font-weight-bold">
-                                New file has been uploaded
-                              </div>
-                              <div className="text-muted">5 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon2-pie-chart-3 text-warning"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navinavinavi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              New file has been uploaded*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">5 hrs ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon-pie-chart-1 text-info"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                New user feedback received
-                              </div>
-                              <div className="text-muted">8 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon-pie-chart-1 text-info"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              New user feedback received*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">8 hrs ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-settings text-success"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                System reboot has been successfully completed
-                              </div>
-                              <div className="text-muted">12 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon2-settings text-success"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              System reboot has been successfully completed*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">12 hrs ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon-safe-shield-protection text-primary"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                New order has been placed
-                              </div>
-                              <div className="text-muted">15 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon-safe-shield-protection text-primary"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              New order has been placed*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">15 hrs ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-notification text-primary"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                Company meeting canceled
-                              </div>
-                              <div className="text-muted">19 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon2-notification text-primary"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              Company meeting canceled*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">19 hrs ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-fax text-success"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                New report has been received
-                              </div>
-                              <div className="text-muted">23 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon2-fax text-success"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              New report has been received*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">23 hrs ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon-download-1 text-danger"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                Finance report has been generated
-                              </div>
-                              <div className="text-muted">25 hrs ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon-download-1 text-danger"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              Finance report has been generated*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">25 hrs ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon-security text-warning"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                New customer comment recieved
-                              </div>
-                              <div className="text-muted">2 days ago</div>
-                            </div>
-                          </div>
-                        </a>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon-security text-warning"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              New customer comment recieved*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">2 days ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
 
-                        <a href="#" className="navi-item">
-                          <div className="navi-link">
-                            <div className="navi-icon mr-2">
-                              <i className="flaticon2-analytics-1 text-success"></i>
-                            </div>
-                            <div className="navi-text">
-                              <div className="font-weight-bold">
-                                New customer is registered
-                              </div>
-                              <div className="text-muted">3 days ago</div>
-                            </div>
-                          </div>
-                        </a>
-                      </PerfectScrollbar>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="Logs" id="topbar_notifications_logs">
-                      <div className="d-flex flex-center text-center text-muted min-h-200px">
-                        All caught up!
-                        <br />
-                        No new notifications.
-                      </div>
-                    </Tab.Pane>
-                  </Tab.Content>
+                  {/*      <a href="#" className="navi-item">*/}
+                  {/*        <div className="navi-link">*/}
+                  {/*          <div className="navi-icon mr-2">*/}
+                  {/*            <i className="flaticon2-analytics-1 text-success"></i>*/}
+                  {/*          </div>*/}
+                  {/*          <div className="navi-text">*/}
+                  {/*            <div className="font-weight-bold">*/}
+                  {/*              New customer is registered*/}
+                  {/*            </div>*/}
+                  {/*            <div className="text-muted">3 days ago</div>*/}
+                  {/*          </div>*/}
+                  {/*        </div>*/}
+                  {/*      </a>*/}
+                  {/*    </PerfectScrollbar>*/}
+                  {/*  </Tab.Pane>*/}
+                  {/*  <Tab.Pane eventKey="Logs" id="topbar_notifications_logs">*/}
+                  {/*    <div className="d-flex flex-center text-center text-muted min-h-200px">*/}
+                  {/*      All caught up!*/}
+                  {/*      <br />*/}
+                  {/*      No new notifications.*/}
+                  {/*    </div>*/}
+                  {/*  </Tab.Pane>*/}
+                  {/*</Tab.Content>*/}
                 </Tab.Container>
               </div>
             </form>

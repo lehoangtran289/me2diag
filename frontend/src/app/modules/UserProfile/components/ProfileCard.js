@@ -22,8 +22,7 @@ export function ProfileCard() {
     <>
       {user && (
         <div
-          className="flex-row-auto offcanvas-mobile w-250px w-xxl-350px"
-          id="kt_profile_aside"
+          className="col-lg-4 col-sm-12 mb-md-0 mb-sm-5"
         >
           <div className="card card-custom card-stretch">
             {/* begin::Body */}

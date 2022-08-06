@@ -20,40 +20,42 @@ function PatientDetailPage({ ...props }) {
   });
 
   return (
-    <div className="d-flex flex-row">
-      <PatientCard
-        rerender={rerender}
-        setRerender={setRerender}
-        loading={loading}
-        setLoading={setLoading}
-        {...props}
-      />
-      <div className="flex-row-fluid ml-lg-8">
-        <Switch>
-          <Redirect
-            from={`${url}`}
-            exact={true}
-            to={`${url}/diagnose/pfs`}
-          />
-          <ContentRoute path={`${url}/diagnose/pfs`} children={({ match }) => {
-            return (
-              <PFSDiagnosis patientId={patientId} {...props} />
-            );
-          }} />
-          <ContentRoute path={`${url}/diagnose/kdc`} children={({ match }) => {
-            return (
-              <KDCDiagnosis patientId={patientId} {...props} />
-            );
-          }} />
-          <ContentRoute path={`${url}/exams`} children={({ match }) => {
-            return (
-              <PatientExamsPage patientId={patientId}
-                                 rerenderFlag={rerender}
-                                 setRerenderFlag={setRerender}
-                                 {...props} />
-            );
-          }} />
-        </Switch>
+    <div className="container-fluid px-0">
+      <div className={"row px-0"}>
+        <PatientCard
+          rerender={rerender}
+          setRerender={setRerender}
+          loading={loading}
+          setLoading={setLoading}
+          {...props}
+        />
+        <div className="col-lg-8 col-sm-12">
+          <Switch>
+            <Redirect
+              from={`${url}`}
+              exact={true}
+              to={`${url}/diagnose/pfs`}
+            />
+            <ContentRoute path={`${url}/diagnose/pfs`} children={({ match }) => {
+              return (
+                <PFSDiagnosis patientId={patientId} {...props} />
+              );
+            }} />
+            <ContentRoute path={`${url}/diagnose/kdc`} children={({ match }) => {
+              return (
+                <KDCDiagnosis patientId={patientId} {...props} />
+              );
+            }} />
+            <ContentRoute path={`${url}/exams`} children={({ match }) => {
+              return (
+                <PatientExamsPage patientId={patientId}
+                                  rerenderFlag={rerender}
+                                  setRerenderFlag={setRerender}
+                                  {...props} />
+              );
+            }} />
+          </Switch>
+        </div>
       </div>
     </div>
   );

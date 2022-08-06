@@ -68,7 +68,7 @@ export const editPatient = (id, patient) => {
   formData.append('name', patient.name);
   formData.append('phoneNo', patient.phoneNo);
   formData.append('email', patient.email);
-  formData.append('birthDate', patient.birthDate ? new Date(patient.birthDate).toLocaleDateString() : null);
+  formData.append('birthDate', patient.birthDate ? new Date(patient.birthDate).toLocaleDateString('en-GB') : null);
   formData.append('address', patient.address)
   formData.append('gender', patient.gender);
 
@@ -93,7 +93,7 @@ export const createNewPatient = (patient) => {
   formData.append('phoneNo', patient.phoneNo);
   formData.append('email', patient.email);
   formData.append('address', patient.address)
-  formData.append('birthDate', patient.birthDate ? new Date(patient.birthDate).toLocaleDateString() : null);
+  formData.append('birthDate', patient.birthDate ? new Date(patient.birthDate).toLocaleDateString('en-GB') : null);
   formData.append('gender', patient.gender);
 
   if (patient.avatar)

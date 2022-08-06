@@ -10,15 +10,15 @@ function PfsConfigPage(props) {
   })
 
   return (
-    <>
-      <div className="d-flex flex-row mb-5">
+    <div className={"container-fluid px-0"}>
+      <div className="row px-0 mb-5">
         {/*BEGIN:: hedge config card*/}
         <PFSHedgeConfig/>
       </div>
-      <div className="d-flex flex-row mt-5">
+      <div className="row px-0 mt-5">
         <PictureFuzzySetConfig/>
       </div>
-    </>
+    </div>
   );
 }
 

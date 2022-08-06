@@ -64,7 +64,7 @@ function KDCLinguisticDomainTable({ rerender, loading, setLoading, ...props }) {
   // BEGIN TABLE COLUMN CONFIG-----------------------------------------
 
   return (
-    <div className="flex-row-fluid ml-lg-8">
+    <div className="col-lg-6 col-sm-12 mt-lg-0 mt-sm-5">
       <Card className={"mb-0 h-100"}>
         <CardHeader title={"1. All KDC linguistic domain settings"}>
         </CardHeader>
