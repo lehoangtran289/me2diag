@@ -6,7 +6,11 @@ import { getPatientDetail } from "../../_redux/patientCrud";
 import { toastify } from "../../../../utils/toastUtils";
 import { getAge } from "../../../../utils/dateUtils";
 import { Dropdown } from "react-bootstrap";
-import { DropdownCustomToggler, DropdownMenu4 } from "../../../../../_metronic/_partials/dropdowns";
+import {
+  DropdownCustomToggler,
+  DropdownMenu1, DropdownMenu2, DropdownMenu3,
+  DropdownMenu4
+} from "../../../../../_metronic/_partials/dropdowns";
 
 function PatientCard({ ...props }) {
   const [patient, setPatient] = useState({});
