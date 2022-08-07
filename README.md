@@ -3,10 +3,20 @@
 ## How to contribute?
 Please read our [CONTRIBUTING](https://github.com/lehoangtran289/gr/blob/develop/CONTRIBUTING.md) document.
 
+## Build
+Use this directions if you want to build the source on your machine
+If you just want to run the system, see "Run the code"
+
+>Note: you should initiate .env file in order to build.
+
 ### Setup backend:
+Prerequisite: `openjdk-11` and `maven`
 ```bash
-# start backend server and required services
-docker-compose up
+# start MariaDB, Minio storage, Python Flask model.
+docker-compose up -f docker-compose.local.yml
+
+cd backend/
+mvn spring-boot:run
 ```
 
 ### Setup frontend: 
@@ -22,7 +32,7 @@ npm i
 ```
 
 In case you do not use docker, run this command to start frontend server (port 3000) <br>
-Then open [http://localhost:3000](http://localhost:3000) to view it in the browser. You should first register an account in login page.
+Then open [http://localhost:3000](http://localhost:3000) to view it in the browser. You should first register an account in database :D
 ```bash
 # start frontend (in case you do not use docker)
 npm run start
@@ -34,6 +44,12 @@ cd frontend/
 
 # start frontend server (port 3000)
 docker-compose up
+```
+
+## Run the code
+```bash
+# Build with docker compose 
+docker-compose -f docker-compose.prod.yml up --build
 ```
 
 ## FAQ
