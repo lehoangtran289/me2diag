@@ -53,7 +53,7 @@ function PatientPage(props) {
         }}/>
       </Switch>
 
-      {/*TODO: workaround this routing since url/:patientId ~ url/new :<*/}
+      {/*workaround this routing since url/:patientId ~ url/new :<*/}
       <Switch>
         <ContentRoute exact path={`${url}/:patientId`} render={() => {
           if (location.pathname === `${url}/new`)

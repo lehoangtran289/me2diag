@@ -143,9 +143,6 @@ function KDCHedgeConfigCard({rerender, setRerender, loading, setLoading, ...prop
             <button
               type="submit"
               className="btn btn-success mr-2"
-              disabled={
-                formik.isSubmitting || (formik.touched && !formik.isValid)
-              }
             >
               Save Changes
               {formik.isSubmitting}

@@ -12,7 +12,7 @@ import KDCTypeColumnFormatter from "../../column-formatters/KDCTypeColumnFormatt
 import KDCValueColumnFormatter from "../../column-formatters/KDCValueColumnFormatter";
 import KDCResultFormatter from "../../column-formatters/KDCResultFormatter";
 
-const icdData = [
+export const icdData = [
   { code: "N00", name: "None", description: "No disease found" },
   { code: "N04", name: "Nephrotic syndrome", description: "Congenital nephrotic syndrome and lipoid nephrosis" },
   { code: "N17", name: "Acute renal failure", description: "Acute renal impairment" },
@@ -273,7 +273,7 @@ function KdcDiagnosis({ patientId, ...props }) {
               classes="table table-head-custom table-vertical-center overflow-hidden"
               bootstrap4
               bordered={true}
-              keyField={"symptom"}
+              keyField={"field"}
               data={KDCData ? KDCData : []}
               columns={symptomTableColumns}
             >

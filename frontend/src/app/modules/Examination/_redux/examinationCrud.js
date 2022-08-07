@@ -7,3 +7,8 @@ export const getAllExaminations = (params) => {
     params: params
   });
 }
+
+export const getExamination = (examId) => {
+  const GET_EXAM_DETAIL = BACKEND_ORIGIN + `examinations/` + examId;
+  return axios.get(GET_EXAM_DETAIL);
+}
