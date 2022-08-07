@@ -160,22 +160,37 @@ CREATE TABLE `pfs_examination_result`
     PRIMARY KEY (examination_id, diagnose)
 );
 
+# alter table `kdc_examination_result`
+#     modify `LY_value` VARCHAR(50),
+#     modify `NE_value` VARCHAR(50),
+#     modify `RBC_value` VARCHAR(50),
+#     modify `HGB_value` VARCHAR(50),
+#     modify `HCT_value` VARCHAR(50),
+#     modify `PLT_value` VARCHAR(50),
+#     modify `NA_value` VARCHAR(50),
+#     modify `K_value` VARCHAR(50),
+#     modify `Total_Protein_value` VARCHAR(50),
+#     modify `Albumin_value` VARCHAR(50),
+#     modify `Ure_value` VARCHAR(50),
+#     modify `Creatinin_value` VARCHAR(50);
+
+
 CREATE TABLE `kdc_examination_result`
 (
     `examination_id`      VARCHAR(50) PRIMARY KEY NOT NULL,
-    `WBC_value`           DOUBLE,
-    `LY_value`            DOUBLE,
-    `NE_value`            DOUBLE,
-    `RBC_value`           DOUBLE,
-    `HGB_value`           DOUBLE,
-    `HCT_value`           DOUBLE,
-    `PLT_value`           DOUBLE,
-    `NA_value`            DOUBLE,
-    `K_value`             DOUBLE,
-    `Total_Protein_value` DOUBLE,
-    `Albumin_value`       DOUBLE,
-    `Ure_value`           DOUBLE,
-    `Creatinin_value`     DOUBLE,
+    `WBC_value`           VARCHAR(50),
+    `LY_value`            VARCHAR(50),
+    `NE_value`            VARCHAR(50),
+    `RBC_value`           VARCHAR(50),
+    `HGB_value`           VARCHAR(50),
+    `HCT_value`           VARCHAR(50),
+    `PLT_value`           VARCHAR(50),
+    `NA_value`            VARCHAR(50),
+    `K_value`             VARCHAR(50),
+    `Total_Protein_value` VARCHAR(50),
+    `Albumin_value`       VARCHAR(50),
+    `Ure_value`           VARCHAR(50),
+    `Creatinin_value`     VARCHAR(50),
     `result`              VARCHAR(50)
 );
 

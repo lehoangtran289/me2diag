@@ -81,7 +81,6 @@ public class KDCServiceImpl implements KDCService {
                 .patientId(request.getPatientId())
                 .build());
 
-
         // build inputs & call to Flask service for disease classification
         KDCModelInputRequestDTO data = buildInputDataModel(request);
         KDCResultEnum result = KDCResultEnum.from(kdcModelService.predictDisease(data));
@@ -90,19 +89,19 @@ public class KDCServiceImpl implements KDCService {
         // save to kdcExamResultRepository
         examResultRepository.save(KDCExamResultEntity.builder()
                 .examinationId(examinationId)
-                .wbc(data.getWBC())
-                .ly(data.getLY())
-                .ne(data.getNE())
-                .rbc(data.getRBC())
-                .hgb(data.getHGB())
-                .hct(data.getHCT())
-                .plt(data.getPLT())
-                .na(data.getNa())
-                .k(data.getK())
-                .totalProtein(data.getTotalProtein())
-                .albumin(data.getAlbumin())
-                .ure(data.getUre())
-                .creatinin(data.getCreatinin())
+                .wbc(request.getWBC() + "")
+                .ly(request.getLY() + "")
+                .ne(request.getNE() + "")
+                .rbc(request.getRBC() + "")
+                .hgb(request.getHGB() + "")
+                .hct(request.getHCT() + "")
+                .plt(request.getPLT() + "")
+                .na(request.getNa() + "")
+                .k(request.getK() + "")
+                .totalProtein(request.getTotalProtein() + "")
+                .albumin(request.getAlbumin() + "")
+                .ure(request.getUre() + "")
+                .creatinin(request.getCreatinin() + "")
                 .result(result)
                 .build());
 

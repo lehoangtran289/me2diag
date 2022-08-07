@@ -28,19 +28,19 @@ public class KDCResultResponseDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class KDCResultDTO {
-        private Double wbc;
-        private Double ly;
-        private Double ne;
-        private Double rbc;
-        private Double hgb;
-        private Double hct;
-        private Double plt;
-        private Double na;
-        private Double k;
-        private Double totalProtein;
-        private Double albumin;
-        private Double ure;
-        private Double creatinin;
+        private String wbc;
+        private String ly;
+        private String ne;
+        private String rbc;
+        private String hgb;
+        private String hct;
+        private String plt;
+        private String na;
+        private String k;
+        private String totalProtein;
+        private String albumin;
+        private String ure;
+        private String creatinin;
         private KDCResultEnum result;
     }
 }
