@@ -18,43 +18,43 @@ public class KDCExamResultEntity {
     private String examinationId;
 
     @Column(name = "WBC_value")
-    private Double wbc;
+    private String wbc;
 
     @Column(name = "LY_value")
-    private Double ly;
+    private String ly;
 
     @Column(name = "NE_value")
-    private Double ne;
+    private String ne;
 
     @Column(name = "RBC_value")
-    private Double rbc;
+    private String rbc;
 
     @Column(name = "HGB_value")
-    private Double hgb;
+    private String hgb;
 
     @Column(name = "HCT_value")
-    private Double hct;
+    private String hct;
 
     @Column(name = "PLT_value")
-    private Double plt;
+    private String plt;
 
     @Column(name = "NA_value")
-    private Double na;
+    private String na;
 
     @Column(name = "K_value")
-    private Double k;
+    private String k;
 
     @Column(name = "Total_Protein_value")
-    private Double totalProtein;
+    private String totalProtein;
 
     @Column(name = "Albumin_value")
-    private Double albumin;
+    private String albumin;
 
     @Column(name = "Ure_value")
-    private Double ure;
+    private String ure;
 
     @Column(name = "Creatinin_value")
-    private Double creatinin;
+    private String creatinin;
 
     @Column(name = "result")
     @Enumerated(EnumType.STRING)

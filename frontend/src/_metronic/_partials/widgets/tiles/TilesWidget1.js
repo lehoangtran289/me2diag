@@ -56,7 +56,7 @@ export function TilesWidget1({ className, chartColor = "danger" }) {
           <div className="card-title">
             <div className="card-label">
               <div className="font-weight-bolder">Medical Diagnosis Stats</div>
-              <div className="font-size-sm text-muted mt-2">890,344 Sales</div>
+              {/*<div className="font-size-sm text-muted mt-2">890,344 Sales</div>*/}
             </div>
           </div>
           <div className="card-toolbar">
@@ -87,102 +87,6 @@ export function TilesWidget1({ className, chartColor = "danger" }) {
           />
           {/* end::Chart */}
 
-          {/* begin::Items */}
-          <div className="flex-grow-1 card-spacer-x">
-            {/* begin::Item */}
-            <div className="d-flex align-items-center justify-content-between mb-10">
-              <div className="d-flex align-items-center mr-2">
-                <div className="symbol symbol-50 symbol-light mr-3 flex-shrink-0">
-                  <div className="symbol-label">
-                    <span className="svg-icon">
-                      <SVG
-                        className=" h-50"
-                        src={toAbsoluteUrl("/media/svg/misc/006-plurk.svg")}
-                      ></SVG>
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <a
-                    href="#"
-                    className="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder"
-                  >
-                    Top Authors
-                  </a>
-                  <div className="font-size-sm text-muted font-weight-bold mt-1">
-                    Ricky Hunt, Sandra Trepp
-                  </div>
-                </div>
-              </div>
-              <div className="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">
-                +105$
-              </div>
-            </div>
-            {/* end::Item */}
-
-            {/* begin::Item */}
-            <div className="d-flex align-items-center justify-content-between mb-10">
-              <div className="d-flex align-items-center mr-2">
-                <div className="symbol symbol-50 symbol-light mr-3 flex-shrink-0">
-                  <div className="symbol-label">
-                    <span className="svg-icon">
-                      <SVG
-                        className=" h-50"
-                        src={toAbsoluteUrl("/media/svg/misc/015-telegram.svg")}
-                      ></SVG>
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <a
-                    href="#"
-                    className="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder"
-                  >
-                    Bestsellers
-                  </a>
-                  <div className="font-size-sm text-muted font-weight-bold mt-1">
-                    Pitstop Email Marketing
-                  </div>
-                </div>
-              </div>
-              <div className="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">
-                +60$
-              </div>
-            </div>
-            {/* end::Item */}
-
-            {/* begin::Item */}
-            <div className="d-flex align-items-center justify-content-between">
-              <div className="d-flex align-items-center mr-2">
-                <div className="symbol symbol-50 symbol-light mr-3 flex-shrink-0">
-                  <div className="symbol-label">
-                    <span className="svg-icon">
-                      <SVG
-                        className=" h-50"
-                        src={toAbsoluteUrl("/media/svg/misc/003-puzzle.svg")}
-                      ></SVG>
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <a
-                    href="#"
-                    className="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder"
-                  >
-                    Top Engagement
-                  </a>
-                  <div className="font-size-sm text-muted font-weight-bold mt-1">
-                    KT.com solution provider
-                  </div>
-                </div>
-              </div>
-              <div className="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">
-                +75$
-              </div>
-            </div>
-            {/* end::Item */}
-          </div>
-          {/* end::Items */}
         </div>
         {/* end::Body */}
       </div>

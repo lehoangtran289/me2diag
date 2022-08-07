@@ -2,6 +2,7 @@ package com.hust.backend.application.KDclassification.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hust.backend.application.KDclassification.constant.KDCResultEnum;
+import com.hust.backend.constant.ApplicationEnum;
 import lombok.*;
 
 import java.util.Date;
@@ -12,10 +13,17 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KDCResultResponseDTO {
+    //
+    private ApplicationEnum applicationId;
     private String examinationId;
+    //
     private String patientId;
     private String patientName;
-    private Date birthDate;
+    private Date patientBirthDate;
+    private String patientPhoneNo;
+    private String patientAddress;
+    private String patientEmail;
+    //
     private String userFullName;
     private String userEmail;
     private KDCResultDTO result;
@@ -28,19 +36,19 @@ public class KDCResultResponseDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class KDCResultDTO {
-        private Double wbc;
-        private Double ly;
-        private Double ne;
-        private Double rbc;
-        private Double hgb;
-        private Double hct;
-        private Double plt;
-        private Double na;
-        private Double k;
-        private Double totalProtein;
-        private Double albumin;
-        private Double ure;
-        private Double creatinin;
+        private String wbc;
+        private String ly;
+        private String ne;
+        private String rbc;
+        private String hgb;
+        private String hct;
+        private String plt;
+        private String na;
+        private String k;
+        private String totalProtein;
+        private String albumin;
+        private String ure;
+        private String creatinin;
         private KDCResultEnum result;
     }
 }

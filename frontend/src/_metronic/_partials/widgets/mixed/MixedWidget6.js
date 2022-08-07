@@ -84,42 +84,7 @@ export function MixedWidget6({ className, chartColor = "danger" }) {
           />
           {/* end::Chart */}
 
-          {/* begin::Stats */}
-          <div className="card-spacer bg-white card-rounded flex-grow-1">
-            {/* begin::Row */}
-            <div className="row m-0">
-              <div className="col px-8 py-6 mr-8">
-                <div className="font-size-sm text-muted font-weight-bold">
-                  Average Sale
-                </div>
-                <div className="font-size-h4 font-weight-bolder">$650</div>
-              </div>
-              <div className="col px-8 py-6">
-                <div className="font-size-sm text-muted font-weight-bold">
-                  Commission
-                </div>
-                <div className="font-size-h4 font-weight-bolder">$233,600</div>
-              </div>
-            </div>
-            {/* end::Row */}
-            {/* begin::Row */}
-            <div className="row m-0">
-              <div className="col px-8 py-6 mr-8">
-                <div className="font-size-sm text-muted font-weight-bold">
-                  Annual Taxes
-                </div>
-                <div className="font-size-h4 font-weight-bolder">$29,004</div>
-              </div>
-              <div className="col px-8 py-6">
-                <div className="font-size-sm text-muted font-weight-bold">
-                  Annual Income
-                </div>
-                <div className="font-size-h4 font-weight-bolder">$1,480,00</div>
-              </div>
-            </div>
-            {/* end::Row */}
-          </div>
-          {/* end::Stats */}
+
         </div>
         {/* end::Body */}
       </div>

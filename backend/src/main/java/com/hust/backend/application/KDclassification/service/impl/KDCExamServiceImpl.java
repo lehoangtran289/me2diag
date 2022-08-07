@@ -31,21 +31,27 @@ public class KDCExamServiceImpl implements KDCExamService {
 
     @Override
     public KDCResultResponseDTO buildExamResult(ExaminationEntity e) {
-        PatientEntity patient = patientRepository.findById(e.getPatientId())
+        PatientEntity patientEntity = patientRepository.findById(e.getPatientId())
                 .orElseThrow(() -> new NotFoundException(PatientEntity.class, e.getPatientId()));
         UserEntity user = userRepository.findById(e.getUserId())
                 .orElseThrow(() -> new NotFoundException(UserEntity.class, e.getUserId()));
         KDCExamResultEntity result = examResultRepository.findById(e.getId())
                 .orElseThrow(() -> new NotFoundException(KDCExamResultEntity.class, e.getId()));
         return KDCResultResponseDTO.builder()
+                .applicationId(e.getAppId())
                 .examinationId(e.getId())
-                .patientId(patient.getId())
-                .patientName(patient.getName())
-                .birthDate(patient.getBirthDate())
-                .userFullName(user.getFirstName() + " " + user.getLastName())
-                .userEmail(user.getEmail())
                 .result(Common.convertObject(result, KDCResultResponseDTO.KDCResultDTO.class))
                 .date(e.getCreatedAt())
+                //
+                .patientName(patientEntity.getName())
+                .patientId(patientEntity.getId())
+                .patientBirthDate(patientEntity.getBirthDate())
+                .patientEmail(patientEntity.getEmail())
+                .patientAddress(patientEntity.getAddress())
+                .patientPhoneNo(patientEntity.getPhoneNo())
+                //
+                .userFullName(user.getFirstName() + " " + user.getLastName())
+                .userEmail(user.getEmail())
                 .build();
     }
 }

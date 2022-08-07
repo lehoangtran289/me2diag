@@ -14,7 +14,7 @@ function ExamsTable({ exams, paging, query, setQuery, listLoading, setListLoadin
   const openViewExamDetail = (id, data) => {
     console.log("openViewExamDetail")
     history.push(`/examinations/${id}`,{
-      patient: data
+      examination: data
     });
   }
 

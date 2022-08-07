@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.hust.backend.application.picturefuzzyset.constant.DiagnoseEnum;
 import com.hust.backend.application.picturefuzzyset.constant.SymptomEnum;
 import com.hust.backend.application.picturefuzzyset.model.PictureFuzzySet;
+import com.hust.backend.constant.ApplicationEnum;
 import lombok.*;
 
 import java.util.Date;
@@ -20,10 +21,17 @@ import java.util.Map;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PatientPFSExamResponseDTO {
+    //
+    private ApplicationEnum applicationId;
     private String examinationId;
+    //
     private String patientId;
     private String patientName;
-    private Date birthDate;
+    private Date patientBirthDate;
+    private String patientPhoneNo;
+    private String patientAddress;
+    private String patientEmail;
+    //
     private String userFullName;
     private String userEmail;
     private List<Map.Entry<SymptomEnum, PictureFuzzySet>> symptoms;
