@@ -113,14 +113,20 @@ public class PFSExamServiceImpl implements PFSExamService {
 
         return PatientPFSExamResponseDTO.builder()
                 .examinationId(e.getId())
-                .patientName(patientEntity.getName())
-                .patientId(patientEntity.getId())
-                .birthDate(patientEntity.getBirthDate())
-                .userFullName(userEntity.getFirstName() + " " + userEntity.getLastName())
-                .userEmail(userEntity.getEmail())
+                .applicationId(e.getAppId())
                 .symptoms(symptoms)
                 .result(result)
                 .date(e.getCreatedAt())
+                //
+                .patientName(patientEntity.getName())
+                .patientId(patientEntity.getId())
+                .patientBirthDate(patientEntity.getBirthDate())
+                .patientEmail(patientEntity.getEmail())
+                .patientAddress(patientEntity.getAddress())
+                .patientPhoneNo(patientEntity.getPhoneNo())
+                //
+                .userFullName(userEntity.getFirstName() + " " + userEntity.getLastName())
+                .userEmail(userEntity.getEmail())
                 .build();
     }
 

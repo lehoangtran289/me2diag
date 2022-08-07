@@ -2,6 +2,7 @@ package com.hust.backend.application.KDclassification.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hust.backend.application.KDclassification.constant.KDCResultEnum;
+import com.hust.backend.constant.ApplicationEnum;
 import lombok.*;
 
 import java.util.Date;
@@ -12,10 +13,17 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KDCResultResponseDTO {
+    //
+    private ApplicationEnum applicationId;
     private String examinationId;
+    //
     private String patientId;
     private String patientName;
-    private Date birthDate;
+    private Date patientBirthDate;
+    private String patientPhoneNo;
+    private String patientAddress;
+    private String patientEmail;
+    //
     private String userFullName;
     private String userEmail;
     private KDCResultDTO result;
