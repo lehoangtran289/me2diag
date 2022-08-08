@@ -58,6 +58,7 @@ function ExaminationDetailPage({ ...props }) {
           name: data["patientName"],
           dob: data["patientBirthDate"],
           phone: data["patientPhoneNo"],
+          avatarUrl: data["patientAvatar"],
           address: data["patientAddress"],
           email: data["patientEmail"]
         });
