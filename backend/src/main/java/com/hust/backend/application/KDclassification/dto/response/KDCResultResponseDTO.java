@@ -21,6 +21,7 @@ public class KDCResultResponseDTO {
     private String patientName;
     private Date patientBirthDate;
     private String patientPhoneNo;
+    private String patientAvatar;
     private String patientAddress;
     private String patientEmail;
     //

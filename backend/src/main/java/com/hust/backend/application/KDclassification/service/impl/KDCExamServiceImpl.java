@@ -47,6 +47,7 @@ public class KDCExamServiceImpl implements KDCExamService {
                 .patientId(patientEntity.getId())
                 .patientBirthDate(patientEntity.getBirthDate())
                 .patientEmail(patientEntity.getEmail())
+                .patientAvatar(patientEntity.getAvatarUrl())
                 .patientAddress(patientEntity.getAddress())
                 .patientPhoneNo(patientEntity.getPhoneNo())
                 //
