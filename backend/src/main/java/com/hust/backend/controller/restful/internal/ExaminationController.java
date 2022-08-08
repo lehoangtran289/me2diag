@@ -3,6 +3,7 @@ package com.hust.backend.controller.restful.internal;
 import com.hust.backend.aop.AuthRequired;
 import com.hust.backend.constant.ApplicationEnum;
 import com.hust.backend.constant.UserRoleEnum;
+import com.hust.backend.dto.response.ExamResultResponseDTO;
 import com.hust.backend.dto.response.ExaminationResponseDTO;
 import com.hust.backend.factory.GeneralResponse;
 import com.hust.backend.factory.PagingInfo;
@@ -38,7 +39,7 @@ public class ExaminationController {
 
     @GetMapping("/{examinationId}")
     @AuthRequired(roles = UserRoleEnum.USER)
-    public ResponseEntity<GeneralResponse<Object>> getExaminationByAppIdAndExamId(
+    public ResponseEntity<GeneralResponse<ExamResultResponseDTO>> getExaminationByAppIdAndExamId(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @PathVariable @NotBlank(message = "examination id must not be blank") String examinationId
     ) {
