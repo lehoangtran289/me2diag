@@ -8,6 +8,7 @@ import com.hust.backend.application.picturefuzzyset.entity.PFSExamResultEntity;
 import com.hust.backend.application.picturefuzzyset.repository.PFSExamResultRepository;
 import com.hust.backend.application.picturefuzzyset.service.PFSExamService;
 import com.hust.backend.constant.ApplicationEnum;
+import com.hust.backend.dto.response.ExamResultResponseDTO;
 import com.hust.backend.dto.response.ExaminationResponseDTO;
 import com.hust.backend.entity.ExaminationEntity;
 import com.hust.backend.entity.PatientEntity;
@@ -69,7 +70,7 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public Object getExamination(String examinationId) {
+    public ExamResultResponseDTO getExamination(String examinationId) {
         ExaminationEntity examinationEntity = examRepository.findById(examinationId)
                 .orElseThrow(() -> new NotFoundException(ExaminationEntity.class, examinationId));
         if (examinationEntity.getAppId() == ApplicationEnum.PFS)
