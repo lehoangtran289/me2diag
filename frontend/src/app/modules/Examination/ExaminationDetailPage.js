@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getExamination } from "./_redux/examinationCrud";
-import { toastify } from "../../utils/toastUtils";
-import { Dropdown } from "react-bootstrap";
-import { DropdownCustomToggler, DropdownMenu4 } from "../../../_metronic/_partials/dropdowns";
-import { NoRecordsFoundMessage, PleaseWaitMessage, toAbsoluteUrl } from "../../../_metronic/_helpers";
-import { getAge } from "../../utils/dateUtils";
+import React, {useEffect, useRef, useState} from "react";
+import {useParams} from "react-router-dom";
+import {getExamination} from "./_redux/examinationCrud";
+import {toastify} from "../../utils/toastUtils";
+import {Dropdown} from "react-bootstrap";
+import {DropdownCustomToggler, DropdownMenu4} from "../../../_metronic/_partials/dropdowns";
+import {NoRecordsFoundMessage, PleaseWaitMessage, toAbsoluteUrl} from "../../../_metronic/_helpers";
+import {getAge} from "../../utils/dateUtils";
 import BootstrapTable from "react-bootstrap-table-next";
 import PFSResultFormatter from "../Patient/column-formatters/PFSResultFormatter";
-import { capitalizeFirstLetter } from "../../utils/common";
+import {capitalizeFirstLetter} from "../../utils/common";
 import KDCResultFormatter from "../Patient/column-formatters/KDCResultFormatter";
-import { icdData } from "../Patient/components/diagnosis-page/KDCDiagnosis";
+import {icdData} from "../Patient/components/diagnosis-page/KDCDiagnosis";
+import {useReactToPrint} from "react-to-print";
 
 function ExaminationDetailPage({ ...props }) {
+  const componentRef = useRef();
   const { examinationId } = useParams();
   const [appId, setAppId] = useState();
 
@@ -71,6 +73,16 @@ function ExaminationDetailPage({ ...props }) {
         toastify.error("Cannot get examination detail!");
       });
   }, []);
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    pageStyle: `
+      @media print {
+        .no-print {
+          display: none !important;
+        }
+      }`,
+  });
 
   const convertPfsSymptoms = (data) => {
     let res = []
@@ -264,7 +276,7 @@ function ExaminationDetailPage({ ...props }) {
 
   return (
     !isLoading &&
-    <div className="container-fluid px-0">
+    <div className="container-fluid px-0" ref={componentRef}>
       <div className={"row px-0"}>
         <div className="col-lg-4 col-sm-12 mb-md-0 mb-sm-5">
           <div className="card card-custom card-stretch">
@@ -419,11 +431,10 @@ function ExaminationDetailPage({ ...props }) {
                       Affection probability on 5 common diseases
                     </span>
                     </div>
-                    <div className="card-toolbar mt-3">
+                    <div className="card-toolbar mt-3 no-print">
                       <div
                         className="btn btn-success mr-2"
-                        onClick={() => {
-                        }}
+                        onClick={handlePrint}
                       >
                         Print result
                       </div>
@@ -492,10 +503,10 @@ function ExaminationDetailPage({ ...props }) {
                         Kidney diseases diagnosis possible result
                       </span>
                     </div>
-                    <div className="card-toolbar mt-3">
+                    <div className="card-toolbar mt-3 no-print">
                       <div
                         className="btn btn-success mr-2"
-                        onClick={() => {}}
+                        onClick={handlePrint}
                       >
                         Print result
                       </div>

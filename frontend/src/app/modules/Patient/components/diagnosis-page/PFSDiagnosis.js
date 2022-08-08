@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { NoRecordsFoundMessage, PleaseWaitMessage } from "../../../../../_metronic/_helpers";
+import React, {useEffect, useState} from "react";
+import {NoRecordsFoundMessage, PleaseWaitMessage} from "../../../../../_metronic/_helpers";
 import BootstrapTable from "react-bootstrap-table-next";
-import { toastify } from "../../../../utils/toastUtils";
-import { diagnosePFS } from "../../_redux/patientCrud";
-import { getAllPFSLinguisticDomainConfigs } from "../../../PFSConfig/_redux/PFSConfigCrud";
+import {toastify} from "../../../../utils/toastUtils";
+import {diagnosePFS} from "../../_redux/patientCrud";
+import {getAllPFSLinguisticDomainConfigs} from "../../../PFSConfig/_redux/PFSConfigCrud";
 import PFSDiagnoseFormatter from "../../column-formatters/PFSDiagnoseFormatter";
-import { capitalizeFirstLetter } from "../../../../utils/common";
+import {capitalizeFirstLetter} from "../../../../utils/common";
 import PFSResultFormatter from "../../column-formatters/PFSResultFormatter";
+import {useHistory} from "react-router-dom";
 
-function PfsDiagnosis({ patientId, ...props }) {
+function PfsDiagnosis({patientId, ...props}) {
+  const history = useHistory();
+
   const [rerender, setRerender] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState({
@@ -223,7 +226,7 @@ function PfsDiagnosis({ patientId, ...props }) {
       dataField: "id",
       text: "Examination ID",
       headerStyle: (colum, colIndex) => {
-        return { width: '22em' };
+        return {width: '22em'};
       }
     },
     {
@@ -232,7 +235,7 @@ function PfsDiagnosis({ patientId, ...props }) {
       headerAlign: "center",
       align: "center",
       headerStyle: (colum, colIndex) => {
-        return { width: '13.5em' };
+        return {width: '13.5em'};
       },
       formatter: PFSResultFormatter,
     },
@@ -242,7 +245,7 @@ function PfsDiagnosis({ patientId, ...props }) {
       headerAlign: "center",
       align: "center",
       headerStyle: (colum, colIndex) => {
-        return { width: '13.5em' };
+        return {width: '13.5em'};
       },
       formatter: PFSResultFormatter,
     },
@@ -252,7 +255,7 @@ function PfsDiagnosis({ patientId, ...props }) {
       headerAlign: "center",
       align: "center",
       headerStyle: (colum, colIndex) => {
-        return { width: '13.5em' };
+        return {width: '13.5em'};
       },
       formatter: PFSResultFormatter,
     },
@@ -262,7 +265,7 @@ function PfsDiagnosis({ patientId, ...props }) {
       headerAlign: "center",
       align: "center",
       headerStyle: (colum, colIndex) => {
-        return { width: '13.5em' };
+        return {width: '13.5em'};
       },
       formatter: PFSResultFormatter,
     },
@@ -273,7 +276,7 @@ function PfsDiagnosis({ patientId, ...props }) {
       align: "center",
       formatter: PFSResultFormatter,
       headerStyle: (colum, colIndex) => {
-        return { width: '16.5em' };
+        return {width: '16.5em'};
       },
     },
   ]
@@ -307,8 +310,8 @@ function PfsDiagnosis({ patientId, ...props }) {
               data={pfs ? pfs : []}
               columns={symptomTableColumns}
             >
-              <PleaseWaitMessage entities={pfs} />
-              <NoRecordsFoundMessage entities={pfs} />
+              <PleaseWaitMessage entities={pfs}/>
+              <NoRecordsFoundMessage entities={pfs}/>
             </BootstrapTable>
             {
               !isValid.status ?
@@ -318,13 +321,13 @@ function PfsDiagnosis({ patientId, ...props }) {
             }
             <div className="card-toolbar mt-3">
               <div
-                className="btn btn-success mr-2"
+                className="btn btn-success mr-2 no-print"
                 onClick={diagnoseWithPFS}
               >
                 Diagnose
               </div>
               <div
-                className="btn btn-secondary ml-1"
+                className="btn btn-secondary ml-1 no-print"
                 onClick={handleResetForm}
               >
                 Reset
@@ -346,13 +349,13 @@ function PfsDiagnosis({ patientId, ...props }) {
             </span>
           </div>
           {
-            result &&
+            result["id"] &&
             <div className="card-toolbar mt-3">
               <div
-                className="btn btn-success mr-2"
-                onClick={diagnoseWithPFS}
+                className="btn btn-success mr-2 no-print"
+                onClick={() => history.push(`/examinations/` + result["id"])}
               >
-                Print result
+                Examination details
               </div>
             </div>
           }
@@ -368,8 +371,8 @@ function PfsDiagnosis({ patientId, ...props }) {
             data={result ? [result] : []}
             columns={resultTableColumns}
           >
-            <PleaseWaitMessage entities={[result]} />
-            <NoRecordsFoundMessage entities={[result]} />
+            <PleaseWaitMessage entities={[result]}/>
+            <NoRecordsFoundMessage entities={[result]}/>
           </BootstrapTable>
         </div>
         {/* end::Body*/}
