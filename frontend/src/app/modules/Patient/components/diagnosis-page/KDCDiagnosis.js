@@ -11,6 +11,7 @@ import { diagnoseKDC } from "../../_redux/patientCrud";
 import KDCTypeColumnFormatter from "../../column-formatters/KDCTypeColumnFormatter";
 import KDCValueColumnFormatter from "../../column-formatters/KDCValueColumnFormatter";
 import KDCResultFormatter from "../../column-formatters/KDCResultFormatter";
+import {useHistory} from "react-router-dom";
 
 export const icdData = [
   { code: "N00", name: "None", description: "No disease found" },
@@ -22,6 +23,7 @@ export const icdData = [
 ]
 
 function KdcDiagnosis({ patientId, ...props }) {
+  const history = useHistory();
   const [rerender, setRerender] = useState(false);
   const [loading, setLoading] = useState(false);
   const [linguisticDomain, setLinguisticDomain] = useState({});
@@ -313,10 +315,10 @@ function KdcDiagnosis({ patientId, ...props }) {
             result &&
             <div className="card-toolbar mt-3">
               <div
-                className="btn btn-success mr-2"
-                onClick={() => {}}
+                className="btn btn-success mr-2 no-print"
+                onClick={() => history.push(`/examinations/` + result["id"])}
               >
-                Print result
+                Examination details
               </div>
             </div>
           }

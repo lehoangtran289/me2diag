@@ -121,6 +121,7 @@ public class PFSExamServiceImpl implements PFSExamService {
                 .patientName(patientEntity.getName())
                 .patientId(patientEntity.getId())
                 .patientBirthDate(patientEntity.getBirthDate())
+                .patientAvatar(patientEntity.getAvatarUrl())
                 .patientEmail(patientEntity.getEmail())
                 .patientAddress(patientEntity.getAddress())
                 .patientPhoneNo(patientEntity.getPhoneNo())
