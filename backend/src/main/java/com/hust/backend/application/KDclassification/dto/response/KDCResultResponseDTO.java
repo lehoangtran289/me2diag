@@ -1,36 +1,17 @@
 package com.hust.backend.application.KDclassification.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hust.backend.application.KDclassification.constant.KDCResultEnum;
-import com.hust.backend.constant.ApplicationEnum;
+import com.hust.backend.dto.response.ExamResultResponseDTO;
 import lombok.*;
-
-import java.util.Date;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class KDCResultResponseDTO {
-    //
-    private ApplicationEnum applicationId;
-    private String examinationId;
-    //
-    private String patientId;
-    private String patientName;
-    private Date patientBirthDate;
-    private String patientPhoneNo;
-    private String patientAvatar;
-    private String patientAddress;
-    private String patientEmail;
-    //
-    private String userFullName;
-    private String userEmail;
+public class KDCResultResponseDTO extends ExamResultResponseDTO {
     private KDCResultDTO result;
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-    private Date date;
-
     @Setter
     @Getter
     @Builder
