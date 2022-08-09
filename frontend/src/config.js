@@ -7,11 +7,9 @@ console.log(REACT_ENV);
 export const LOGIN_URL = BACKEND_ORIGIN + 'login';
 export const ME_URL = BACKEND_ORIGIN + 'user/me';
 export const REFRESH_URL = BACKEND_ORIGIN + 'refresh-token'
-
-// TODO
-// ROLES map
+export const REQUEST_PASSWORD_URL = BACKEND_ORIGIN + 'forgot-password';
+export const RESET_PASSWORD_URL = BACKEND_ORIGIN + 'reset-password'
 
 // old
-export const REQUEST_PASSWORD_URL = BACKEND_ORIGIN + 'api/v1/auth/forgot-password';
 export const REGISTER_URL = BACKEND_ORIGIN + 'api/v1/auth/register';
 
