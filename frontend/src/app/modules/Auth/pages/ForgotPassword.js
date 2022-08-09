@@ -8,7 +8,7 @@ import * as auth from "../_redux/authRedux";
 import { requestPassword } from "../_redux/authCrud";
 
 const initialValues = {
-  email: "",
+  email: "hoangtlyolo@gmail.com",
 };
 
 function ForgotPassword(props) {

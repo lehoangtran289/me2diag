@@ -62,8 +62,8 @@ public class LoginController {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<GeneralResponse<String>> forgotPassword(@RequestParam String email) {
-        userAuthenticationService.sendPasswordResetToken(email);
+    public ResponseEntity<GeneralResponse<String>> forgotPassword(@Valid @RequestBody ForgetPasswordRequestDTO rq) {
+        userAuthenticationService.sendPasswordResetToken(rq.getEmail());
         return responseFactory.success();
     }
 
@@ -96,11 +96,11 @@ public class LoginController {
     }
 
     // TODO: remove later. only ADMIN can signup user
-    @PostMapping("/user/sign-up")
-    public ResponseEntity<GeneralResponse<String>> signup(
-            @Valid @RequestBody UserRegisterRequestDTO request
-    ) {
-        userService.registerUser(request);
-        return responseFactory.success();
-    }
+//    @PostMapping("/user/sign-up")
+//    public ResponseEntity<GeneralResponse<String>> signup(
+//            @Valid @RequestBody UserRegisterRequestDTO request
+//    ) {
+//        userService.registerUser(request);
+//        return responseFactory.success();
+//    }
 }

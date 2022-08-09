@@ -149,7 +149,7 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
             helper.setTo(email);
 
             String subject = "Here's the link to reset your password";
-            String url = resetPasswordConfig.getClientContextPath() + "/reset-password?token=" + token;
+            String url = resetPasswordConfig.getClientContextPath() + "/auth/reset-password?token=" + token;
             helper.setSubject(subject);
             helper.setText(
                     "<html><body>" +

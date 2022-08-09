@@ -27,7 +27,6 @@ import java.util.Map;
 import static java.util.Map.entry;
 
 // FIXME: hardcode a lot huhu :<
-//TODO: uncomment repo saveAll
 @Service
 @Slf4j
 public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
@@ -193,7 +192,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                     break;
             }
         }
-//        linguisticDomainRepo.saveAll(linguisticToBeChanged);
+        linguisticDomRepo.saveAll(linguisticToBeChanged);
 
         return Transformer.listToList(
                 linguisticToBeChanged,
@@ -202,7 +201,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
         );
     }
 
-    // TODO huhu :<
+    // fixme huhu :<
     private List<LinguisticDomainResponseDTO> changeHedgeAlgebraConfigsKDC(Map<HedgeAlgebraEnum, Double> hedgeConfigs, Double theta) {
         double alpha = hedgeConfigs.get(HedgeAlgebraEnum.LITTLE) + hedgeConfigs.get(HedgeAlgebraEnum.POSSIBLE);
 
@@ -262,7 +261,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                     break;
             }
         }
-//        hedgeAlgebraConfigRepo.saveAll(hedgeAlgebrasToBeChanged);
+        hedgeAlgebraConfigRepo.saveAll(hedgeAlgebrasToBeChanged);
 
         // linguistic_domain
         List<LinguisticDomainEntity> linguisticToBeChanged =
