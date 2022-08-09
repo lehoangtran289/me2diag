@@ -72,7 +72,7 @@ public class PatientController {
     public ResponseEntity<GeneralResponse<PagingInfo<PatientInfoResponseDTO>>> getAllPatient(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
             @RequestParam(required = false) String query,
-            // TODO: cannot set to 'gender'. dont know why :<
+            // fixme: cannot set to 'gender'. dont know why :<
             @RequestParam(value = "gen", required = false) String gender,
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize,

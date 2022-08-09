@@ -161,6 +161,7 @@ CREATE TABLE `pfs_examination_result`
 );
 
 # alter table `kdc_examination_result`
+#     modify `WBC_value` VARCHAR(50),
 #     modify `LY_value` VARCHAR(50),
 #     modify `NE_value` VARCHAR(50),
 #     modify `RBC_value` VARCHAR(50),
