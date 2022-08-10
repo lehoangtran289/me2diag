@@ -51,6 +51,6 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
 
     @Query("SELECT u, count(e) FROM UserEntity u " +
             "JOIN ExaminationEntity e ON e.userId = u.id WHERE u.isEnable = true " +
-            "GROUP BY u.id")
+            "GROUP BY u.id ORDER BY count(e) DESC")
     List<Object[]> getTopDoctors(@Param("size") Integer size);
 }
