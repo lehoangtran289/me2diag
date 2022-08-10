@@ -37,7 +37,7 @@ function ExamsFilter({ query, setQuery }) {
                 <select
                   className="form-control"
                   name="appId"
-                  placeholder="Filter by Application ID"
+                  placeholder="Filter by Examination type"
                   onChange={(e) => {
                     setFieldValue("appId", e.target.value);
                     handleSubmit();
@@ -50,7 +50,7 @@ function ExamsFilter({ query, setQuery }) {
                   <option value="PFS">PFS</option>
                 </select>
                 <small className="form-text text-muted">
-                  <b>Filter</b> by Application ID
+                  <b>Filter</b> by Examination type
                 </small>
               </div>
               <div className="col-lg-2">
