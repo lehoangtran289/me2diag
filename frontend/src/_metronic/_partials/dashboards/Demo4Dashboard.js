@@ -144,7 +144,10 @@ export function Demo4Dashboard() {
       text: "Patient name",
       formatter: NameColumnFormatter,
       formatExtraData: {
-        openViewPatientDetails: () => {
+        openViewPatientDetails: (id, data) => {
+          history.push(`/patients/${id}`,{
+            patient: data
+          });
         }
       }
     },
@@ -249,12 +252,18 @@ export function Demo4Dashboard() {
           </div>
           <TilesWidget3 className="gutter-b" widgetHeight="150px"/>
         </div>
-        <div className="col-xl-4">
-          <TilesWidget1 className="gutter-b card-stretch" chartColor="danger"/>
+        <div className={"col-xl-8"}>
+          <AdvancedTableWidget className="card-stretch gutter-b"
+                               data={data["recentExams"]}
+                               title={"Recent examinations"}
+                               columns={recentExamsColumns}/>
         </div>
-        <div className="col-xl-4">
-          <MixedWidget14 className="gutter-b card-stretch"/>
-        </div>
+        {/*<div className="col-xl-4">*/}
+        {/*  <TilesWidget1 className="gutter-b card-stretch" chartColor="danger"/>*/}
+        {/*</div>*/}
+        {/*<div className="col-xl-4">*/}
+        {/*  <MixedWidget14 className="gutter-b card-stretch"/>*/}
+        {/*</div>*/}
       </div>
       {/* end::Row */}
 
@@ -262,9 +271,9 @@ export function Demo4Dashboard() {
       <div className="row">
         <div className="col-lg-8 col-xxl-8">
           <AdvancedTableWidget className="card-stretch gutter-b"
-                               data={data["recentExams"]}
-                               title={"Recent examinations"}
-                               columns={recentExamsColumns}/>
+                               data={data["recentPatients"]}
+                               title={"Recent Patients"}
+                               columns={recentPatientsColumns}/>
         </div>
         <div className="col-lg-4 col-xxl-4">
           <AdvancedTableWidget className="card-stretch gutter-b"
