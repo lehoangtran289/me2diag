@@ -30,7 +30,7 @@ public class DashboardController {
     @AuthRequired(roles = { UserRoleEnum.ADMIN, UserRoleEnum.USER, UserRoleEnum.EXPERT })
     public ResponseEntity<GeneralResponse<DashboardInfoResponseDTO>> getDashboardGeneralData(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION, required = false) String authToken,
-            @RequestParam(required = false, defaultValue = "7") Integer listSize
+            @RequestParam(required = false, defaultValue = "5") Integer listSize
     ) {
         return responseFactory.success(dashboardService.getGeneralDashboardData(listSize));
     }
