@@ -18,4 +18,5 @@ public class DashboardInfoResponseDTO {
     private Integer totalKDCExams;
     private List<PatientInfoResponseDTO> recentPatients;
     private List<TopUserInfoResponseDTO> topUsers;
+    private List<ExaminationResponseDTO> recentExams;
 }

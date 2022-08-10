@@ -3,16 +3,13 @@ package com.hust.backend.service.business.impl;
 import com.hust.backend.constant.ApplicationEnum;
 import com.hust.backend.constant.UserGenderEnum;
 import com.hust.backend.constant.UserRoleEnum;
-import com.hust.backend.dto.response.DashboardInfoResponseDTO;
-import com.hust.backend.dto.response.PatientInfoResponseDTO;
-import com.hust.backend.dto.response.TopUserInfoResponseDTO;
-import com.hust.backend.dto.response.UserInfoResponseDTO;
+import com.hust.backend.dto.response.*;
 import com.hust.backend.entity.UserEntity;
 import com.hust.backend.repository.ExamRepository;
 import com.hust.backend.repository.PatientRepository;
 import com.hust.backend.repository.UserRepository;
-import com.hust.backend.repository.UserRoleRepository;
 import com.hust.backend.service.business.DashboardService;
+import com.hust.backend.service.business.ExamService;
 import com.hust.backend.utils.Common;
 import com.hust.backend.utils.Transformer;
 import lombok.extern.slf4j.Slf4j;
@@ -27,26 +24,35 @@ import java.util.List;
 public class DashboardServiceImpl implements DashboardService {
     private final PatientRepository patientRepository;
     private final UserRepository userRepository;
-    private final UserRoleRepository userRoleRepository;
     private final ExamRepository examRepository;
+    private final ExamService examService;
 
-    public DashboardServiceImpl(PatientRepository patientRepository, UserRepository userRepository,
-                                UserRoleRepository userRoleRepository, ExamRepository examRepository) {
+    public DashboardServiceImpl(PatientRepository patientRepository,
+                                UserRepository userRepository,
+                                ExamRepository examRepository,
+                                ExamService examService) {
         this.patientRepository = patientRepository;
         this.userRepository = userRepository;
-        this.userRoleRepository = userRoleRepository;
         this.examRepository = examRepository;
+        this.examService = examService;
     }
 
     // Default recentPatients List -> 7
     @Override
     public DashboardInfoResponseDTO getGeneralDashboardData(Integer listSize) {
+        // get recent patient list
         List<PatientInfoResponseDTO> recentPatients = Transformer.listToList(
                 patientRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(0, listSize)).getContent(),
                 e -> Common.convertObject(e, PatientInfoResponseDTO.class)
         );
+
+        // get recent examination list
+        List<ExaminationResponseDTO> recentExams = examService
+                .getAllExaminations(null, null, PageRequest.of(0, listSize)).getItems();
+
+        // get top doctors list
         List<TopUserInfoResponseDTO> topUsers = new ArrayList<>();
-        List<Object[]> topDoctors = userRepository.getTopDoctors(7);
+        List<Object[]> topDoctors = userRepository.getTopDoctors(listSize);
         for (Object[] topDoctor : topDoctors) {
             UserEntity u = (UserEntity) topDoctor[0];
             Long count = (Long) topDoctor[1];
@@ -66,6 +72,7 @@ public class DashboardServiceImpl implements DashboardService {
                 .totalKDCExams(examRepository.countByAppId(ApplicationEnum.KDC))
                 .topUsers(topUsers)
                 .recentPatients(recentPatients)
+                .recentExams(recentExams)
                 .build();
     }
 }

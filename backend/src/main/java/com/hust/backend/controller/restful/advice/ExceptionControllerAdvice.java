@@ -2,6 +2,7 @@ package com.hust.backend.controller.restful.advice;
 
 import com.hust.backend.config.AppConfig;
 import com.hust.backend.constant.ResponseStatusEnum;
+import com.hust.backend.constant.ThreadContextKey;
 import com.hust.backend.exception.Common.BaseException;
 import com.hust.backend.exception.Common.BusinessException;
 import com.hust.backend.exception.*;
@@ -11,6 +12,7 @@ import com.hust.backend.utils.Common;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.ThreadContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -39,6 +41,10 @@ public class ExceptionControllerAdvice {
 
     private final ResponseFactory responseFactory;
     private final AppConfig appConfig;
+
+    private String getTraceId() {
+        return ThreadContext.get(ThreadContextKey.TRACE_ID);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<GeneralResponse<String>> handleExceptions(Exception ex) {
@@ -173,7 +179,8 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<GeneralResponse<String>> handleAuthExceptions(UnauthorizedException ex) {
         log.info("handle unauthorized exception", ex);
-        return responseFactory.build(ResponseStatusEnum.UNAUTHORIZED, ex.getArgs()); // pass msg arguments
+        return responseFactory.build(ResponseStatusEnum.UNAUTHORIZED, ex.getArgs());
+        //        return responseFactory.build(ResponseStatusEnum.UNAUTHORIZED, ArrayUtils.addAll(ex.getArgs(), getTraceId())); // pass msg arguments
     }
 
     @ExceptionHandler({ HttpRequestMethodNotSupportedException.class })

@@ -29,7 +29,7 @@ function ExamsTable({ exams, paging, query, setQuery, listLoading, setListLoadin
     },
     {
       dataField: "appId",
-      text: "Application ID",
+      text: "Exam type",
       align: "center",
       headerAlign: "center",
       headerStyle: (colum, colIndex) => {
@@ -92,7 +92,7 @@ function ExamsTable({ exams, paging, query, setQuery, listLoading, setListLoadin
     },
     {
       dataField: "appId",
-      text: "Application ID",
+      text: "Exam type",
       align: "center",
       headerAlign: "center",
       headerStyle: (colum, colIndex) => {
