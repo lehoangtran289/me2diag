@@ -27,7 +27,7 @@ function Login(props) {
   const [loading, setLoading] = useState(false);
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
-      .email("Wrong email format")
+      // .email("Wrong email format")
       .min(3, "Minimum 3 symbols")
       .max(50, "Maximum 50 symbols")
       .required(
@@ -122,8 +122,8 @@ function Login(props) {
 
         <div className="form-group fv-plugins-icon-container">
           <input
-            placeholder="Email"
-            type="email"
+            placeholder="Email or Username"
+            type="text"
             className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
               "email"
             )}`}
