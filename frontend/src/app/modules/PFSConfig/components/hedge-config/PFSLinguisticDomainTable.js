@@ -60,6 +60,7 @@ function PFSLinguisticDomainTable({ rerender, loading, setLoading, ...props }) {
       headerSortingClasses
     }
   ];
+
   // BEGIN TABLE COLUMN CONFIG-----------------------------------------
 
   return (
@@ -76,6 +77,7 @@ function PFSLinguisticDomainTable({ rerender, loading, setLoading, ...props }) {
             keyField="linguistic_domain_element"
             data={linguisticDomain ? linguisticDomain : []}
             columns={configsTableColumns}
+            defaultSorted={[{dataField: "linguistic_order", order: "asc"}]}
           >
             <PleaseWaitMessage entities={linguisticDomain} />
             <NoRecordsFoundMessage entities={linguisticDomain} />

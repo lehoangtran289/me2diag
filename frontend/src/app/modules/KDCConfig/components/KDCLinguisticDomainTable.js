@@ -77,6 +77,7 @@ function KDCLinguisticDomainTable({ rerender, loading, setLoading, ...props }) {
             keyField="linguistic_domain_element"
             data={linguisticDomain ? linguisticDomain : []}
             columns={configsTableColumns}
+            defaultSorted={[{dataField: "linguistic_order", order: "asc"}]}
           >
             <PleaseWaitMessage entities={linguisticDomain} />
             <NoRecordsFoundMessage entities={linguisticDomain} />
