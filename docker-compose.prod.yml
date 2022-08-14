@@ -30,6 +30,15 @@ services:
       - MINIO_ROOT_PASSWORD=$MINIO_ROOT_USER
     networks:
       - backend
+  
+  redis:
+    image: redis
+    container_name: "backend_redis"
+    restart: unless-stopped
+    ports:
+      - $REDIS_LOCAL_PORT:$REDIS_DOCKER_PORT
+    networks:
+      - backend
 
   model:
     image: model:v1
@@ -70,6 +79,7 @@ services:
       - database
       - storage
       - model
+      - redis
     restart: on-failure
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
@@ -91,6 +101,8 @@ services:
       EMAIL_PASSWORD: $EMAIL_PASSWORD
       KDC_HOST: model
       KDC_PORT: $MODEL_DOCKER_PORT
+      REDIS_HOST: redis
+      REDIS_PORT: $REDIS_PORT
       APP_HOST: $BACKEND_ORIGIN
       APP_PORT: $SPRING_DOCKER_PORT
     networks: 

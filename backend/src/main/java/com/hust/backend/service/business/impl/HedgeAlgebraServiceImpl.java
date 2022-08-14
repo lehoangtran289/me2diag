@@ -16,6 +16,8 @@ import com.hust.backend.service.business.HedgeAlgebraService;
 import com.hust.backend.utils.Common;
 import com.hust.backend.utils.Transformer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -57,6 +59,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
     }
 
     @Override
+    @Cacheable(value = "linguistic-domain", key = "#appId.getValue()")
     public List<LinguisticDomainResponseDTO> getAllLinguisticDomainElements(ApplicationEnum appId) {
         return Transformer.listToList(
                 linguisticDomRepo.findAllByApplicationIdOrderByLinguisticOrderAsc(appId),
@@ -67,6 +70,7 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
+    @CachePut(value = "linguistic-domain", key = "#request.getAppId().getValue()")
     public List<LinguisticDomainResponseDTO> changeHedgeAlgebraConfigs(HedgeAlgebraConfigRequestDTO request) {
         switch (request.getAppId()) {
             case PFS:
@@ -125,6 +129,8 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                     entity.setFmValue(theta);
                     fm.put(HedgeAlgebraEnum.MEDIUM, entity.getFmValue());
                     break;
+                default:
+                    break;
             }
         }
 //        hedgeAlgebraConfigRepo.saveAll(hedgeAlgebrasToBeChanged);
@@ -134,13 +140,15 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                 linguisticDomRepo.findAllByApplicationIdAndLinguisticDomainElementIn(
                         ApplicationEnum.PFS,
                         Arrays.asList(
+                                LinguisticDomainEnum.COMPLETELY,
                                 LinguisticDomainEnum.VERY_HIGH,
                                 LinguisticDomainEnum.HIGH,
                                 LinguisticDomainEnum.SLIGHTLY_HIGH,
                                 LinguisticDomainEnum.MEDIUM,
                                 LinguisticDomainEnum.SLIGHTLY_LOW,
                                 LinguisticDomainEnum.LOW,
-                                LinguisticDomainEnum.VERY_LOW
+                                LinguisticDomainEnum.VERY_LOW,
+                                LinguisticDomainEnum.NONE
                         ));
         for (LinguisticDomainEntity entity : linguisticToBeChanged) {
             switch (entity.getLinguisticDomainElement()) {
@@ -189,6 +197,9 @@ public class HedgeAlgebraServiceImpl implements HedgeAlgebraService {
                             , -1, 1);
                     entity.setFmValue(fmVeryLow);
                     entity.setVValue(vVeryLow);
+                    break;
+
+                default:
                     break;
             }
         }
