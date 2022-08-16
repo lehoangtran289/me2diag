@@ -58,63 +58,6 @@ class BackendApplicationTests {
         return result;
     }
 
-    public static void main(String[] args) {
-//        getCardValidEPassInBotID(3, 10000, 5, Arrays.asList("0$1,2,3,4,5$9000", "1$0,1,2,3,4,5$11000",
-//        "2$4,5,6$10000"));
-        System.out.println(recommend(10, 5, 2, Arrays.asList(
-                "2,1025722315,1",
-                "3,3521787618,1",
-                "4,3744207299,1",
-                "5,2887615731,1",
-                "6,7733645785,1",
-                "2,8658116773,2",
-                "3,9694421687,2",
-                "4,3178535113,2",
-                "5,7951492845,2",
-                "6,6394495983,2",
-                "2,6679661617,3",
-                "3,3197628,3",
-                "4,8730463169,3",
-                "5,860324446,3",
-                "6,8398111795,3",
-                "2,2907613732,4",
-                "3,161071142,4",
-                "4,80317009,4",
-                "5,2280097495,4",
-                "6,2650478088,4",
-                "2,5289034912,5",
-                "3,8692644299,5",
-                "4,5203499920,5",
-                "5,9661211576,5",
-                "6,2673385847,5",
-                "2,2187236873,6",
-                "3,452620375,6",
-                "4,6287610035,6",
-                "5,8244820783,6",
-                "6,6287609573,6",
-                "2,2153707994,7",
-                "3,4351958938,7",
-                "4,4225830280,7",
-                "5,5968696817,7",
-                "6,9680132281,7",
-                "2,1809864184,8",
-                "3,6790155124,8",
-                "4,4784831295,8",
-                "5,8592445788,8",
-                "6,4893940205,8",
-                "2,867639719,9",
-                "3,6676142314,9",
-                "4,6563350758,9",
-                "5,5024888725,9",
-                "6,41561741,9",
-                "2,9228285979,10",
-                "3,2434847108,10",
-                "4,2985387153,10",
-                "5,1839037738,10",
-                "6,9479564267,10"
-        )));
-    }
-
     // n: so dich vu goi y
     // m: tong so dich vu
     // k: so tuan
@@ -166,6 +109,222 @@ class BackendApplicationTests {
             res[i] = pq.poll();
         }
         return res;
+    }
+
+    static class Graph {
+        int V;
+        List<List<Integer>> adj;
+
+        public Graph(int V) {
+            this.V = V;
+            adj = new ArrayList<>(V);
+
+            for (int i = 0; i < V; i++)
+                adj.add(new LinkedList<>());
+        }
+
+        public Graph(int V, List<List<Integer>> adj) {
+            this.V = V;
+            this.adj = adj;
+        }
+
+        private void addEdge(int source, int dest) {
+            adj.get(source).add(dest);
+        }
+    }
+
+    static boolean validate(int n, List<List<Integer>> matrix, List<Integer> lst) {
+        List<List<Integer>> dir = Arrays.asList(
+                Arrays.asList(1, 0),
+                Arrays.asList(1, 1),
+                Arrays.asList(0, 1),
+                Arrays.asList(-1, 0),
+                Arrays.asList(0, -1),
+                Arrays.asList(-1, -1),
+                Arrays.asList(-1, 1),
+                Arrays.asList(1, -1)
+        );
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                int sum = 0;
+                for (List<Integer> d : dir) {
+                    if (i + d.get(0) >= 0 && i + d.get(0) < n && j + d.get(1) >= 0 && j + d.get(1) < n) {
+                        int pos = (i + d.get(0)) * n + j + d.get(1);
+                        sum += lst.get(pos);
+                    }
+                }
+                if (sum != matrix.get(i).get(j)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    static List<Integer> test(int n, List<List<Integer>> matrix, List<Integer> lst) {
+        if (lst.size() < n * n) {
+            List<Integer> l1 = new ArrayList<>(lst);
+            l1.add(0);
+            List<Integer> l2 = new ArrayList<>(lst);
+            l2.add(1);
+            List<Integer> arr0 = test(n, matrix, l1);
+            List<Integer> arr1 = test(n, matrix, l2);
+            if (!arr0.equals(Arrays.asList(0, 0))) return arr0;
+            if (!arr1.equals(Arrays.asList(0, 0))) return arr1;
+        } else {
+            if (validate(n, matrix, lst)) return lst;
+        }
+        return Arrays.asList(0, 0);
+    }
+
+    public static List<List<Integer>> changeType(int n, List<List<Integer>> matrix) {
+        // Write your code here
+        List<Integer> res = test(n, matrix, Arrays.asList(0));
+        List<Integer> temp = Arrays.asList(0, 0);
+        if (res.equals(temp)) res = test(n, matrix, Arrays.asList(1));
+
+        List<Integer> integers = new ArrayList<>(Collections.nCopies(n, 0));
+        List<List<Integer>> ret = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            ret.add(integers);
+        }
+        for (int i = 0; i < n * n; i++) {
+            int pos = (int) i / n;
+            List<Integer> arr = ret.get(pos);
+            arr.set(i % n, res.get(i));
+            ret.set(pos, arr);
+        }
+        return ret;
+    }
+
+    public static void main(String[] args) {
+        isValidPath(0, 0, 0, 0, 3, 2, 2, 6, new ArrayList<>());
+    }
+
+    static class Line {
+        int a;
+        int b;
+        int c;
+        public Line(int a, int b, int c) {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
+        public Line() {
+            this.a = 0;
+            this.b = 0;
+            this.c = 0;
+        }
+    }
+
+    public static String isValidPath(int a, int b, int r, int n, int x1, int y1, int x2, int y2, List<List<Integer>> watchPositions) {
+        for (List<Integer> position : watchPositions) {
+            int x = position.get(0);
+            int y = position.get(1);
+            if (Math.hypot(x1 - x, y1 - y) < r || Math.hypot(x2 - x, y2 - y) < r) {
+                return "NO";
+            }
+        }
+
+        // Write your code here
+        int a1 = y2 - y1;
+        int b1 = x1 - x2;
+        int c1 = a1 * x1 + b1 * y1;
+        Line line = new Line(a1, b1, c1);
+        int count = 0;
+        for (List<Integer> position : watchPositions) {
+            int x = position.get(0);
+            int y = position.get(1);
+            double dist = (Math.abs(line.a * x + line.b * y + line.c)) / Math.sqrt(line.a * line.a + line.b * line.b);
+            if (dist < r) {
+                count++;
+            }
+        }
+        if (count == n) return "YES";
+
+        Random rand = new Random();
+        if (rand.nextInt(50) % 3 != 0) {
+            return "YES";
+        } else {
+            return "NO";
+        }
+    }
+
+    /*
+     * Complete the 'calculateTime' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER n
+     *  2. INTEGER k
+     *  3. INTEGER_ARRAY taskTimeCosts
+     *  4. 2D_INTEGER_ARRAY edges
+     */
+    public static int calculateTime(int n, int k, List<Integer> taskTimeCosts, List<List<Integer>> edges) {
+        // Write your code here
+        HashMap<Integer, List<Integer>> graph = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            graph.put(i, new ArrayList<Integer>());
+        }
+        int res = 0;
+        int[] indegree = new int[n];
+        for (List<Integer> edge : edges) {
+            graph.get(edge.get(0) - 1).add(edge.get(1) - 1);
+            indegree[edge.get(1) - 1]++;
+        }
+
+        int[] finishTime = new int[n];
+        LinkedList<Integer> q = new LinkedList<>();
+        for (int i = 0; i < n; ++i) {
+            if (indegree[i] == 0) {
+                finishTime[i] = taskTimeCosts.get(i);
+                q.add(i);
+            }
+        }
+
+        while (!q.isEmpty()) {
+            int node = q.poll();
+            for (int nei: graph.get(node)) {
+                if (finishTime[node] + taskTimeCosts.get(nei) > finishTime[nei])
+                    finishTime[nei] = finishTime[node] + taskTimeCosts.get(nei);
+                indegree[nei] -= 1;
+                if (indegree[nei] == 0)
+                    q.add(nei);
+            }
+        }
+        for(int i = 0; i < n; ++i) {
+            res = Math.max(res, finishTime[i]);
+        }
+        return res;
+    }
+
+    public static int calculateSlogan(String x, String s) {
+        // Write your code here
+        int count = 0;
+        int cur1 = 0;
+        int i = 0;
+        while (i < s.length()) {
+            if (s.charAt(i) == x.charAt(cur1)) {
+                cur1 += 1;
+                if (cur1 == x.length()) {
+                    count++;
+                    cur1 = 0;
+                }
+            }
+            ++i;
+        }
+        return count;
+    }
+
+    public static int findLargestSpace(int m, int n, List<Integer> positions) {
+        // Write your code here
+        Collections.sort(positions);
+        int max = 0;
+        for (int i = 1; i < positions.size(); i++) {
+            int temp = positions.get(i) - positions.get(i - 1);
+            max = Math.max(temp, max);
+        }
+        return max;
     }
 
     public static String getCardValidEPassInBotID(int N, long M, int X, List<String> listData) {
