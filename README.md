@@ -48,6 +48,9 @@ docker-compose up
 
 ## Run the code
 ```bash
+# Init empty .env in backend classpath
+touch backend/.env && touch backend/src/main/resources/.env
+
 # Build with docker compose 
 docker-compose -f docker-compose.prod.yml up --build
 ```
