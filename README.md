@@ -1,4 +1,4 @@
-# GR
+# Me2diag - a decision support system for medical diagnoses
 
 ## How to contribute?
 Please read our [CONTRIBUTING](https://github.com/lehoangtran289/gr/blob/develop/CONTRIBUTING.md) document.
