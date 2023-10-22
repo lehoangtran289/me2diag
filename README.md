@@ -1,5 +1,8 @@
 # Me2diag - a decision support system for medical diagnoses
 
+## Reference
+https://doi.org/10.1007/s40815-023-01548-4
+
 ## How to contribute?
 Please read our [CONTRIBUTING](https://github.com/lehoangtran289/gr/blob/develop/CONTRIBUTING.md) document.
 
