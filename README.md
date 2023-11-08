@@ -1,6 +1,6 @@
 # Me2diag - a decision support system for medical diagnoses
 
-## Reference
+## Reference research paper
 https://doi.org/10.1007/s40815-023-01548-4
 
 ## How to contribute?
