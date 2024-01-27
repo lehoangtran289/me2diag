@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
         // update user info (except avatar)
         Common.copyPropertiesIgnoreNull(request, user, "avatar");
 
-        if (request.getRoles() != null && request.getRoles().size() != 0) {
+        if (request.getRoles() != null && !request.getRoles().isEmpty()) {
             // delete old roles
             List<UserRoleEntity> oldUserRoles = userRoleRepository.findAllByUserId(userId);
             userRoleRepository.deleteAll(oldUserRoles);
@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService {
         // query to get UserInfoResponseDto without roles
         List<UserRoleEnum> roles = Transformer.listToList(roleStrs, UserRoleEnum::from);
         Page<UserEntity> userEntityPage = userRepository.findAllUsers(
-                usernameQuery, roles.size() != 0 ? roles : null, isEnable, pageable);
+                usernameQuery, !roles.isEmpty() ? roles : null, isEnable, pageable);
         List<UserInfoResponseDTO> results = Transformer.listToList(
                 userEntityPage.getContent(),
                 userEntity -> Common.convertObject(userEntity, UserInfoResponseDTO.class));
