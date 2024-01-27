@@ -10,45 +10,45 @@ services:
       - MARIADB_ROOT_PASSWORD=$MARIADB_ROOT_PASSWORD
     ports:
       - 127.0.0.1:$MARIADB_LOCAL_PORT:$MARIADB_DOCKER_PORT
-    volumes:
-      - "mariadb-data:/bitnami/mariadb"
-      - "./backend/src/main/resources/script/init.sql:/docker-entrypoint-initdb.d/init.sql"
+    # volumes:
+      # - "mariadb-data:/bitnami/mariadb"
+      # - "./backend/src/main/resources/script/init.sql:/docker-entrypoint-initdb.d/init.sql"
 
-  storage:
-    image: bitnami/minio:latest
-    container_name: "backend_minio"
-    ports:
-      - '127.0.0.1:9000:9000'
-      - '127.0.0.1:9001:9001'
-    volumes:
-      - 'media:/data'
-    environment:
-      - MINIO_ROOT_USER=$MINIO_ROOT_USER
-      - MINIO_ROOT_PASSWORD=$MINIO_ROOT_USER
+  # storage:
+  #   image: bitnami/minio:latest
+  #   container_name: "backend_minio"
+  #   ports:
+  #     - '127.0.0.1:9000:9000'
+  #     - '127.0.0.1:9001:9001'
+  #   volumes:
+  #     - 'media:/data'
+  #   environment:
+  #     - MINIO_ROOT_USER=$MINIO_ROOT_USER
+  #     - MINIO_ROOT_PASSWORD=$MINIO_ROOT_USER
   
-  redis:
-    image: redis
-    container_name: "backend_redis"
-    restart: unless-stopped
-    ports:
-      - 127.0.0.1:6379:6379
+  # redis:
+  #   image: redis
+  #   container_name: "backend_redis"
+  #   restart: unless-stopped
+  #   ports:
+  #     - 127.0.0.1:6379:6379
 
-  model:
-    image: model:v1
-    container_name: "model"
-    build: ./backend-model
-    restart: on-failure
-    ports:
-      - 127.0.0.1:$MODEL_LOCAL_PORT:$MODEL_DOCKER_PORT
-    environment:
-      - PYTHONUNBUFFERED=1
-      - PORT=$MODEL_DOCKER_PORT
-      - DEBUG=$MODEL_ISDEBUG
+  # model:
+  #   image: model:v1
+  #   container_name: "model"
+  #   build: ./backend-model
+  #   restart: on-failure
+  #   ports:
+  #     - 127.0.0.1:$MODEL_LOCAL_PORT:$MODEL_DOCKER_PORT
+  #   environment:
+  #     - PYTHONUNBUFFERED=1
+  #     - PORT=$MODEL_DOCKER_PORT
+  #     - DEBUG=$MODEL_ISDEBUG
 
   # no app-server and app-client. Only database and model
 
-volumes:
-  mariadb-data:
-  .m2:
-  media:
-    driver: local
+# volumes:
+  # mariadb-data:
+  # .m2:
+  # media:
+    # driver: local
